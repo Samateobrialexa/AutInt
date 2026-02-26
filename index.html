@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
   <meta charset="UTF-8"/>
@@ -9,270 +10,274 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Nunito', sans-serif; background: #a8c8f0; min-height: 100vh; overflow-x: hidden; }
 
-    /* ===================== SCREENS ===================== */
-    .screen { display: none; min-height: 100vh; }
-    .screen.active { display: flex; flex-direction: column; }
+```
+/* ===================== SCREENS ===================== */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
 
-    /* ===================== NAV ===================== */
-    nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 50px; background: #fff; border-bottom: 1px solid #e5e7eb;
-    }
-    .nav-logo { font-size: 1.5rem; font-weight: 900; color: #4a90d9; cursor: pointer; }
-    .nav-links { display: flex; gap: 40px; list-style: none; }
-    .nav-links a {
-      text-decoration: none; color: #555; font-weight: 700; font-size: 0.85rem;
-      letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; cursor: pointer;
-    }
-    .nav-links a:hover, .nav-links a.active { color: #4a90d9; }
-    .nav-links a.active { text-decoration: underline; text-underline-offset: 4px; color: #111; }
+/* ===================== NAV ===================== */
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 50px; background: #fff; border-bottom: 1px solid #e5e7eb;
+}
+.nav-logo { font-size: 1.5rem; font-weight: 900; color: #4a90d9; cursor: pointer; }
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: #555; font-weight: 700; font-size: 0.85rem;
+  letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; cursor: pointer;
+}
+.nav-links a:hover, .nav-links a.active { color: #4a90d9; }
+.nav-links a.active { text-decoration: underline; text-underline-offset: 4px; color: #111; }
 
-    /* ===================== LOGIN ===================== */
-    #screen-login {
-      background: #fff; flex-direction: column;
-    }
-    .login-main {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 60px 80px; flex: 1;
-    }
-    .form-side { flex: 0 0 380px; }
-    .form-side h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 28px; color: #111; }
-    .input-group { position: relative; margin-bottom: 12px; }
-    .input-group .ico {
-      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-      color: #888; pointer-events: none; font-size: 1rem;
-    }
-    .input-group input {
-      width: 100%; padding: 14px 14px 14px 42px; border: none; border-radius: 10px;
-      background: #f0f0f0; font-size: 0.95rem; font-family: 'Nunito',sans-serif;
-      color: #333; outline: none; transition: background 0.2s;
-    }
-    .input-group input:focus { background: #e4e8ee; }
-    .input-group input::placeholder { color: #999; }
-    .eye-btn {
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer; color: #888;
-    }
-    .form-meta {
-      display: flex; align-items: center; justify-content: space-between;
-      margin: 10px 0 20px; font-size: 0.85rem;
-    }
-    .remember { display: flex; align-items: center; gap: 6px; color: #555; font-style: italic; cursor: pointer; }
-    .forgot { color: #555; text-decoration: none; font-size: 0.85rem; }
-    .forgot:hover { text-decoration: underline; }
-    .btn-login {
-      width: 100%; padding: 15px; background: #d4913a; color: #fff; border: none;
-      border-radius: 10px; font-size: 1rem; font-weight: 700; font-family: 'Nunito',sans-serif;
-      cursor: pointer; transition: background 0.2s, transform 0.1s;
-    }
-    .btn-login:hover { background: #c07e2a; }
-    .btn-login:active { transform: scale(0.98); }
-    .signup-line { margin-top: 12px; font-size: 0.9rem; color: #555; }
-    .signup-line a { color: #4a90d9; font-weight: 700; text-decoration: none; cursor: pointer; }
-    .figures { display: flex; gap: 6px; margin-top: 24px; }
-    .fig-svg { width: 46px; height: 54px; }
-    .illus-side { flex: 1; display: flex; justify-content: center; align-items: center; }
-    .blob-wrap { position: relative; width: 420px; height: 380px; }
-    .blob { position: absolute; inset: 0; background: #fbe8e8; border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
-    .illus-svg { position: relative; z-index: 1; width: 100%; height: 100%; }
+/* ===================== LOGIN ===================== */
+#screen-login {
+  background: #fff; flex-direction: column;
+}
+.login-main {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 60px 80px; flex: 1;
+}
+.form-side { flex: 0 0 380px; }
+.form-side h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 28px; color: #111; }
+.input-group { position: relative; margin-bottom: 12px; }
+.input-group .ico {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: #888; pointer-events: none; font-size: 1rem;
+}
+.input-group input {
+  width: 100%; padding: 14px 14px 14px 42px; border: none; border-radius: 10px;
+  background: #f0f0f0; font-size: 0.95rem; font-family: 'Nunito',sans-serif;
+  color: #333; outline: none; transition: background 0.2s;
+}
+.input-group input:focus { background: #e4e8ee; }
+.input-group input::placeholder { color: #999; }
+.eye-btn {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer; color: #888;
+}
+.form-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 10px 0 20px; font-size: 0.85rem;
+}
+.remember { display: flex; align-items: center; gap: 6px; color: #555; font-style: italic; cursor: pointer; }
+.forgot { color: #555; text-decoration: none; font-size: 0.85rem; }
+.forgot:hover { text-decoration: underline; }
+.btn-login {
+  width: 100%; padding: 15px; background: #d4913a; color: #fff; border: none;
+  border-radius: 10px; font-size: 1rem; font-weight: 700; font-family: 'Nunito',sans-serif;
+  cursor: pointer; transition: background 0.2s, transform 0.1s;
+}
+.btn-login:hover { background: #c07e2a; }
+.btn-login:active { transform: scale(0.98); }
+.signup-line { margin-top: 12px; font-size: 0.9rem; color: #555; }
+.signup-line a { color: #4a90d9; font-weight: 700; text-decoration: none; cursor: pointer; }
+.figures { display: flex; gap: 6px; margin-top: 24px; }
+.fig-svg { width: 46px; height: 54px; }
+.illus-side { flex: 1; display: flex; justify-content: center; align-items: center; }
+.blob-wrap { position: relative; width: 420px; height: 380px; }
+.blob { position: absolute; inset: 0; background: #fbe8e8; border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+.illus-svg { position: relative; z-index: 1; width: 100%; height: 100%; }
 
-    /* ===================== GAMES MENU ===================== */
-    #screen-games {
-      background: #a8c8f0; align-items: stretch;
-    }
-    .games-header {
-      background: #fff; padding: 16px 50px; display: flex;
-      align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e7eb;
-    }
-    .games-body {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; padding: 50px 40px; gap: 30px;
-    }
-    .games-title {
-      font-size: 2rem; font-weight: 900; color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 10px;
-    }
-    .games-grid {
-      display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;
-    }
-    .game-card {
-      background: #fff; border-radius: 24px; width: 220px; padding: 28px 20px 24px;
-      display: flex; flex-direction: column; align-items: center; gap: 14px;
-      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-    .game-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
-    .game-card-icon { font-size: 3.5rem; }
-    .game-card-title { font-size: 1rem; font-weight: 800; color: #333; text-align: center; line-height: 1.3; }
-    .game-card-desc { font-size: 0.8rem; color: #777; text-align: center; }
-    .game-card-badge {
-      padding: 4px 14px; border-radius: 20px; font-size: 0.75rem;
-      font-weight: 700; color: #fff;
-    }
-    .badge-colors { background: #e67e22; }
-    .badge-fruits { background: #27ae60; }
-    .badge-animals { background: #8e44ad; }
+/* ===================== GAMES MENU ===================== */
+#screen-games {
+  background: #a8c8f0; align-items: stretch;
+}
+.games-header {
+  background: #fff; padding: 16px 50px; display: flex;
+  align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e7eb;
+}
+.games-body {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 50px 40px; gap: 30px;
+}
+.games-title {
+  font-size: 2rem; font-weight: 900; color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 10px;
+}
+.games-grid {
+  display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;
+}
+.game-card {
+  background: #fff; border-radius: 24px; width: 220px; padding: 28px 20px 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+.game-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
+.game-card-icon { font-size: 3.5rem; }
+.game-card-title { font-size: 1rem; font-weight: 800; color: #333; text-align: center; line-height: 1.3; }
+.game-card-desc { font-size: 0.8rem; color: #777; text-align: center; }
+.game-card-badge {
+  padding: 4px 14px; border-radius: 20px; font-size: 0.75rem;
+  font-weight: 700; color: #fff;
+}
+.badge-colors { background: #e67e22; }
+.badge-fruits { background: #27ae60; }
+.badge-animals { background: #8e44ad; }
 
-    /* ===================== GAME SCREEN COMMON ===================== */
-    .game-screen-wrap {
-      background: #a8c8f0; min-height: 100vh; display: flex; flex-direction: column;
-    }
-    .game-topbar {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 28px;
-    }
-    .btn-back {
-      background: #4a90d9; border: none; border-radius: 10px; padding: 10px 18px;
-      cursor: pointer; display: flex; align-items: center; gap: 8px;
-      color: #fff; font-family: 'Nunito',sans-serif; font-weight: 800; font-size: 1rem;
-      transition: background 0.2s;
-    }
-    .btn-back:hover { background: #357abd; }
-    .btn-sound {
-      width: 56px; height: 56px; border-radius: 50%; background: #4a90d9; border: none;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: background 0.2s;
-    }
-    .btn-sound:hover { background: #357abd; }
-    .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 40px 40px; }
+/* ===================== GAME SCREEN COMMON ===================== */
+.game-screen-wrap {
+  background: #a8c8f0; min-height: 100vh; display: flex; flex-direction: column;
+}
+.game-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 28px;
+}
+.btn-back {
+  background: #4a90d9; border: none; border-radius: 10px; padding: 10px 18px;
+  cursor: pointer; display: flex; align-items: center; gap: 8px;
+  color: #fff; font-family: 'Nunito',sans-serif; font-weight: 800; font-size: 1rem;
+  transition: background 0.2s;
+}
+.btn-back:hover { background: #357abd; }
+.btn-sound {
+  width: 56px; height: 56px; border-radius: 50%; background: #4a90d9; border: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: background 0.2s;
+}
+.btn-sound:hover { background: #357abd; }
+.game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 40px 40px; }
 
-    /* ===================== GAME 1: COLORS ===================== */
-    #game1 .game-content {
-      background: #fff; border-radius: 24px; margin: 0 30px 30px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-    }
-    .g1-instruction {
-      font-size: 1.1rem; font-weight: 700; color: #333;
-      margin-bottom: 30px; text-align: center;
-    }
-    .g1-grid {
-      display: grid; grid-template-columns: repeat(3, 180px);
-      gap: 30px 40px; justify-items: center;
-    }
-    .g1-item {
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-      cursor: grab;
-    }
-    .g1-item-inner {
-      width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;
-      border-radius: 16px; transition: transform 0.2s;
-    }
-    .g1-item-inner:hover { transform: scale(1.05); }
-    .g1-label {
-      font-size: 1rem; font-weight: 800; color: #333; letter-spacing: 0.02em;
-    }
-    .g1-circle {
-      width: 120px; height: 120px; border-radius: 50%; cursor: grab;
-      transition: transform 0.15s; display: flex; align-items: center; justify-content: center;
-    }
-    .g1-circle:hover { transform: scale(1.08); }
-    .g1-circle.target {
-      cursor: default; border: 3px dashed rgba(255,255,255,0.6);
-    }
-    .g1-circle.dragging { opacity: 0.5; transform: scale(1.1); }
-    .g1-circle.highlight { box-shadow: 0 0 0 4px #fff, 0 0 0 8px rgba(74,144,217,0.6); }
-    .g1-circle.matched { border: 4px solid #2ecc71 !important; box-shadow: 0 0 20px rgba(46,204,113,0.4); cursor: default; }
+/* ===================== GAME 1: COLORS ===================== */
+#game1 .game-content {
+  background: #fff; border-radius: 24px; margin: 0 30px 30px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+.g1-instruction {
+  font-size: 1.1rem; font-weight: 700; color: #333;
+  margin-bottom: 30px; text-align: center;
+}
+.g1-grid {
+  display: grid; grid-template-columns: repeat(3, 180px);
+  gap: 30px 40px; justify-items: center;
+}
+.g1-item {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  cursor: grab;
+}
+.g1-item-inner {
+  width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;
+  border-radius: 16px; transition: transform 0.2s;
+}
+.g1-item-inner:hover { transform: scale(1.05); }
+.g1-label {
+  font-size: 1rem; font-weight: 800; color: #333; letter-spacing: 0.02em;
+}
+.g1-circle {
+  width: 120px; height: 120px; border-radius: 50%; cursor: grab;
+  transition: transform 0.15s; display: flex; align-items: center; justify-content: center;
+}
+.g1-circle:hover { transform: scale(1.08); }
+.g1-circle.target {
+  cursor: default; border: 3px dashed rgba(255,255,255,0.6);
+}
+.g1-circle.dragging { opacity: 0.5; transform: scale(1.1); }
+.g1-circle.highlight { box-shadow: 0 0 0 4px #fff, 0 0 0 8px rgba(74,144,217,0.6); }
+.g1-circle.matched { border: 4px solid #2ecc71 !important; box-shadow: 0 0 20px rgba(46,204,113,0.4); cursor: default; }
 
-    /* ===================== GAME 2: FRUITS/VEGS ===================== */
-    #game2-screen .game-content { padding: 10px 60px 40px; }
-    .g2-row { display: flex; gap: 80px; justify-content: center; align-items: center; margin-bottom: 40px; flex-wrap: wrap; }
-    .g2-shadow-item {
-      width: 130px; height: 160px;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0.35; filter: grayscale(1); border-radius: 16px;
-      border: 3px dashed #aaa; transition: all 0.3s; position: relative;
-    }
-    .g2-shadow-item.matched {
-      opacity: 1; filter: none; border: 3px solid #2ecc71;
-      box-shadow: 0 0 20px rgba(46,204,113,0.4);
-    }
-    .g2-shadow-item svg { width: 100px; height: 130px; }
-    .g2-draggable-row { display: flex; gap: 60px; justify-content: center; flex-wrap: wrap; }
-    .g2-draggable {
-      width: 130px; height: 160px; cursor: grab;
-      display: flex; align-items: center; justify-content: center;
-      transition: transform 0.15s;
-    }
-    .g2-draggable:hover { transform: scale(1.08); }
-    .g2-draggable svg { width: 100px; height: 130px; pointer-events: none; }
-    .g2-draggable.dragging { opacity: 0.4; transform: scale(1.1); }
+/* ===================== GAME 2: FRUITS/VEGS ===================== */
+#game2-screen .game-content { padding: 10px 60px 40px; }
+.g2-row { display: flex; gap: 80px; justify-content: center; align-items: center; margin-bottom: 40px; flex-wrap: wrap; }
+.g2-shadow-item {
+  width: 130px; height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.35; filter: grayscale(1); border-radius: 16px;
+  border: 3px dashed #aaa; transition: all 0.3s; position: relative;
+}
+.g2-shadow-item.matched {
+  opacity: 1; filter: none; border: 3px solid #2ecc71;
+  box-shadow: 0 0 20px rgba(46,204,113,0.4);
+}
+.g2-shadow-item svg { width: 100px; height: 130px; }
+.g2-draggable-row { display: flex; gap: 60px; justify-content: center; flex-wrap: wrap; }
+.g2-draggable {
+  width: 130px; height: 160px; cursor: grab;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s;
+}
+.g2-draggable:hover { transform: scale(1.08); }
+.g2-draggable svg { width: 100px; height: 130px; pointer-events: none; }
+.g2-draggable.dragging { opacity: 0.4; transform: scale(1.1); }
 
-    /* ===================== GAME 3: ANIMALS ===================== */
-    #game3-screen .game-content {
-      display: flex; flex-direction: column; align-items: center; gap: 30px;
-    }
-    .g3-question {
-      font-size: 1.5rem; font-weight: 800; color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.2); text-align: center;
-    }
-    .g3-animals { display: flex; gap: 80px; align-items: center; justify-content: center; flex-wrap: wrap; }
-    .g3-animal {
-      display: flex; flex-direction: column; align-items: center; gap: 14px;
-      cursor: pointer; transition: transform 0.2s;
-    }
-    .g3-animal:hover { transform: scale(1.05); }
-    .g3-animal-box {
-      width: 220px; height: 220px; background: rgba(255,255,255,0.9); border-radius: 24px;
-      display: flex; align-items: center; justify-content: center; font-size: 7rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12); transition: all 0.3s; overflow: hidden;
-    }
-    .g3-animal-box:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
-    .g3-animal-box.correct { background: #d4edda; box-shadow: 0 0 0 4px #2ecc71; animation: pulse 0.5s; }
-    .g3-animal-box.wrong { background: #f8d7da; box-shadow: 0 0 0 4px #e74c3c; animation: shake 0.4s; }
-    .g3-animal-name { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.2); }
-    .g3-score { font-size: 1.2rem; font-weight: 700; color: #fff; background: rgba(255,255,255,0.25); padding: 8px 24px; border-radius: 20px; }
-    .g3-feedback {
-      font-size: 1.8rem; font-weight: 900; min-height: 50px; text-align: center;
-      color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-    .g3-next-btn {
-      padding: 12px 36px; background: #d4913a; color: #fff; border: none;
-      border-radius: 12px; font-size: 1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
-      cursor: pointer; transition: background 0.2s; display: none;
-    }
-    .g3-next-btn:hover { background: #c07e2a; }
+/* ===================== GAME 3: ANIMALS ===================== */
+#game3-screen .game-content {
+  display: flex; flex-direction: column; align-items: center; gap: 30px;
+}
+.g3-question {
+  font-size: 1.5rem; font-weight: 800; color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2); text-align: center;
+}
+.g3-animals { display: flex; gap: 80px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.g3-animal {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  cursor: pointer; transition: transform 0.2s;
+}
+.g3-animal:hover { transform: scale(1.05); }
+.g3-animal-box {
+  width: 220px; height: 220px; background: rgba(255,255,255,0.9); border-radius: 24px;
+  display: flex; align-items: center; justify-content: center; font-size: 7rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12); transition: all 0.3s; overflow: hidden;
+}
+.g3-animal-box:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
+.g3-animal-box.correct { background: #d4edda; box-shadow: 0 0 0 4px #2ecc71; animation: pulse 0.5s; }
+.g3-animal-box.wrong { background: #f8d7da; box-shadow: 0 0 0 4px #e74c3c; animation: shake 0.4s; }
+.g3-animal-name { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+.g3-score { font-size: 1.2rem; font-weight: 700; color: #fff; background: rgba(255,255,255,0.25); padding: 8px 24px; border-radius: 20px; }
+.g3-feedback {
+  font-size: 1.8rem; font-weight: 900; min-height: 50px; text-align: center;
+  color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.g3-next-btn {
+  padding: 12px 36px; background: #d4913a; color: #fff; border: none;
+  border-radius: 12px; font-size: 1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
+  cursor: pointer; transition: background 0.2s; display: none;
+}
+.g3-next-btn:hover { background: #c07e2a; }
 
-    @keyframes pulse {
-      0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); }
-    }
-    @keyframes shake {
-      0%,100% { transform: translateX(0); }
-      25% { transform: translateX(-8px); }
-      75% { transform: translateX(8px); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-in { animation: fadeIn 0.4s ease forwards; }
+@keyframes pulse {
+  0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); }
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.4s ease forwards; }
 
-    /* ===================== SUCCESS OVERLAY ===================== */
-    .success-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-      display: none; align-items: center; justify-content: center; z-index: 1000;
-    }
-    .success-overlay.show { display: flex; }
-    .success-box {
-      background: #fff; border-radius: 28px; padding: 50px 60px;
-      text-align: center; animation: fadeIn 0.4s ease;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    .success-box h2 { font-size: 2.5rem; font-weight: 900; color: #2ecc71; margin-bottom: 12px; }
-    .success-box p { font-size: 1.2rem; color: #555; margin-bottom: 28px; }
-    .success-box .btn-play-again {
-      padding: 14px 40px; background: #4a90d9; color: #fff; border: none;
-      border-radius: 12px; font-size: 1.1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
-      cursor: pointer; transition: background 0.2s;
-    }
-    .success-box .btn-play-again:hover { background: #357abd; }
+/* ===================== SUCCESS OVERLAY ===================== */
+.success-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  display: none; align-items: center; justify-content: center; z-index: 1000;
+}
+.success-overlay.show { display: flex; }
+.success-box {
+  background: #fff; border-radius: 28px; padding: 50px 60px;
+  text-align: center; animation: fadeIn 0.4s ease;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.success-box h2 { font-size: 2.5rem; font-weight: 900; color: #2ecc71; margin-bottom: 12px; }
+.success-box p { font-size: 1.2rem; color: #555; margin-bottom: 28px; }
+.success-box .btn-play-again {
+  padding: 14px 40px; background: #4a90d9; color: #fff; border: none;
+  border-radius: 12px; font-size: 1.1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
+  cursor: pointer; transition: background 0.2s;
+}
+.success-box .btn-play-again:hover { background: #357abd; }
 
-    .progress-bar-wrap { width: 100%; max-width: 400px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 10px; overflow: hidden; }
-    .progress-bar-fill { height: 100%; background: #fff; border-radius: 10px; transition: width 0.5s ease; }
+.progress-bar-wrap { width: 100%; max-width: 400px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 10px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #fff; border-radius: 10px; transition: width 0.5s ease; }
+```
+
   </style>
 </head>
 <body>
 
 <!-- ===================== SUCCESS OVERLAY ===================== -->
+
 <div class="success-overlay" id="successOverlay">
   <div class="success-box">
     <div style="font-size:4rem;">🎉</div>
@@ -281,7 +286,9 @@
     <button class="btn-play-again" onclick="closeSuccess()">Jugar de nuevo</button>
   </div>
 </div>
+
 <!-- =================== SCREEN: LOGIN =================== -->
+
 <div class="screen active" id="screen-login">
   <nav>
     <div class="nav-logo" onclick="showScreen('screen-login')">TEA</div>
@@ -367,6 +374,7 @@
 </div>
 
 <!-- =================== SCREEN: GAMES MENU =================== -->
+
 <div class="screen" id="screen-games">
   <div class="games-header">
     <div class="nav-logo" onclick="showScreen('screen-login')">TEA</div>
@@ -403,6 +411,7 @@
 </div>
 
 <!-- =================== GAME 1: COLORS =================== -->
+
 <div class="screen" id="game1">
   <div class="game-topbar">
     <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
@@ -462,29 +471,33 @@
         <span class="g1-label">go-rro</span>
       </div>
 
-      <!-- Color circles row: Rojo, Amarillo, Verde -->
-      <div class="g1-item">
-        <div class="g1-circle" id="target-rojo" style="background:#e74c3c;" ondrop="drop(event)" ondragover="allowDrop(event)" data-color="rojo">
-        </div>
-        <span class="g1-label" style="color:#e74c3c;">Ro-jo</span>
-      </div>
-      <div class="g1-item">
-        <div class="g1-circle" id="target-amarillo" style="background:#f1c40f;" ondrop="drop(event)" ondragover="allowDrop(event)" data-color="amarillo">
-        </div>
-        <span class="g1-label" style="color:#e6ac00;">A-ma-ri-llo</span>
-      </div>
-      <div class="g1-item">
-        <div class="g1-circle" id="target-verde" style="background:#27ae60; border: 3px dashed rgba(255,255,255,0.5);" ondrop="drop(event)" ondragover="allowDrop(event)" data-color="verde">
-        </div>
-        <span class="g1-label" style="color:#27ae60;">Ver-de</span>
-      </div>
+```
+  <!-- Color circles row: Rojo, Amarillo, Verde -->
+  <div class="g1-item">
+    <div class="g1-circle" id="target-rojo" style="background:#e74c3c;" ondrop="drop(event)" ondragover="allowDrop(event)" data-color="rojo">
     </div>
+    <span class="g1-label" style="color:#e74c3c;">Ro-jo</span>
+  </div>
+  <div class="g1-item">
+    <div class="g1-circle" id="target-amarillo" style="background:#f1c40f;" ondrop="drop(event)" ondragover="allowDrop(event)" data-color="amarillo">
+    </div>
+    <span class="g1-label" style="color:#e6ac00;">A-ma-ri-llo</span>
+  </div>
+  <div class="g1-item">
+    <div class="g1-circle" id="target-verde" style="background:#27ae60; border: 3px dashed rgba(255,255,255,0.5);" ondrop="drop(event)" ondragover="allowDrop(event)" data-color="verde">
+    </div>
+    <span class="g1-label" style="color:#27ae60;">Ver-de</span>
+  </div>
+</div>
 
-    <div id="g1-feedback" style="margin-top:20px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;"></div>
+<div id="g1-feedback" style="margin-top:20px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;"></div>
+```
+
   </div>
 </div>
 
 <!-- =================== GAME 2: FRUITS =================== -->
+
 <div class="screen" id="game2-screen">
   <div class="game-topbar">
     <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
@@ -519,47 +532,51 @@
       </div>
     </div>
 
-    <!-- Draggable items bottom row -->
-    <div class="g2-draggable-row" id="g2-items">
-      <!-- Apple -->
-      <div class="g2-draggable" draggable="true" id="drag-manzana" data-type="manzana" ondragstart="g2dragStart(event)">
-        <svg viewBox="0 0 100 130">
-          <rect x="46" y="8" width="6" height="20" rx="3" fill="#795548"/>
-          <path d="M50 22 Q65 8 76 18" stroke="#4caf50" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <ellipse cx="50" cy="78" rx="36" ry="44" fill="#e53935"/>
-          <ellipse cx="38" cy="65" rx="10" ry="18" fill="#ef5350" opacity="0.5"/>
-          <path d="M50 40 Q14 42 14 78 Q14 110 50 118 Q86 110 86 78 Q86 42 50 40Z" fill="#e53935"/>
-        </svg>
-      </div>
-      <!-- Carrot -->
-      <div class="g2-draggable" draggable="true" id="drag-zanahoria" data-type="zanahoria" ondragstart="g2dragStart(event)">
-        <svg viewBox="0 0 100 130">
-          <ellipse cx="38" cy="72" rx="22" ry="50" fill="#ff7043" transform="rotate(-25 38 72)"/>
-          <line x1="34" y1="50" x2="30" y2="62" stroke="#ff8a65" stroke-width="2"/>
-          <line x1="38" y1="58" x2="35" y2="70" stroke="#ff8a65" stroke-width="2"/>
-          <line x1="42" y1="64" x2="39" y2="76" stroke="#ff8a65" stroke-width="2"/>
-          <ellipse cx="44" cy="18" rx="18" ry="14" fill="#4caf50" transform="rotate(-10 44 18)"/>
-          <ellipse cx="52" cy="15" rx="14" ry="11" fill="#388e3c" transform="rotate(10 52 15)"/>
-          <ellipse cx="36" cy="16" rx="12" ry="9" fill="#43a047" transform="rotate(-20 36 16)"/>
-        </svg>
-      </div>
-      <!-- Pear -->
-      <div class="g2-draggable" draggable="true" id="drag-pera" data-type="pera" ondragstart="g2dragStart(event)">
-        <svg viewBox="0 0 100 130">
-          <rect x="47" y="8" width="6" height="20" rx="3" fill="#795548"/>
-          <ellipse cx="42" cy="12" rx="12" ry="6" fill="#4caf50" transform="rotate(-30 42 12)"/>
-          <ellipse cx="50" cy="84" rx="32" ry="38" fill="#81c784"/>
-          <ellipse cx="50" cy="46" rx="20" ry="26" fill="#a5d6a7"/>
-          <ellipse cx="40" cy="72" rx="8" ry="14" fill="#a5d6a7" opacity="0.5"/>
-        </svg>
-      </div>
-    </div>
+```
+<!-- Draggable items bottom row -->
+<div class="g2-draggable-row" id="g2-items">
+  <!-- Apple -->
+  <div class="g2-draggable" draggable="true" id="drag-manzana" data-type="manzana" ondragstart="g2dragStart(event)">
+    <svg viewBox="0 0 100 130">
+      <rect x="46" y="8" width="6" height="20" rx="3" fill="#795548"/>
+      <path d="M50 22 Q65 8 76 18" stroke="#4caf50" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <ellipse cx="50" cy="78" rx="36" ry="44" fill="#e53935"/>
+      <ellipse cx="38" cy="65" rx="10" ry="18" fill="#ef5350" opacity="0.5"/>
+      <path d="M50 40 Q14 42 14 78 Q14 110 50 118 Q86 110 86 78 Q86 42 50 40Z" fill="#e53935"/>
+    </svg>
+  </div>
+  <!-- Carrot -->
+  <div class="g2-draggable" draggable="true" id="drag-zanahoria" data-type="zanahoria" ondragstart="g2dragStart(event)">
+    <svg viewBox="0 0 100 130">
+      <ellipse cx="38" cy="72" rx="22" ry="50" fill="#ff7043" transform="rotate(-25 38 72)"/>
+      <line x1="34" y1="50" x2="30" y2="62" stroke="#ff8a65" stroke-width="2"/>
+      <line x1="38" y1="58" x2="35" y2="70" stroke="#ff8a65" stroke-width="2"/>
+      <line x1="42" y1="64" x2="39" y2="76" stroke="#ff8a65" stroke-width="2"/>
+      <ellipse cx="44" cy="18" rx="18" ry="14" fill="#4caf50" transform="rotate(-10 44 18)"/>
+      <ellipse cx="52" cy="15" rx="14" ry="11" fill="#388e3c" transform="rotate(10 52 15)"/>
+      <ellipse cx="36" cy="16" rx="12" ry="9" fill="#43a047" transform="rotate(-20 36 16)"/>
+    </svg>
+  </div>
+  <!-- Pear -->
+  <div class="g2-draggable" draggable="true" id="drag-pera" data-type="pera" ondragstart="g2dragStart(event)">
+    <svg viewBox="0 0 100 130">
+      <rect x="47" y="8" width="6" height="20" rx="3" fill="#795548"/>
+      <ellipse cx="42" cy="12" rx="12" ry="6" fill="#4caf50" transform="rotate(-30 42 12)"/>
+      <ellipse cx="50" cy="84" rx="32" ry="38" fill="#81c784"/>
+      <ellipse cx="50" cy="46" rx="20" ry="26" fill="#a5d6a7"/>
+      <ellipse cx="40" cy="72" rx="8" ry="14" fill="#a5d6a7" opacity="0.5"/>
+    </svg>
+  </div>
+</div>
 
-    <div id="g2-feedback" style="margin-top:16px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.2);"></div>
+<div id="g2-feedback" style="margin-top:16px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.2);"></div>
+```
+
   </div>
 </div>
 
 <!-- =================== GAME 3: ANIMALS =================== -->
+
 <div class="screen" id="game3-screen">
   <div class="game-topbar">
     <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
@@ -813,11 +830,10 @@
       speakText('¿Cuál es el ' + g3Questions[g3Current].ask + '?');
     }
   }
- // =================== INIT ===================
+
+  // =================== INIT ===================
   showScreen('screen-login');
 </script>
+
 </body>
 </html>
-
-
-

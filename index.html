@@ -1,302 +1,323 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TEA – App</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Nunito', sans-serif; background: #a8c8f0; min-height: 100vh; overflow-x: hidden; }
 
-```
-/* ===================== SCREENS ===================== */
-.screen { display: none; min-height: 100vh; }
-.screen.active { display: flex; flex-direction: column; }
+    /* ===================== SCREENS ===================== */
+    .screen { display: none !important; min-height: 100vh; flex-direction: column; }
+    .screen.active { display: flex !important; }
 
-/* ===================== NAV ===================== */
-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 50px; background: #fff; border-bottom: 1px solid #e5e7eb;
-}
-.nav-logo { font-size: 1.5rem; font-weight: 900; color: #4a90d9; cursor: pointer; }
-.nav-links { display: flex; gap: 40px; list-style: none; }
-.nav-links a {
-  text-decoration: none; color: #555; font-weight: 700; font-size: 0.85rem;
-  letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; cursor: pointer;
-}
-.nav-links a:hover, .nav-links a.active { color: #4a90d9; }
-.nav-links a.active { text-decoration: underline; text-underline-offset: 4px; color: #111; }
+    /* ===================== NAV ===================== */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 50px; background: #fff; border-bottom: 1px solid #e5e7eb;
+    }
+    .nav-logo { font-size: 1.5rem; font-weight: 900; color: #4a90d9; cursor: pointer; }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: #555; font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active { color: #4a90d9; }
+    .nav-links a.active { text-decoration: underline; text-underline-offset: 4px; color: #111; }
 
-/* ===================== LOGIN ===================== */
-#screen-login {
-  background: #fff; flex-direction: column;
-}
-.login-main {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 60px 80px; flex: 1;
-}
-.form-side { flex: 0 0 380px; }
-.form-side h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 28px; color: #111; }
-.input-group { position: relative; margin-bottom: 12px; }
-.input-group .ico {
-  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-  color: #888; pointer-events: none; font-size: 1rem;
-}
-.input-group input {
-  width: 100%; padding: 14px 14px 14px 42px; border: none; border-radius: 10px;
-  background: #f0f0f0; font-size: 0.95rem; font-family: 'Nunito',sans-serif;
-  color: #333; outline: none; transition: background 0.2s;
-}
-.input-group input:focus { background: #e4e8ee; }
-.input-group input::placeholder { color: #999; }
-.eye-btn {
-  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-  background: none; border: none; cursor: pointer; color: #888;
-}
-.form-meta {
-  display: flex; align-items: center; justify-content: space-between;
-  margin: 10px 0 20px; font-size: 0.85rem;
-}
-.remember { display: flex; align-items: center; gap: 6px; color: #555; font-style: italic; cursor: pointer; }
-.forgot { color: #555; text-decoration: none; font-size: 0.85rem; }
-.forgot:hover { text-decoration: underline; }
-.btn-login {
-  width: 100%; padding: 15px; background: #d4913a; color: #fff; border: none;
-  border-radius: 10px; font-size: 1rem; font-weight: 700; font-family: 'Nunito',sans-serif;
-  cursor: pointer; transition: background 0.2s, transform 0.1s;
-}
-.btn-login:hover { background: #c07e2a; }
-.btn-login:active { transform: scale(0.98); }
-.signup-line { margin-top: 12px; font-size: 0.9rem; color: #555; }
-.signup-line a { color: #4a90d9; font-weight: 700; text-decoration: none; cursor: pointer; }
-.figures { display: flex; gap: 6px; margin-top: 24px; }
-.fig-svg { width: 46px; height: 54px; }
-.illus-side { flex: 1; display: flex; justify-content: center; align-items: center; }
-.blob-wrap { position: relative; width: 420px; height: 380px; }
-.blob { position: absolute; inset: 0; background: #fbe8e8; border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
-.illus-svg { position: relative; z-index: 1; width: 100%; height: 100%; }
+    /* ===================== LOGIN ===================== */
+    #screen-login { background: #fff; }
+    .login-main {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 60px 80px; flex: 1;
+    }
+    .form-side { flex: 0 0 380px; }
+    .form-side h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 28px; color: #111; }
+    .input-group { position: relative; margin-bottom: 12px; }
+    .input-group .ico {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: #888; pointer-events: none; font-size: 1rem;
+    }
+    .input-group input {
+      width: 100%; padding: 14px 14px 14px 42px; border: none; border-radius: 10px;
+      background: #f0f0f0; font-size: 0.95rem; font-family: 'Nunito', sans-serif;
+      color: #333; outline: none; transition: background 0.2s;
+    }
+    .input-group input:focus { background: #e4e8ee; }
+    .input-group input::placeholder { color: #999; }
+    .eye-btn {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: #888;
+    }
+    .form-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin: 10px 0 20px; font-size: 0.85rem;
+    }
+    .remember { display: flex; align-items: center; gap: 6px; color: #555; font-style: italic; cursor: pointer; }
+    .forgot { color: #555; text-decoration: none; font-size: 0.85rem; }
+    .forgot:hover { text-decoration: underline; }
+    .btn-login {
+      width: 100%; padding: 15px; background: #d4913a; color: #fff; border: none;
+      border-radius: 10px; font-size: 1rem; font-weight: 700; font-family: 'Nunito', sans-serif;
+      cursor: pointer; transition: background 0.2s, transform 0.1s;
+    }
+    .btn-login:hover { background: #c07e2a; }
+    .btn-login:active { transform: scale(0.98); }
+    .signup-line { margin-top: 12px; font-size: 0.9rem; color: #555; }
+    .signup-line a { color: #4a90d9; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .figures { display: flex; gap: 6px; margin-top: 24px; }
+    .fig-svg { width: 46px; height: 54px; }
+    .illus-side { flex: 1; display: flex; justify-content: center; align-items: center; }
+    .blob-wrap { position: relative; width: 420px; height: 380px; }
+    .blob { position: absolute; inset: 0; background: #fbe8e8; border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+    .illus-svg { position: relative; z-index: 1; width: 100%; height: 100%; }
 
-/* ===================== GAMES MENU ===================== */
-#screen-games {
-  background: #a8c8f0; align-items: stretch;
-}
-.games-header {
-  background: #fff; padding: 16px 50px; display: flex;
-  align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e7eb;
-}
-.games-body {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; padding: 50px 40px; gap: 30px;
-}
-.games-title {
-  font-size: 2rem; font-weight: 900; color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 10px;
-}
-.games-grid {
-  display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;
-}
-.game-card {
-  background: #fff; border-radius: 24px; width: 220px; padding: 28px 20px 24px;
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
-.game-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
-.game-card-icon { font-size: 3.5rem; }
-.game-card-title { font-size: 1rem; font-weight: 800; color: #333; text-align: center; line-height: 1.3; }
-.game-card-desc { font-size: 0.8rem; color: #777; text-align: center; }
-.game-card-badge {
-  padding: 4px 14px; border-radius: 20px; font-size: 0.75rem;
-  font-weight: 700; color: #fff;
-}
-.badge-colors { background: #e67e22; }
-.badge-fruits { background: #27ae60; }
-.badge-animals { background: #8e44ad; }
+    /* ===================== GAMES MENU ===================== */
+    #screen-games { background: #a8c8f0; }
+    .games-header {
+      background: #fff; padding: 16px 50px; display: flex;
+      align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e7eb;
+    }
+    .games-body {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 50px 40px; gap: 30px;
+    }
+    .games-title {
+      font-size: 2rem; font-weight: 900; color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 10px;
+    }
+    .games-grid { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; }
+    .game-card {
+      background: #fff; border-radius: 24px; width: 220px; padding: 28px 20px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .game-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
+    .game-card-icon { font-size: 3.5rem; }
+    .game-card-title { font-size: 1rem; font-weight: 800; color: #333; text-align: center; line-height: 1.3; }
+    .game-card-desc { font-size: 0.8rem; color: #777; text-align: center; }
+    .game-card-badge {
+      padding: 4px 14px; border-radius: 20px; font-size: 0.75rem;
+      font-weight: 700; color: #fff;
+    }
+    .badge-colors { background: #e67e22; }
+    .badge-fruits { background: #27ae60; }
+    .badge-animals { background: #8e44ad; }
 
-/* ===================== GAME SCREEN COMMON ===================== */
-.game-screen-wrap {
-  background: #a8c8f0; min-height: 100vh; display: flex; flex-direction: column;
-}
-.game-topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 28px;
-}
-.btn-back {
-  background: #4a90d9; border: none; border-radius: 10px; padding: 10px 18px;
-  cursor: pointer; display: flex; align-items: center; gap: 8px;
-  color: #fff; font-family: 'Nunito',sans-serif; font-weight: 800; font-size: 1rem;
-  transition: background 0.2s;
-}
-.btn-back:hover { background: #357abd; }
-.btn-sound {
-  width: 56px; height: 56px; border-radius: 50%; background: #4a90d9; border: none;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: background 0.2s;
-}
-.btn-sound:hover { background: #357abd; }
-.game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 40px 40px; }
+    /* ===================== GAME SCREEN COMMON ===================== */
+    .game-screen-wrap { background: #a8c8f0; min-height: 100vh; }
+    .game-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 28px;
+    }
+    .btn-back {
+      background: #4a90d9; border: none; border-radius: 10px; padding: 10px 18px;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      color: #fff; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .btn-back:hover { background: #357abd; }
+    .btn-sound {
+      width: 56px; height: 56px; border-radius: 50%; background: #4a90d9; border: none;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.2s;
+    }
+    .btn-sound:hover { background: #357abd; }
+    .game-content {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 20px 40px 40px;
+    }
 
-/* ===================== GAME 1: COLORS ===================== */
-#game1 .game-content {
-  background: #fff; border-radius: 24px; margin: 0 30px 30px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-}
-.g1-instruction {
-  font-size: 1.1rem; font-weight: 700; color: #333;
-  margin-bottom: 30px; text-align: center;
-}
-.g1-grid {
-  display: grid; grid-template-columns: repeat(3, 180px);
-  gap: 30px 40px; justify-items: center;
-}
-.g1-item {
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  cursor: grab;
-}
-.g1-item-inner {
-  width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;
-  border-radius: 16px; transition: transform 0.2s;
-}
-.g1-item-inner:hover { transform: scale(1.05); }
-.g1-label {
-  font-size: 1rem; font-weight: 800; color: #333; letter-spacing: 0.02em;
-}
-.g1-circle {
-  width: 120px; height: 120px; border-radius: 50%; cursor: grab;
-  transition: transform 0.15s; display: flex; align-items: center; justify-content: center;
-}
-.g1-circle:hover { transform: scale(1.08); }
-.g1-circle.target {
-  cursor: default; border: 3px dashed rgba(255,255,255,0.6);
-}
-.g1-circle.dragging { opacity: 0.5; transform: scale(1.1); }
-.g1-circle.highlight { box-shadow: 0 0 0 4px #fff, 0 0 0 8px rgba(74,144,217,0.6); }
-.g1-circle.matched { border: 4px solid #2ecc71 !important; box-shadow: 0 0 20px rgba(46,204,113,0.4); cursor: default; }
+    /* ===================== GAME 1: COLORS ===================== */
+    .g1-content-box {
+      background: #fff; border-radius: 24px; margin: 0 30px 30px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1); padding: 36px;
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .g1-instruction {
+      font-size: 1.1rem; font-weight: 700; color: #333;
+      margin-bottom: 30px; text-align: center;
+    }
+    .g1-grid {
+      display: grid; grid-template-columns: repeat(3, 180px);
+      gap: 30px 40px; justify-items: center;
+    }
+    .g1-item {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      -webkit-user-select: none; user-select: none;
+    }
+    .g1-item-inner {
+      width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;
+      border-radius: 16px; transition: transform 0.2s;
+    }
+    .g1-item-inner:hover { transform: scale(1.05); }
+    .g1-label { font-size: 1rem; font-weight: 800; color: #333; letter-spacing: 0.02em; }
+    .g1-circle {
+      width: 120px; height: 120px; border-radius: 50%;
+      transition: transform 0.15s; display: flex; align-items: center; justify-content: center;
+    }
+    .g1-circle.matched {
+      border: 4px solid #2ecc71 !important;
+      box-shadow: 0 0 20px rgba(46,204,113,0.4);
+    }
+    .g1-circle.drag-over {
+      transform: scale(1.1);
+      box-shadow: 0 0 0 4px #fff, 0 0 0 8px rgba(74,144,217,0.6);
+    }
 
-/* ===================== GAME 2: FRUITS/VEGS ===================== */
-#game2-screen .game-content { padding: 10px 60px 40px; }
-.g2-row { display: flex; gap: 80px; justify-content: center; align-items: center; margin-bottom: 40px; flex-wrap: wrap; }
-.g2-shadow-item {
-  width: 130px; height: 160px;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0.35; filter: grayscale(1); border-radius: 16px;
-  border: 3px dashed #aaa; transition: all 0.3s; position: relative;
-}
-.g2-shadow-item.matched {
-  opacity: 1; filter: none; border: 3px solid #2ecc71;
-  box-shadow: 0 0 20px rgba(46,204,113,0.4);
-}
-.g2-shadow-item svg { width: 100px; height: 130px; }
-.g2-draggable-row { display: flex; gap: 60px; justify-content: center; flex-wrap: wrap; }
-.g2-draggable {
-  width: 130px; height: 160px; cursor: grab;
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 0.15s;
-}
-.g2-draggable:hover { transform: scale(1.08); }
-.g2-draggable svg { width: 100px; height: 130px; pointer-events: none; }
-.g2-draggable.dragging { opacity: 0.4; transform: scale(1.1); }
+    /* Draggable items */
+    .g1-draggable {
+      cursor: grab; -webkit-user-select: none; user-select: none;
+      touch-action: none;
+    }
+    .g1-draggable.dragging { opacity: 0.4; }
 
-/* ===================== GAME 3: ANIMALS ===================== */
-#game3-screen .game-content {
-  display: flex; flex-direction: column; align-items: center; gap: 30px;
-}
-.g3-question {
-  font-size: 1.5rem; font-weight: 800; color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.2); text-align: center;
-}
-.g3-animals { display: flex; gap: 80px; align-items: center; justify-content: center; flex-wrap: wrap; }
-.g3-animal {
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  cursor: pointer; transition: transform 0.2s;
-}
-.g3-animal:hover { transform: scale(1.05); }
-.g3-animal-box {
-  width: 220px; height: 220px; background: rgba(255,255,255,0.9); border-radius: 24px;
-  display: flex; align-items: center; justify-content: center; font-size: 7rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12); transition: all 0.3s; overflow: hidden;
-}
-.g3-animal-box:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
-.g3-animal-box.correct { background: #d4edda; box-shadow: 0 0 0 4px #2ecc71; animation: pulse 0.5s; }
-.g3-animal-box.wrong { background: #f8d7da; box-shadow: 0 0 0 4px #e74c3c; animation: shake 0.4s; }
-.g3-animal-name { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.2); }
-.g3-score { font-size: 1.2rem; font-weight: 700; color: #fff; background: rgba(255,255,255,0.25); padding: 8px 24px; border-radius: 20px; }
-.g3-feedback {
-  font-size: 1.8rem; font-weight: 900; min-height: 50px; text-align: center;
-  color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-.g3-next-btn {
-  padding: 12px 36px; background: #d4913a; color: #fff; border: none;
-  border-radius: 12px; font-size: 1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
-  cursor: pointer; transition: background 0.2s; display: none;
-}
-.g3-next-btn:hover { background: #c07e2a; }
+    /* ===================== GAME 2: FRUITS ===================== */
+    .g2-row { display: flex; gap: 80px; justify-content: center; align-items: center; margin-bottom: 40px; flex-wrap: wrap; }
+    .g2-shadow-item {
+      width: 130px; height: 160px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.35; filter: grayscale(1); border-radius: 16px;
+      border: 3px dashed #aaa; transition: all 0.3s; position: relative;
+    }
+    .g2-shadow-item.matched {
+      opacity: 1; filter: none; border: 3px solid #2ecc71;
+      box-shadow: 0 0 20px rgba(46,204,113,0.4);
+    }
+    .g2-shadow-item.drag-over {
+      border-color: #4a90d9; background: rgba(74,144,217,0.1);
+    }
+    .g2-shadow-item svg { width: 100px; height: 130px; }
+    .g2-draggable-row { display: flex; gap: 60px; justify-content: center; flex-wrap: wrap; }
+    .g2-draggable {
+      width: 130px; height: 160px; cursor: grab;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.15s; touch-action: none;
+      -webkit-user-select: none; user-select: none;
+    }
+    .g2-draggable:hover { transform: scale(1.08); }
+    .g2-draggable svg { width: 100px; height: 130px; pointer-events: none; }
+    .g2-draggable.dragging { opacity: 0.4; }
 
-@keyframes pulse {
-  0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); }
-}
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  25% { transform: translateX(-8px); }
-  75% { transform: translateX(8px); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }
-}
-.fade-in { animation: fadeIn 0.4s ease forwards; }
+    /* ===================== GAME 3: ANIMALS ===================== */
+    .g3-question {
+      font-size: 1.5rem; font-weight: 800; color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2); text-align: center;
+      margin-top: 20px;
+    }
+    .g3-animals { display: flex; gap: 80px; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+    .g3-animal {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      cursor: pointer; transition: transform 0.2s;
+    }
+    .g3-animal:hover { transform: scale(1.05); }
+    .g3-animal-box {
+      width: 220px; height: 220px; background: rgba(255,255,255,0.9); border-radius: 24px;
+      display: flex; align-items: center; justify-content: center; font-size: 7rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); transition: all 0.3s; overflow: hidden;
+    }
+    .g3-animal-box:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
+    .g3-animal-box.correct { background: #d4edda; box-shadow: 0 0 0 4px #2ecc71; animation: pulse 0.5s; }
+    .g3-animal-box.wrong { background: #f8d7da; box-shadow: 0 0 0 4px #e74c3c; animation: shake 0.4s; }
+    .g3-animal-name { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+    .g3-score { font-size: 1.2rem; font-weight: 700; color: #fff; background: rgba(255,255,255,0.25); padding: 8px 24px; border-radius: 20px; }
+    .g3-feedback {
+      font-size: 1.8rem; font-weight: 900; min-height: 50px; text-align: center;
+      color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.2); margin-top: 20px;
+    }
+    .g3-next-btn {
+      padding: 12px 36px; background: #d4913a; color: #fff; border: none;
+      border-radius: 12px; font-size: 1rem; font-weight: 800; font-family: 'Nunito', sans-serif;
+      cursor: pointer; transition: background 0.2s; margin-top: 16px;
+    }
+    .g3-next-btn:hover { background: #c07e2a; }
+    .progress-bar-wrap { width: 100%; max-width: 400px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 10px; overflow: hidden; margin-top: 12px; }
+    .progress-bar-fill { height: 100%; background: #fff; border-radius: 10px; transition: width 0.5s ease; }
 
-/* ===================== SUCCESS OVERLAY ===================== */
-.success-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-  display: none; align-items: center; justify-content: center; z-index: 1000;
-}
-.success-overlay.show { display: flex; }
-.success-box {
-  background: #fff; border-radius: 28px; padding: 50px 60px;
-  text-align: center; animation: fadeIn 0.4s ease;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-}
-.success-box h2 { font-size: 2.5rem; font-weight: 900; color: #2ecc71; margin-bottom: 12px; }
-.success-box p { font-size: 1.2rem; color: #555; margin-bottom: 28px; }
-.success-box .btn-play-again {
-  padding: 14px 40px; background: #4a90d9; color: #fff; border: none;
-  border-radius: 12px; font-size: 1.1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
-  cursor: pointer; transition: background 0.2s;
-}
-.success-box .btn-play-again:hover { background: #357abd; }
+    /* ===================== TOUCH DRAG GHOST ===================== */
+    .touch-ghost {
+      position: fixed; pointer-events: none; z-index: 9999;
+      opacity: 0.85; transform: scale(1.1);
+    }
 
-.progress-bar-wrap { width: 100%; max-width: 400px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 10px; overflow: hidden; }
-.progress-bar-fill { height: 100%; background: #fff; border-radius: 10px; transition: width 0.5s ease; }
-```
+    /* ===================== ANIMATIONS ===================== */
+    @keyframes pulse {
+      0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); }
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
 
+    /* ===================== SUCCESS OVERLAY ===================== */
+    .success-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      display: none; align-items: center; justify-content: center; z-index: 1000;
+    }
+    .success-overlay.show { display: flex; }
+    .success-box {
+      background: #fff; border-radius: 28px; padding: 50px 60px;
+      text-align: center; animation: fadeIn 0.4s ease;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .success-box h2 { font-size: 2.5rem; font-weight: 900; color: #2ecc71; margin-bottom: 12px; }
+    .success-box p { font-size: 1.2rem; color: #555; margin-bottom: 28px; }
+    .success-box .btn-play-again {
+      padding: 14px 40px; background: #4a90d9; color: #fff; border: none;
+      border-radius: 12px; font-size: 1.1rem; font-weight: 800; font-family: 'Nunito', sans-serif;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .success-box .btn-play-again:hover { background: #357abd; }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 768px) {
+      nav, .games-header { padding: 12px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 0.75rem; }
+      .login-main { flex-direction: column; padding: 30px 20px; }
+      .form-side { flex: none; width: 100%; }
+      .illus-side { display: none; }
+      .g1-grid { grid-template-columns: repeat(3, 130px); gap: 16px; }
+      .g1-item-inner { width: 100px; height: 100px; }
+      .g1-circle { width: 90px; height: 90px; }
+      .g3-animals { gap: 30px; }
+      .g3-animal-box { width: 160px; height: 160px; font-size: 5rem; }
+      .g2-row { gap: 30px; }
+      .g2-draggable-row { gap: 30px; }
+    }
   </style>
 </head>
 <body>
 
 <!-- ===================== SUCCESS OVERLAY ===================== -->
-
 <div class="success-overlay" id="successOverlay">
   <div class="success-box">
     <div style="font-size:4rem;">🎉</div>
     <h2>¡Muy bien!</h2>
     <p>Completaste el juego correctamente.</p>
-    <button class="btn-play-again" onclick="closeSuccess()">Jugar de nuevo</button>
+    <button class="btn-play-again" id="btnPlayAgain">Jugar de nuevo</button>
   </div>
 </div>
 
 <!-- =================== SCREEN: LOGIN =================== -->
-
 <div class="screen active" id="screen-login">
   <nav>
-    <div class="nav-logo" onclick="showScreen('screen-login')">TEA</div>
+    <div class="nav-logo">TEA</div>
     <ul class="nav-links">
-      <li><a onclick="showScreen('screen-login')">HOME</a></li>
-      <li><a onclick="showScreen('screen-games')">GAMES</a></li>
+      <li><a id="nav-home-1">HOME</a></li>
+      <li><a id="nav-games-1">GAMES</a></li>
       <li><a>INFO</a></li>
-      <li><a class="active">LOG IN</a></li>
+      <li><a class="active" id="nav-login-1">LOG IN</a></li>
     </ul>
   </nav>
   <div class="login-main">
@@ -304,21 +325,20 @@ nav {
       <h1>Log in</h1>
       <div class="input-group">
         <span class="ico">👤</span>
-        <input type="text" placeholder="Username"/>
+        <input type="text" placeholder="Username">
       </div>
       <div class="input-group">
         <span class="ico">🔒</span>
-        <input type="password" id="pwdInput" placeholder="Password"/>
-        <button class="eye-btn" type="button" onclick="document.getElementById('pwdInput').type = document.getElementById('pwdInput').type==='password'?'text':'password'">👁</button>
+        <input type="password" id="pwdInput" placeholder="Password">
+        <button class="eye-btn" type="button" id="eyeBtn">👁</button>
       </div>
       <div class="form-meta">
-        <label class="remember"><input type="checkbox"/> <em>Remember Me</em></label>
+        <label class="remember"><input type="checkbox"> <em>Remember Me</em></label>
         <a href="#" class="forgot">Forgot Password?</a>
       </div>
-      <button class="btn-login" onclick="showScreen('screen-games')">Log in</button>
-      <p class="signup-line">or <a onclick="showScreen('screen-games')">Sign up</a></p>
+      <button class="btn-login" id="btnLogin">Log in</button>
+      <p class="signup-line">or <a id="btnSignup">Sign up</a></p>
       <div class="figures">
-        <!-- 5 colorful SVG people -->
         <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#3BBFA3"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#3BBFA3"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#3BBFA3"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#3BBFA3"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#3BBFA3"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#3BBFA3"/></svg>
         <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#4A90D9"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#4A90D9"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#4A90D9"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#4A90D9"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#4A90D9"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#4A90D9"/></svg>
         <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#F5C842"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#F5C842"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#F5C842"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#F5C842"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#F5C842"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#F5C842"/></svg>
@@ -374,33 +394,32 @@ nav {
 </div>
 
 <!-- =================== SCREEN: GAMES MENU =================== -->
-
 <div class="screen" id="screen-games">
   <div class="games-header">
-    <div class="nav-logo" onclick="showScreen('screen-login')">TEA</div>
+    <div class="nav-logo">TEA</div>
     <ul class="nav-links">
-      <li><a onclick="showScreen('screen-login')">HOME</a></li>
-      <li><a class="active" onclick="showScreen('screen-games')">GAMES</a></li>
+      <li><a id="nav-home-2">HOME</a></li>
+      <li><a class="active" id="nav-games-2">GAMES</a></li>
       <li><a>INFO</a></li>
-      <li><a onclick="showScreen('screen-login')">LOG IN</a></li>
+      <li><a id="nav-login-2">LOG IN</a></li>
     </ul>
   </div>
   <div class="games-body">
     <div class="games-title">🎮 Elige un juego</div>
     <div class="games-grid">
-      <div class="game-card" onclick="startGame1()">
+      <div class="game-card" id="card-game1">
         <div class="game-card-icon">🎨</div>
         <div class="game-card-title">Coloca los objetos con su color</div>
         <div class="game-card-desc">Arrastra Sol, Árbol y Gorro a su color correcto</div>
         <span class="game-card-badge badge-colors">COLORES</span>
       </div>
-      <div class="game-card" onclick="startGame2()">
+      <div class="game-card" id="card-game2">
         <div class="game-card-icon">🥕</div>
         <div class="game-card-title">Empareja frutas y verduras</div>
         <div class="game-card-desc">Arrastra cada alimento a su sombra</div>
         <span class="game-card-badge badge-fruits">ALIMENTOS</span>
       </div>
-      <div class="game-card" onclick="startGame3()">
+      <div class="game-card" id="card-game3">
         <div class="game-card-icon">🐾</div>
         <div class="game-card-title">¿Qué animal es?</div>
         <div class="game-card-desc">Identifica gatos y perros correctamente</div>
@@ -411,20 +430,18 @@ nav {
 </div>
 
 <!-- =================== GAME 1: COLORS =================== -->
-
 <div class="screen" id="game1">
   <div class="game-topbar">
-    <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
-    <button class="btn-sound" onclick="speakText('Coloca los objetos con su respectivo color')">🔊</button>
+    <button class="btn-back" id="g1-back">&#8592; Volver</button>
+    <button class="btn-sound" id="g1-sound">🔊</button>
   </div>
-  <div class="game-content" style="background:#fff;border-radius:24px;margin:0 30px 30px;box-shadow:0 4px 24px rgba(0,0,0,0.1);padding:36px;">
+  <div class="g1-content-box">
     <div class="g1-instruction">Coloca los objetos con su respectivo color</div>
     <div class="g1-grid">
-      <!-- Objects row: Sol, Arbol, Gorro -->
+      <!-- Objects row -->
       <div class="g1-item">
         <div class="g1-item-inner" style="background:#f5f5f5;">
-          <!-- Sun SVG -->
-          <svg width="120" height="120" viewBox="0 0 120 120" draggable="true" id="drag-sol" data-target="target-amarillo" style="cursor:grab;" ondragstart="dragStart(event)">
+          <svg class="g1-draggable" width="120" height="120" viewBox="0 0 120 120" id="drag-sol" data-target="target-amarillo">
             <g opacity="0.7">
               <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(0 60 60)"/>
               <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(45 60 60)"/>
@@ -439,82 +456,66 @@ nav {
             <circle cx="52" cy="56" r="4" fill="#757575"/>
             <circle cx="68" cy="56" r="4" fill="#757575"/>
             <path d="M50 70 Q60 78 70 70" stroke="#616161" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <circle cx="50" cy="55" r="1.5" fill="#bbb"/>
-            <circle cx="66" cy="55" r="1.5" fill="#bbb"/>
           </svg>
         </div>
         <span class="g1-label">Sol</span>
       </div>
       <div class="g1-item">
         <div class="g1-item-inner" style="background:#f5f5f5;">
-          <!-- Tree SVG -->
-          <svg width="120" height="120" viewBox="0 0 120 120" draggable="true" id="drag-arbol" data-target="target-verde" style="cursor:grab;" ondragstart="dragStart(event)">
+          <svg class="g1-draggable" width="120" height="120" viewBox="0 0 120 120" id="drag-arbol" data-target="target-verde">
             <rect x="52" y="72" width="16" height="36" rx="4" fill="#666"/>
             <circle cx="60" cy="45" r="34" fill="#2d2d2d"/>
             <circle cx="45" cy="52" r="5" fill="#3a3a3a" opacity="0.5"/>
             <circle cx="72" cy="40" r="4" fill="#3a3a3a" opacity="0.5"/>
-            <circle cx="58" cy="35" r="3" fill="#444" opacity="0.4"/>
           </svg>
         </div>
-        <span class="g1-label">Ar-bol</span>
+        <span class="g1-label">Ár-bol</span>
       </div>
       <div class="g1-item">
         <div class="g1-item-inner" style="background:#f5f5f5;">
-          <!-- Hat SVG -->
-          <svg width="120" height="110" viewBox="0 0 120 110" draggable="true" id="drag-gorro" data-target="target-rojo" style="cursor:grab;" ondragstart="dragStart(event)">
+          <svg class="g1-draggable" width="120" height="110" viewBox="0 0 120 110" id="drag-gorro" data-target="target-rojo">
             <path d="M30 70 Q45 20 70 15 Q90 12 95 40 Q100 60 88 70 Z" fill="#1a1a2e"/>
             <ellipse cx="52" cy="74" rx="38" ry="14" fill="#fff" stroke="#ccc" stroke-width="1"/>
             <circle cx="88" cy="46" r="12" fill="#fff" stroke="#ddd" stroke-width="1"/>
             <circle cx="88" cy="46" r="7" fill="#f0f0f0"/>
           </svg>
         </div>
-        <span class="g1-label">go-rro</span>
+        <span class="g1-label">Go-rro</span>
       </div>
 
-```
-  <!-- Color circles row: Rojo, Amarillo, Verde -->
-  <div class="g1-item">
-    <div class="g1-circle" id="target-rojo" style="background:#e74c3c;" ondrop="drop(event)" ondragover="allowDrop(event)" data-color="rojo">
+      <!-- Color circles row -->
+      <div class="g1-item">
+        <div class="g1-circle" id="target-rojo" style="background:#e74c3c;" data-color="rojo"></div>
+        <span class="g1-label" style="color:#e74c3c;">Ro-jo</span>
+      </div>
+      <div class="g1-item">
+        <div class="g1-circle" id="target-amarillo" style="background:#f1c40f;" data-color="amarillo"></div>
+        <span class="g1-label" style="color:#e6ac00;">A-ma-ri-llo</span>
+      </div>
+      <div class="g1-item">
+        <div class="g1-circle" id="target-verde" style="background:#27ae60;" data-color="verde"></div>
+        <span class="g1-label" style="color:#27ae60;">Ver-de</span>
+      </div>
     </div>
-    <span class="g1-label" style="color:#e74c3c;">Ro-jo</span>
-  </div>
-  <div class="g1-item">
-    <div class="g1-circle" id="target-amarillo" style="background:#f1c40f;" ondrop="drop(event)" ondragover="allowDrop(event)" data-color="amarillo">
-    </div>
-    <span class="g1-label" style="color:#e6ac00;">A-ma-ri-llo</span>
-  </div>
-  <div class="g1-item">
-    <div class="g1-circle" id="target-verde" style="background:#27ae60; border: 3px dashed rgba(255,255,255,0.5);" ondrop="drop(event)" ondragover="allowDrop(event)" data-color="verde">
-    </div>
-    <span class="g1-label" style="color:#27ae60;">Ver-de</span>
-  </div>
-</div>
-
-<div id="g1-feedback" style="margin-top:20px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;"></div>
-```
-
+    <div id="g1-feedback" style="margin-top:20px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;"></div>
   </div>
 </div>
 
 <!-- =================== GAME 2: FRUITS =================== -->
-
 <div class="screen" id="game2-screen">
   <div class="game-topbar">
-    <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
-    <button class="btn-sound" onclick="speakText('Arrastra cada alimento a su sombra')">🔊</button>
+    <button class="btn-back" id="g2-back">&#8592; Volver</button>
+    <button class="btn-sound" id="g2-sound">🔊</button>
   </div>
   <div class="game-content">
-    <!-- Shadows top row -->
     <div class="g2-row" id="g2-targets">
-      <!-- Carrot shadow -->
-      <div class="g2-shadow-item" id="shadow-zanahoria" ondrop="g2drop(event)" ondragover="allowDrop(event)" data-accept="zanahoria">
+      <div class="g2-shadow-item" id="shadow-zanahoria" data-accept="zanahoria">
         <svg viewBox="0 0 100 130" fill="none">
           <ellipse cx="38" cy="68" rx="22" ry="50" fill="#888" opacity="0.5" transform="rotate(-25 38 68)"/>
           <ellipse cx="45" cy="20" rx="18" ry="14" fill="#888" opacity="0.4" transform="rotate(-10 45 20)"/>
         </svg>
       </div>
-      <!-- Pear shadow -->
-      <div class="g2-shadow-item" id="shadow-pera" ondrop="g2drop(event)" ondragover="allowDrop(event)" data-accept="pera">
+      <div class="g2-shadow-item" id="shadow-pera" data-accept="pera">
         <svg viewBox="0 0 100 130" fill="none">
           <ellipse cx="50" cy="80" rx="32" ry="40" fill="#888" opacity="0.5"/>
           <ellipse cx="50" cy="40" rx="20" ry="28" fill="#888" opacity="0.4"/>
@@ -522,8 +523,7 @@ nav {
           <ellipse cx="40" cy="12" rx="10" ry="5" fill="#888" opacity="0.4" transform="rotate(-30 40 12)"/>
         </svg>
       </div>
-      <!-- Apple shadow -->
-      <div class="g2-shadow-item" id="shadow-manzana" ondrop="g2drop(event)" ondragover="allowDrop(event)" data-accept="manzana">
+      <div class="g2-shadow-item" id="shadow-manzana" data-accept="manzana">
         <svg viewBox="0 0 100 130" fill="none">
           <ellipse cx="50" cy="72" rx="36" ry="42" fill="#888" opacity="0.5"/>
           <rect x="47" y="22" width="6" height="16" rx="3" fill="#888" opacity="0.5"/>
@@ -532,143 +532,207 @@ nav {
       </div>
     </div>
 
-```
-<!-- Draggable items bottom row -->
-<div class="g2-draggable-row" id="g2-items">
-  <!-- Apple -->
-  <div class="g2-draggable" draggable="true" id="drag-manzana" data-type="manzana" ondragstart="g2dragStart(event)">
-    <svg viewBox="0 0 100 130">
-      <rect x="46" y="8" width="6" height="20" rx="3" fill="#795548"/>
-      <path d="M50 22 Q65 8 76 18" stroke="#4caf50" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <ellipse cx="50" cy="78" rx="36" ry="44" fill="#e53935"/>
-      <ellipse cx="38" cy="65" rx="10" ry="18" fill="#ef5350" opacity="0.5"/>
-      <path d="M50 40 Q14 42 14 78 Q14 110 50 118 Q86 110 86 78 Q86 42 50 40Z" fill="#e53935"/>
-    </svg>
-  </div>
-  <!-- Carrot -->
-  <div class="g2-draggable" draggable="true" id="drag-zanahoria" data-type="zanahoria" ondragstart="g2dragStart(event)">
-    <svg viewBox="0 0 100 130">
-      <ellipse cx="38" cy="72" rx="22" ry="50" fill="#ff7043" transform="rotate(-25 38 72)"/>
-      <line x1="34" y1="50" x2="30" y2="62" stroke="#ff8a65" stroke-width="2"/>
-      <line x1="38" y1="58" x2="35" y2="70" stroke="#ff8a65" stroke-width="2"/>
-      <line x1="42" y1="64" x2="39" y2="76" stroke="#ff8a65" stroke-width="2"/>
-      <ellipse cx="44" cy="18" rx="18" ry="14" fill="#4caf50" transform="rotate(-10 44 18)"/>
-      <ellipse cx="52" cy="15" rx="14" ry="11" fill="#388e3c" transform="rotate(10 52 15)"/>
-      <ellipse cx="36" cy="16" rx="12" ry="9" fill="#43a047" transform="rotate(-20 36 16)"/>
-    </svg>
-  </div>
-  <!-- Pear -->
-  <div class="g2-draggable" draggable="true" id="drag-pera" data-type="pera" ondragstart="g2dragStart(event)">
-    <svg viewBox="0 0 100 130">
-      <rect x="47" y="8" width="6" height="20" rx="3" fill="#795548"/>
-      <ellipse cx="42" cy="12" rx="12" ry="6" fill="#4caf50" transform="rotate(-30 42 12)"/>
-      <ellipse cx="50" cy="84" rx="32" ry="38" fill="#81c784"/>
-      <ellipse cx="50" cy="46" rx="20" ry="26" fill="#a5d6a7"/>
-      <ellipse cx="40" cy="72" rx="8" ry="14" fill="#a5d6a7" opacity="0.5"/>
-    </svg>
-  </div>
-</div>
-
-<div id="g2-feedback" style="margin-top:16px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.2);"></div>
-```
-
+    <div class="g2-draggable-row" id="g2-items">
+      <div class="g2-draggable" id="drag-manzana" data-type="manzana">
+        <svg viewBox="0 0 100 130">
+          <rect x="46" y="8" width="6" height="20" rx="3" fill="#795548"/>
+          <path d="M50 22 Q65 8 76 18" stroke="#4caf50" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="50" cy="78" rx="36" ry="44" fill="#e53935"/>
+          <ellipse cx="38" cy="65" rx="10" ry="18" fill="#ef5350" opacity="0.5"/>
+          <path d="M50 40 Q14 42 14 78 Q14 110 50 118 Q86 110 86 78 Q86 42 50 40Z" fill="#e53935"/>
+        </svg>
+      </div>
+      <div class="g2-draggable" id="drag-zanahoria" data-type="zanahoria">
+        <svg viewBox="0 0 100 130">
+          <ellipse cx="38" cy="72" rx="22" ry="50" fill="#ff7043" transform="rotate(-25 38 72)"/>
+          <line x1="34" y1="50" x2="30" y2="62" stroke="#ff8a65" stroke-width="2"/>
+          <line x1="38" y1="58" x2="35" y2="70" stroke="#ff8a65" stroke-width="2"/>
+          <line x1="42" y1="64" x2="39" y2="76" stroke="#ff8a65" stroke-width="2"/>
+          <ellipse cx="44" cy="18" rx="18" ry="14" fill="#4caf50" transform="rotate(-10 44 18)"/>
+          <ellipse cx="52" cy="15" rx="14" ry="11" fill="#388e3c" transform="rotate(10 52 15)"/>
+          <ellipse cx="36" cy="16" rx="12" ry="9" fill="#43a047" transform="rotate(-20 36 16)"/>
+        </svg>
+      </div>
+      <div class="g2-draggable" id="drag-pera" data-type="pera">
+        <svg viewBox="0 0 100 130">
+          <rect x="47" y="8" width="6" height="20" rx="3" fill="#795548"/>
+          <ellipse cx="42" cy="12" rx="12" ry="6" fill="#4caf50" transform="rotate(-30 42 12)"/>
+          <ellipse cx="50" cy="84" rx="32" ry="38" fill="#81c784"/>
+          <ellipse cx="50" cy="46" rx="20" ry="26" fill="#a5d6a7"/>
+          <ellipse cx="40" cy="72" rx="8" ry="14" fill="#a5d6a7" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+    <div id="g2-feedback" style="margin-top:16px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.2);"></div>
   </div>
 </div>
 
 <!-- =================== GAME 3: ANIMALS =================== -->
-
 <div class="screen" id="game3-screen">
   <div class="game-topbar">
-    <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
-    <button class="btn-sound" id="g3-sound-btn" onclick="g3PlaySound()">🔊</button>
+    <button class="btn-back" id="g3-back">&#8592; Volver</button>
+    <button class="btn-sound" id="g3-sound-btn">🔊</button>
   </div>
   <div class="game-content">
     <div class="g3-score" id="g3-score">Puntos: 0 / 6</div>
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="g3-progress" style="width:0%"></div></div>
     <div class="g3-question" id="g3-question">¿Cuál es el GATO?</div>
-    <div class="g3-animals" id="g3-animals">
-      <!-- populated by JS -->
-    </div>
+    <div class="g3-animals" id="g3-animals"></div>
     <div class="g3-feedback" id="g3-feedback"></div>
-    <button class="g3-next-btn" id="g3-next" onclick="g3Next()">Siguiente ➡</button>
+    <button class="g3-next-btn" id="g3-next" style="display:none;">Siguiente ➡</button>
   </div>
 </div>
 
 <script>
+(function() {
+  'use strict';
+
   // =================== NAVIGATION ===================
   function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const el = document.getElementById(id);
-    if (el) { el.classList.add('active'); el.classList.add('fade-in'); }
+    var screens = document.querySelectorAll('.screen');
+    for (var i = 0; i < screens.length; i++) {
+      screens[i].classList.remove('active');
+      screens[i].classList.remove('fade-in');
+    }
+    var el = document.getElementById(id);
+    if (el) {
+      el.classList.add('active');
+      el.classList.add('fade-in');
+    }
   }
+
+  // Nav event listeners
+  document.getElementById('nav-home-1').addEventListener('click', function() { showScreen('screen-login'); });
+  document.getElementById('nav-games-1').addEventListener('click', function() { showScreen('screen-games'); });
+  document.getElementById('nav-login-1').addEventListener('click', function() { showScreen('screen-login'); });
+  document.getElementById('nav-home-2').addEventListener('click', function() { showScreen('screen-login'); });
+  document.getElementById('nav-games-2').addEventListener('click', function() { showScreen('screen-games'); });
+  document.getElementById('nav-login-2').addEventListener('click', function() { showScreen('screen-login'); });
+
+  document.getElementById('btnLogin').addEventListener('click', function() { showScreen('screen-games'); });
+  document.getElementById('btnSignup').addEventListener('click', function() { showScreen('screen-games'); });
+
+  document.getElementById('eyeBtn').addEventListener('click', function() {
+    var pwd = document.getElementById('pwdInput');
+    pwd.type = pwd.type === 'password' ? 'text' : 'password';
+  });
+
+  // Game card clicks
+  document.getElementById('card-game1').addEventListener('click', function() { startGame1(); });
+  document.getElementById('card-game2').addEventListener('click', function() { startGame2(); });
+  document.getElementById('card-game3').addEventListener('click', function() { startGame3(); });
+
+  // Back buttons
+  document.getElementById('g1-back').addEventListener('click', function() { showScreen('screen-games'); });
+  document.getElementById('g2-back').addEventListener('click', function() { showScreen('screen-games'); });
+  document.getElementById('g3-back').addEventListener('click', function() { showScreen('screen-games'); });
+
+  // Sound buttons
+  document.getElementById('g1-sound').addEventListener('click', function() { speakText('Coloca los objetos con su respectivo color'); });
+  document.getElementById('g2-sound').addEventListener('click', function() { speakText('Arrastra cada alimento a su sombra'); });
+  document.getElementById('g3-sound-btn').addEventListener('click', function() { g3PlaySound(); });
 
   // =================== TTS ===================
   function speakText(text) {
     if ('speechSynthesis' in window) {
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'es-ES'; u.rate = 0.85;
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'es-ES';
+      u.rate = 0.85;
       speechSynthesis.cancel();
       speechSynthesis.speak(u);
     }
   }
 
   // =================== SUCCESS ===================
-  let currentGame = null;
+  var currentGame = null;
   function showSuccess() {
     document.getElementById('successOverlay').classList.add('show');
   }
-  function closeSuccess() {
+  document.getElementById('btnPlayAgain').addEventListener('click', function() {
     document.getElementById('successOverlay').classList.remove('show');
-    if (currentGame === 'game1') { startGame1(); }
-    else if (currentGame === 'game2') { startGame2(); }
-    else if (currentGame === 'game3') { startGame3(); }
+    if (currentGame === 'game1') startGame1();
+    else if (currentGame === 'game2') startGame2();
+    else if (currentGame === 'game3') startGame3();
+  });
+
+  // =================== TOUCH + MOUSE DRAG SYSTEM ===================
+  var touchGhost = null;
+  var activeDragEl = null;
+  var activeDragType = null; // 'game1' or 'game2'
+
+  function createGhost(el) {
+    removeGhost();
+    var clone = el.cloneNode(true);
+    clone.className = 'touch-ghost';
+    var rect = el.getBoundingClientRect();
+    clone.style.width = rect.width + 'px';
+    clone.style.height = rect.height + 'px';
+    document.body.appendChild(clone);
+    touchGhost = clone;
+    return clone;
+  }
+
+  function moveGhost(x, y) {
+    if (touchGhost) {
+      touchGhost.style.left = (x - touchGhost.offsetWidth / 2) + 'px';
+      touchGhost.style.top = (y - touchGhost.offsetHeight / 2) + 'px';
+    }
+  }
+
+  function removeGhost() {
+    if (touchGhost && touchGhost.parentNode) {
+      touchGhost.parentNode.removeChild(touchGhost);
+    }
+    touchGhost = null;
+  }
+
+  function getDropTarget(x, y, selector) {
+    var targets = document.querySelectorAll(selector);
+    for (var i = 0; i < targets.length; i++) {
+      var rect = targets[i].getBoundingClientRect();
+      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+        return targets[i];
+      }
+    }
+    return null;
   }
 
   // =================== GAME 1: COLORS ===================
-  let g1Matched = 0;
-  let dragging = null;
+  var g1Matched = 0;
 
   function startGame1() {
     g1Matched = 0;
     currentGame = 'game1';
-    // Reset targets
-    ['target-rojo','target-amarillo','target-verde'].forEach(id => {
-      const el = document.getElementById(id);
+    var targets = ['target-rojo', 'target-amarillo', 'target-verde'];
+    for (var i = 0; i < targets.length; i++) {
+      var el = document.getElementById(targets[i]);
       el.classList.remove('matched');
       el.innerHTML = '';
-    });
-    // Reset items
-    ['drag-sol','drag-arbol','drag-gorro'].forEach(id => {
-      const el = document.getElementById(id);
-      if(el) { el.style.opacity = '1'; el.style.pointerEvents = 'auto'; }
-    });
+    }
+    var drags = ['drag-sol', 'drag-arbol', 'drag-gorro'];
+    for (var j = 0; j < drags.length; j++) {
+      var d = document.getElementById(drags[j]);
+      if (d) { d.style.opacity = '1'; d.style.pointerEvents = 'auto'; d.classList.remove('dragging'); }
+    }
     document.getElementById('g1-feedback').textContent = '';
     showScreen('game1');
   }
 
-  function dragStart(e) {
-    dragging = e.target;
-    e.dataTransfer.setData('text', e.target.id);
-  }
-  function allowDrop(e) { e.preventDefault(); }
-  function drop(e) {
-    e.preventDefault();
-    const id = e.dataTransfer.getData('text');
-    const dragEl = document.getElementById(id);
-    const target = e.currentTarget;
-    if (!dragEl || !target) return;
-    if (target.classList.contains('matched')) return;
+  function g1HandleDrop(dragEl, targetEl) {
+    if (!dragEl || !targetEl) return;
+    if (targetEl.classList.contains('matched')) return;
 
-    const expected = dragEl.getAttribute('data-target');
-    if (target.id === expected) {
-      // Correct!
-      target.classList.add('matched');
-      const clone = dragEl.cloneNode(true);
-      clone.setAttribute('draggable','false');
-      clone.style.cursor = 'default';
-      clone.style.width = '80px'; clone.style.height = '80px';
+    var expected = dragEl.getAttribute('data-target');
+    if (targetEl.id === expected) {
+      targetEl.classList.add('matched');
+      var clone = dragEl.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.style.width = '80px';
+      clone.style.height = '80px';
       clone.style.pointerEvents = 'none';
-      target.appendChild(clone);
+      clone.style.cursor = 'default';
+      clone.classList.remove('g1-draggable');
+      targetEl.appendChild(clone);
       dragEl.style.opacity = '0.3';
       dragEl.style.pointerEvents = 'none';
       speakText('¡Correcto!');
@@ -677,51 +741,70 @@ nav {
       g1Matched++;
       if (g1Matched === 3) setTimeout(showSuccess, 600);
     } else {
-      // Wrong
       speakText('Inténtalo de nuevo');
       document.getElementById('g1-feedback').textContent = '❌ Inténtalo de nuevo';
       document.getElementById('g1-feedback').style.color = '#e74c3c';
-      target.style.animation = 'shake 0.4s';
-      setTimeout(() => target.style.animation = '', 400);
+      targetEl.style.animation = 'shake 0.4s';
+      setTimeout(function() { targetEl.style.animation = ''; }, 400);
     }
   }
 
+  // Game 1 touch events
+  var g1Draggables = document.querySelectorAll('#game1 .g1-draggable');
+  for (var i = 0; i < g1Draggables.length; i++) {
+    (function(el) {
+      // Touch
+      el.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        activeDragEl = el;
+        activeDragType = 'game1';
+        el.classList.add('dragging');
+        var touch = e.touches[0];
+        createGhost(el);
+        moveGhost(touch.clientX, touch.clientY);
+      }, { passive: false });
+
+      // Mouse drag
+      el.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        activeDragEl = el;
+        activeDragType = 'game1';
+        el.classList.add('dragging');
+        createGhost(el);
+        moveGhost(e.clientX, e.clientY);
+      });
+    })(g1Draggables[i]);
+  }
+
   // =================== GAME 2: FRUITS ===================
-  let g2Matched = 0;
-  let g2Dragging = null;
+  var g2Matched = 0;
 
   function startGame2() {
     g2Matched = 0;
     currentGame = 'game2';
-    ['shadow-zanahoria','shadow-pera','shadow-manzana'].forEach(id => {
-      const el = document.getElementById(id);
-      el.classList.remove('matched');
-    });
-    ['drag-manzana','drag-zanahoria','drag-pera'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) { el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el.setAttribute('draggable','true'); }
-    });
+    var shadows = ['shadow-zanahoria', 'shadow-pera', 'shadow-manzana'];
+    for (var i = 0; i < shadows.length; i++) {
+      document.getElementById(shadows[i]).classList.remove('matched');
+    }
+    var drags = ['drag-manzana', 'drag-zanahoria', 'drag-pera'];
+    for (var j = 0; j < drags.length; j++) {
+      var d = document.getElementById(drags[j]);
+      if (d) { d.style.opacity = '1'; d.style.pointerEvents = 'auto'; d.classList.remove('dragging'); }
+    }
     document.getElementById('g2-feedback').textContent = '';
     showScreen('game2-screen');
   }
 
-  function g2dragStart(e) {
-    g2Dragging = e.currentTarget;
-    e.dataTransfer.setData('text', e.currentTarget.id);
-  }
-  function g2drop(e) {
-    e.preventDefault();
-    const id = e.dataTransfer.getData('text');
-    const dragEl = document.getElementById(id);
-    const target = e.currentTarget;
-    if (!dragEl || !target || target.classList.contains('matched')) return;
+  function g2HandleDrop(dragEl, targetEl) {
+    if (!dragEl || !targetEl) return;
+    if (targetEl.classList.contains('matched')) return;
 
-    const type = dragEl.getAttribute('data-type');
-    const accept = target.getAttribute('data-accept');
+    var type = dragEl.getAttribute('data-type');
+    var accept = targetEl.getAttribute('data-accept');
 
     if (type === accept) {
-      target.classList.add('matched');
-      target.innerHTML = dragEl.innerHTML;
+      targetEl.classList.add('matched');
+      targetEl.innerHTML = dragEl.innerHTML;
       dragEl.style.opacity = '0.3';
       dragEl.style.pointerEvents = 'none';
       speakText('¡Muy bien!');
@@ -731,32 +814,132 @@ nav {
     } else {
       speakText('Ese no es, inténtalo de nuevo');
       document.getElementById('g2-feedback').textContent = '❌ Inténtalo de nuevo';
-      target.style.animation = 'shake 0.4s';
-      setTimeout(() => target.style.animation = '', 400);
+      targetEl.style.animation = 'shake 0.4s';
+      setTimeout(function() { targetEl.style.animation = ''; }, 400);
     }
   }
 
+  // Game 2 touch events
+  var g2Draggables = document.querySelectorAll('#game2-screen .g2-draggable');
+  for (var i = 0; i < g2Draggables.length; i++) {
+    (function(el) {
+      el.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        activeDragEl = el;
+        activeDragType = 'game2';
+        el.classList.add('dragging');
+        var touch = e.touches[0];
+        createGhost(el);
+        moveGhost(touch.clientX, touch.clientY);
+      }, { passive: false });
+
+      el.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        activeDragEl = el;
+        activeDragType = 'game2';
+        el.classList.add('dragging');
+        createGhost(el);
+        moveGhost(e.clientX, e.clientY);
+      });
+    })(g2Draggables[i]);
+  }
+
+  // =================== GLOBAL TOUCH/MOUSE MOVE & END ===================
+  document.addEventListener('touchmove', function(e) {
+    if (!activeDragEl) return;
+    e.preventDefault();
+    var touch = e.touches[0];
+    moveGhost(touch.clientX, touch.clientY);
+
+    // Highlight targets
+    var selector = activeDragType === 'game1' ? '#game1 .g1-circle' : '#game2-screen .g2-shadow-item';
+    var targets = document.querySelectorAll(selector);
+    var hit = getDropTarget(touch.clientX, touch.clientY, selector);
+    for (var i = 0; i < targets.length; i++) {
+      targets[i].classList.toggle('drag-over', targets[i] === hit);
+    }
+  }, { passive: false });
+
+  document.addEventListener('touchend', function(e) {
+    if (!activeDragEl) return;
+    var touch = e.changedTouches[0];
+    var selector = activeDragType === 'game1' ? '#game1 .g1-circle' : '#game2-screen .g2-shadow-item';
+    var target = getDropTarget(touch.clientX, touch.clientY, selector);
+
+    // Remove highlights
+    var allTargets = document.querySelectorAll(selector);
+    for (var i = 0; i < allTargets.length; i++) {
+      allTargets[i].classList.remove('drag-over');
+    }
+
+    if (target) {
+      if (activeDragType === 'game1') g1HandleDrop(activeDragEl, target);
+      else g2HandleDrop(activeDragEl, target);
+    }
+
+    activeDragEl.classList.remove('dragging');
+    removeGhost();
+    activeDragEl = null;
+    activeDragType = null;
+  });
+
+  // Mouse move/up for desktop
+  document.addEventListener('mousemove', function(e) {
+    if (!activeDragEl) return;
+    moveGhost(e.clientX, e.clientY);
+
+    var selector = activeDragType === 'game1' ? '#game1 .g1-circle' : '#game2-screen .g2-shadow-item';
+    var targets = document.querySelectorAll(selector);
+    var hit = getDropTarget(e.clientX, e.clientY, selector);
+    for (var i = 0; i < targets.length; i++) {
+      targets[i].classList.toggle('drag-over', targets[i] === hit);
+    }
+  });
+
+  document.addEventListener('mouseup', function(e) {
+    if (!activeDragEl) return;
+    var selector = activeDragType === 'game1' ? '#game1 .g1-circle' : '#game2-screen .g2-shadow-item';
+    var target = getDropTarget(e.clientX, e.clientY, selector);
+
+    var allTargets = document.querySelectorAll(selector);
+    for (var i = 0; i < allTargets.length; i++) {
+      allTargets[i].classList.remove('drag-over');
+    }
+
+    if (target) {
+      if (activeDragType === 'game1') g1HandleDrop(activeDragEl, target);
+      else g2HandleDrop(activeDragEl, target);
+    }
+
+    activeDragEl.classList.remove('dragging');
+    removeGhost();
+    activeDragEl = null;
+    activeDragType = null;
+  });
+
   // =================== GAME 3: ANIMALS ===================
-  const g3Animals = [
-    { emoji: '🐱', name: 'Gato', sound: 'Miau', type: 'gato', img: 'cat' },
-    { emoji: '🐶', name: 'Perro', sound: 'Guau', type: 'perro', img: 'dog' },
+  var g3Animals = [
+    { emoji: '🐱', name: 'Gato', type: 'gato' },
+    { emoji: '🐶', name: 'Perro', type: 'perro' }
   ];
 
-  const g3Questions = [
+  var g3Questions = [
     { ask: 'GATO', answer: 'gato' },
     { ask: 'PERRO', answer: 'perro' },
     { ask: 'GATO', answer: 'gato' },
     { ask: 'PERRO', answer: 'perro' },
     { ask: 'GATO', answer: 'gato' },
-    { ask: 'PERRO', answer: 'perro' },
+    { ask: 'PERRO', answer: 'perro' }
   ];
 
-  let g3Current = 0;
-  let g3Score = 0;
-  let g3Answered = false;
+  var g3Current = 0;
+  var g3Score = 0;
+  var g3Answered = false;
 
   function startGame3() {
-    g3Current = 0; g3Score = 0; g3Answered = false;
+    g3Current = 0;
+    g3Score = 0;
+    g3Answered = false;
     currentGame = 'game3';
     document.getElementById('g3-next').style.display = 'none';
     document.getElementById('g3-feedback').textContent = '';
@@ -765,7 +948,7 @@ nav {
   }
 
   function g3Render() {
-    const q = g3Questions[g3Current];
+    var q = g3Questions[g3Current];
     document.getElementById('g3-question').textContent = '¿Cuál es el ' + q.ask + '?';
     document.getElementById('g3-score').textContent = 'Puntos: ' + g3Score + ' / 6';
     document.getElementById('g3-progress').style.width = (g3Current / g3Questions.length * 100) + '%';
@@ -773,21 +956,20 @@ nav {
     document.getElementById('g3-next').style.display = 'none';
     g3Answered = false;
 
-    // Shuffle display order
-    const shuffled = [...g3Animals].sort(() => Math.random() - 0.5);
-    const container = document.getElementById('g3-animals');
+    var shuffled = g3Animals.slice().sort(function() { return Math.random() - 0.5; });
+    var container = document.getElementById('g3-animals');
     container.innerHTML = '';
 
-    shuffled.forEach(animal => {
-      const div = document.createElement('div');
-      div.className = 'g3-animal';
-      div.innerHTML = `
-        <div class="g3-animal-box" id="abox-${animal.type}">${animal.emoji}</div>
-        <span class="g3-animal-name">${animal.name}</span>
-      `;
-      div.onclick = () => g3Answer(animal.type, q.answer);
-      container.appendChild(div);
-    });
+    for (var i = 0; i < shuffled.length; i++) {
+      (function(animal) {
+        var div = document.createElement('div');
+        div.className = 'g3-animal';
+        div.innerHTML = '<div class="g3-animal-box" id="abox-' + animal.type + '">' + animal.emoji + '</div>' +
+          '<span class="g3-animal-name">' + animal.name + '</span>';
+        div.addEventListener('click', function() { g3Answer(animal.type, q.answer); });
+        container.appendChild(div);
+      })(shuffled[i]);
+    }
 
     speakText('¿Cuál es el ' + q.ask + '?');
   }
@@ -796,8 +978,8 @@ nav {
     if (g3Answered) return;
     g3Answered = true;
 
-    const chosenBox = document.getElementById('abox-' + chosen);
-    const correctBox = document.getElementById('abox-' + correct);
+    var chosenBox = document.getElementById('abox-' + chosen);
+    var correctBox = document.getElementById('abox-' + correct);
 
     if (chosen === correct) {
       g3Score++;
@@ -816,14 +998,14 @@ nav {
     if (g3Current < g3Questions.length - 1) {
       document.getElementById('g3-next').style.display = 'inline-block';
     } else {
-      setTimeout(() => showSuccess(), 1000);
+      setTimeout(showSuccess, 1000);
     }
   }
 
-  function g3Next() {
+  document.getElementById('g3-next').addEventListener('click', function() {
     g3Current++;
     g3Render();
-  }
+  });
 
   function g3PlaySound() {
     if (g3Current < g3Questions.length) {
@@ -833,6 +1015,8 @@ nav {
 
   // =================== INIT ===================
   showScreen('screen-login');
+
+})();
 </script>
 
 </body>

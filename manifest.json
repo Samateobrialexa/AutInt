@@ -1,0 +1,27 @@
+{
+  "name": "TEA Juegos",
+  "short_name": "TEA",
+  "description": "Juegos educativos para niños: colores, alimentos y animales",
+  "start_url": "./tea-app.html",
+  "display": "standalone",
+  "background_color": "#a8c8f0",
+  "theme_color": "#4a90d9",
+  "orientation": "landscape",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "categories": ["education", "kids", "games"]
+}

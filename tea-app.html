@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AuntInt Juegos</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#4a90d9"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="AuntInt Juegos"/>
+  <link rel="apple-touch-icon" href="icon-192.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
+  <meta name="description" content="Juegos educativos para niños: aprende colores, alimentos y animales"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', sans-serif; background: #a8c8f0; min-height: 100vh; overflow-x: hidden; }
+
+    /* ===================== SCREENS ===================== */
+    .screen { display: none; min-height: 100vh; }
+    .screen.active { display: flex; flex-direction: column; }
+
+    /* ===================== NAV ===================== */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 50px; background: #fff; border-bottom: 1px solid #e5e7eb;
+    }
+    .nav-logo { font-size: 1.5rem; font-weight: 900; color: #4a90d9; cursor: pointer; }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: #555; font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active { color: #4a90d9; }
+    .nav-links a.active { text-decoration: underline; text-underline-offset: 4px; color: #111; }
+
+    /* ===================== HOME ===================== */
+    #screen-home {
+      background: #a8c8f0;
+    }
+    #screen-home nav { background: #fff; }
+
+    .home-hero {
+      flex: 1; display: flex; align-items: center; justify-content: space-between;
+      padding: 60px 80px; gap: 40px;
+    }
+    .home-text { flex: 1; max-width: 520px; }
+    .home-tagline {
+      display: inline-block; background: rgba(255,255,255,0.5);
+      color: #4a90d9; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 6px 18px; border-radius: 20px; margin-bottom: 20px;
+    }
+    .home-title {
+      font-size: 3.2rem; font-weight: 900; color: #fff; line-height: 1.15;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.12); margin-bottom: 18px;
+    }
+    .home-title span { color: #d4913a; }
+    .home-desc {
+      font-size: 1.1rem; color: rgba(255,255,255,0.9); line-height: 1.7;
+      margin-bottom: 36px; font-weight: 600;
+    }
+    .home-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      padding: 16px 36px; background: #d4913a; color: #fff; border: none;
+      border-radius: 14px; font-size: 1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 6px 20px rgba(212,145,58,0.4);
+    }
+    .btn-primary:hover { background: #c07e2a; transform: translateY(-2px); }
+    .btn-secondary {
+      padding: 16px 36px; background: rgba(255,255,255,0.9); color: #4a90d9; border: none;
+      border-radius: 14px; font-size: 1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+    .btn-secondary:hover { background: #fff; transform: translateY(-2px); }
+
+    .home-illus { flex: 0 0 440px; display: flex; justify-content: center; align-items: center; }
+    .blob-wrap { position: relative; width: 420px; height: 380px; }
+    .blob { position: absolute; inset: 0; background: rgba(255,255,255,0.35); border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; backdrop-filter: blur(2px); }
+    .illus-svg { position: relative; z-index: 1; width: 100%; height: 100%; }
+
+    .home-features {
+      background: rgba(255,255,255,0.25); backdrop-filter: blur(4px);
+      padding: 28px 80px; display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
+      border-top: 1px solid rgba(255,255,255,0.3);
+    }
+    .home-about {
+      background: rgba(255,255,255,0.15);
+      padding: 36px 80px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .home-about p {
+      font-size: 0.97rem; line-height: 1.75; color: rgba(255,255,255,0.92);
+      font-weight: 600; max-width: 860px;
+    }
+    .feat-item {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.95rem; font-weight: 700; color: #fff;
+    }
+    .feat-icon {
+      width: 44px; height: 44px; background: rgba(255,255,255,0.3);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .figures { display: flex; gap: 6px; margin-top: 24px; }
+    .fig-svg { width: 46px; height: 54px; }
+
+    /* ===================== GAMES MENU ===================== */
+    #screen-games {
+      background: #a8c8f0; align-items: stretch;
+    }
+    .games-header {
+      background: #fff; padding: 16px 50px; display: flex;
+      align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e7eb;
+    }
+    .games-body {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 50px 40px; gap: 30px;
+    }
+    .games-title {
+      font-size: 2rem; font-weight: 900; color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 10px;
+    }
+    .games-grid {
+      display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;
+    }
+    .game-card {
+      background: #fff; border-radius: 24px; width: 220px; padding: 28px 20px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .game-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
+    .game-card-icon { font-size: 3.5rem; }
+    .game-card-title { font-size: 1rem; font-weight: 800; color: #333; text-align: center; line-height: 1.3; }
+    .game-card-desc { font-size: 0.8rem; color: #777; text-align: center; }
+    .game-card-badge {
+      padding: 4px 14px; border-radius: 20px; font-size: 0.75rem;
+      font-weight: 700; color: #fff;
+    }
+    .badge-colors { background: #e67e22; }
+    .badge-fruits { background: #27ae60; }
+    .badge-animals { background: #8e44ad; }
+
+    /* ===================== GAME SCREEN COMMON ===================== */
+    .game-screen-wrap {
+      background: #a8c8f0; min-height: 100vh; display: flex; flex-direction: column;
+    }
+    .game-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 28px;
+    }
+    .btn-back {
+      background: #4a90d9; border: none; border-radius: 10px; padding: 10px 18px;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      color: #fff; font-family: 'Nunito',sans-serif; font-weight: 800; font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .btn-back:hover { background: #357abd; }
+    .btn-sound {
+      width: 56px; height: 56px; border-radius: 50%; background: #4a90d9; border: none;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.2s;
+    }
+    .btn-sound:hover { background: #357abd; }
+    .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 40px 40px; }
+
+    /* ===================== GAME 1: COLORS ===================== */
+    .g1-instruction {
+      font-size: 1.1rem; font-weight: 700; color: #333;
+      margin-bottom: 24px; text-align: center;
+    }
+    .g1-drag-card {
+      width: 130px; height: 140px;
+      background: #f5f5f5; border-radius: 18px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      cursor: grab; touch-action: none; user-select: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      transition: transform 0.15s, box-shadow 0.15s;
+      -webkit-user-select: none;
+    }
+    .g1-drag-card:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    .g1-drag-label { font-size: 0.95rem; font-weight: 800; color: #444; }
+    .g1-drop-zone {
+      width: 150px; height: 150px; border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      border: 4px dashed rgba(255,255,255,0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .g1-drop-label { font-size: 1rem; font-weight: 800; pointer-events: none; }
+    .g1-drop-zone.matched {
+      border: 4px solid rgba(255,255,255,0.9);
+      box-shadow: 0 0 24px rgba(46,204,113,0.5);
+    }
+    .g1-drop-zone .g1-drag-card {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0.75);
+      pointer-events: none; box-shadow: none; background: transparent;
+    }
+    .dz-hover { outline: 5px solid #fff; outline-offset: 3px; transform: scale(1.08) !important; transition: transform 0.15s; }
+
+    /* ===================== GAME 2: FRUITS/VEGS ===================== */
+    #game2-screen .game-content { padding: 10px 60px 40px; }
+    .g2-row { display: flex; gap: 80px; justify-content: center; align-items: center; margin-bottom: 40px; flex-wrap: wrap; }
+    .g2-shadow-item {
+      width: 130px; height: 160px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.35; filter: grayscale(1); border-radius: 16px;
+      border: 3px dashed #aaa; transition: all 0.3s; position: relative;
+    }
+    .g2-shadow-item.matched {
+      opacity: 1; filter: none; border: 3px solid #2ecc71;
+      box-shadow: 0 0 20px rgba(46,204,113,0.4);
+    }
+    .g2-shadow-item svg { width: 100px; height: 130px; }
+    .g2-draggable-row { display: flex; gap: 60px; justify-content: center; flex-wrap: wrap; }
+    .g2-draggable {
+      width: 130px; height: 160px; cursor: grab;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.15s;
+    }
+    .g2-draggable:hover { transform: scale(1.08); }
+    .g2-draggable svg { width: 100px; height: 130px; pointer-events: none; }
+    .g2-draggable.dragging { opacity: 0.4; transform: scale(1.1); }
+
+    /* ===================== GAME 3: ANIMALS ===================== */
+    #game3-screen .game-content {
+      display: flex; flex-direction: column; align-items: center; gap: 30px;
+    }
+    .g3-question {
+      font-size: 1.5rem; font-weight: 800; color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2); text-align: center;
+    }
+    .g3-animals { display: flex; gap: 80px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .g3-animal {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      cursor: pointer; transition: transform 0.2s;
+    }
+    .g3-animal:hover { transform: scale(1.05); }
+    .g3-animal-box {
+      width: 220px; height: 220px; background: rgba(255,255,255,0.9); border-radius: 24px;
+      display: flex; align-items: center; justify-content: center; font-size: 7rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); transition: all 0.3s; overflow: hidden;
+    }
+    .g3-animal-box:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
+    .g3-animal-box.correct { background: #d4edda; box-shadow: 0 0 0 4px #2ecc71; animation: pulse 0.5s; }
+    .g3-animal-box.wrong { background: #f8d7da; box-shadow: 0 0 0 4px #e74c3c; animation: shake 0.4s; }
+    .g3-animal-name { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+    .g3-score { font-size: 1.2rem; font-weight: 700; color: #fff; background: rgba(255,255,255,0.25); padding: 8px 24px; border-radius: 20px; }
+    .g3-feedback {
+      font-size: 1.8rem; font-weight: 900; min-height: 50px; text-align: center;
+      color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .g3-next-btn {
+      padding: 12px 36px; background: #d4913a; color: #fff; border: none;
+      border-radius: 12px; font-size: 1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
+      cursor: pointer; transition: background 0.2s; display: none;
+    }
+    .g3-next-btn:hover { background: #c07e2a; }
+
+    @keyframes pulse {
+      0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); }
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+
+    /* ===================== SUCCESS OVERLAY ===================== */
+    .success-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      display: none; align-items: center; justify-content: center; z-index: 1000;
+    }
+    .success-overlay.show { display: flex; }
+    .success-box {
+      background: #fff; border-radius: 28px; padding: 50px 60px;
+      text-align: center; animation: fadeIn 0.4s ease;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .success-box h2 { font-size: 2.5rem; font-weight: 900; color: #2ecc71; margin-bottom: 12px; }
+    .success-box p { font-size: 1.2rem; color: #555; margin-bottom: 28px; }
+    .success-box .btn-play-again {
+      padding: 14px 40px; background: #4a90d9; color: #fff; border: none;
+      border-radius: 12px; font-size: 1.1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .success-box .btn-play-again:hover { background: #357abd; }
+
+    .progress-bar-wrap { width: 100%; max-width: 400px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 10px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: #fff; border-radius: 10px; transition: width 0.5s ease; }
+  </style>
+</head>
+<body>
+
+<!-- ===================== SUCCESS OVERLAY ===================== -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <div style="font-size:4rem;">🎉</div>
+    <h2>¡Muy bien!</h2>
+    <p>Completaste el juego correctamente.</p>
+    <button class="btn-play-again" onclick="closeSuccess()">Jugar de nuevo</button>
+  </div>
+</div>
+
+<!-- =================== SCREEN: HOME =================== -->
+<div class="screen active" id="screen-home">
+  <nav>
+    <div class="nav-logo" onclick="showScreen('screen-home')">AuntInt</div>
+    <ul class="nav-links">
+      <li><a class="active" onclick="showScreen('screen-home')">HOME</a></li>
+      <li><a onclick="showScreen('screen-games')">GAMES</a></li>
+    </ul>
+  </nav>
+
+  <div class="home-hero">
+    <div class="home-text">
+      <span class="home-tagline">🌟 Aprende jugando</span>
+      <h1 class="home-title">¡Bienvenido a<br/><span>AuntInt</span> Juegos!</h1>
+      <p class="home-desc">Una plataforma de juegos educativos diseñada para niños. Aprende colores, alimentos y animales de forma divertida e interactiva.</p>
+      <div class="home-btns">
+        <button class="btn-primary" onclick="showScreen('screen-games')">🎮 Jugar ahora</button>
+      </div>
+      <div class="figures">
+        <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#3BBFA3"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#3BBFA3"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#3BBFA3"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#3BBFA3"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#3BBFA3"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#3BBFA3"/></svg>
+        <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#4A90D9"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#4A90D9"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#4A90D9"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#4A90D9"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#4A90D9"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#4A90D9"/></svg>
+        <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#F5C842"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#F5C842"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#F5C842"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#F5C842"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#F5C842"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#F5C842"/></svg>
+        <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#E8874A"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#E8874A"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#E8874A"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#E8874A"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#E8874A"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#E8874A"/></svg>
+        <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#E84A4A"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#E84A4A"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#E84A4A"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#E84A4A"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#E84A4A"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#E84A4A"/></svg>
+      </div>
+    </div>
+
+    <div class="home-illus">
+      <div class="blob-wrap">
+        <div class="blob"></div>
+        <svg class="illus-svg" viewBox="0 0 440 400">
+          <path d="M80 80 Q150 100 220 80 Q290 60 360 80" stroke="rgba(255,255,255,0.6)" stroke-width="2" fill="none"/>
+          <polygon points="95,80 110,80 102,96" fill="#f8d7b0"/><polygon points="125,74 140,72 132,90" fill="#f4a0a0"/>
+          <polygon points="155,72 170,72 162,88" fill="#a0d0f4"/><polygon points="220,72 235,72 227,88" fill="#f8d7b0"/>
+          <polygon points="255,66 270,68 262,84" fill="#f4a0a0"/><polygon points="290,70 305,72 298,88" fill="#c8f0c0"/>
+          <polygon points="325,74 340,76 332,92" fill="#f8d7b0"/>
+          <ellipse cx="290" cy="280" rx="38" ry="55" fill="#c0392b" opacity="0.9"/>
+          <ellipse cx="290" cy="260" rx="34" ry="40" fill="#e67e22"/>
+          <circle cx="290" cy="195" r="32" fill="#8D5524"/>
+          <ellipse cx="290" cy="178" rx="30" ry="18" fill="#6c3483"/>
+          <circle cx="280" cy="198" r="3" fill="#fff"/><circle cx="300" cy="198" r="3" fill="#fff"/>
+          <path d="M282 210 Q290 218 298 210" stroke="#a0522d" stroke-width="2" fill="none"/>
+          <path d="M290 245 Q330 220 345 200" stroke="#e67e22" stroke-width="18" stroke-linecap="round" fill="none"/>
+          <ellipse cx="260" cy="330" rx="28" ry="14" fill="#922b21" transform="rotate(-20 260 330)"/>
+          <ellipse cx="320" cy="335" rx="28" ry="14" fill="#922b21" transform="rotate(10 320 335)"/>
+          <ellipse cx="245" cy="345" rx="22" ry="10" fill="#27ae60"/><ellipse cx="300" cy="348" rx="22" ry="10" fill="#27ae60"/>
+          <rect x="335" y="165" width="55" height="68" rx="4" fill="#27ae60"/>
+          <rect x="340" y="170" width="45" height="58" rx="3" fill="#2ecc71"/>
+          <circle cx="362" cy="195" r="14" fill="#f39c12"/>
+          <circle cx="358" cy="191" r="2" fill="#333"/><circle cx="366" cy="191" r="2" fill="#333"/>
+          <path d="M356 201 Q362 207 368 201" stroke="#333" stroke-width="1.5" fill="none"/>
+          <text x="395" y="185" font-size="18" fill="#e74c3c">♪</text><text x="408" y="205" font-size="14" fill="#e74c3c">♫</text>
+          <polygon points="185,285 215,285 225,355 175,355" fill="#f1c40f"/>
+          <rect x="183" y="255" width="36" height="34" rx="8" fill="#e67e22"/>
+          <circle cx="201" cy="232" r="26" fill="#8D5524"/>
+          <ellipse cx="201" cy="218" rx="24" ry="14" fill="#2c3e50"/>
+          <rect x="178" y="218" width="10" height="20" rx="5" fill="#2c3e50"/>
+          <path d="M178 222 Q201 212 224 222" stroke="#e74c3c" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <circle cx="193" cy="234" r="3" fill="#fff"/><circle cx="209" cy="234" r="3" fill="#fff"/>
+          <path d="M195 244 Q201 250 207 244" stroke="#a0522d" stroke-width="2" fill="none"/>
+          <path d="M215 265 Q250 235 310 210" stroke="#e67e22" stroke-width="12" stroke-linecap="round" fill="none"/>
+          <rect x="185" y="348" width="14" height="28" rx="7" fill="#c0392b"/>
+          <rect x="203" y="348" width="14" height="28" rx="7" fill="#c0392b"/>
+          <ellipse cx="192" cy="378" rx="14" ry="8" fill="#e74c3c"/>
+          <ellipse cx="210" cy="378" rx="14" ry="8" fill="#e74c3c"/>
+          <rect x="186" y="366" width="12" height="10" rx="3" fill="#ecf0f1"/>
+          <rect x="204" y="366" width="12" height="10" rx="3" fill="#ecf0f1"/>
+          <ellipse cx="270" cy="370" rx="100" ry="12" fill="rgba(255,255,255,0.2)" opacity="0.8"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-features">
+    <div class="feat-item"><div class="feat-icon">🎨</div><span>Aprender colores</span></div>
+    <div class="feat-item"><div class="feat-icon">🥕</div><span>Frutas y verduras</span></div>
+    <div class="feat-item"><div class="feat-icon">🐾</div><span>Identificar animales</span></div>
+    <div class="feat-item"><div class="feat-icon">🔊</div><span>Audio interactivo</span></div>
+    <div class="feat-item"><div class="feat-icon">⭐</div><span>Recompensas</span></div>
+  </div>
+
+  <div class="home-about">
+    <p>Esta aplicación está diseñada para apoyar y mejorar el desarrollo de niños con autismo no verbal.</p>
+    <p>Mediante el uso de pictogramas, imágenes y sonidos, ayuda a fortalecer sus habilidades comunicativas y su capacidad para comprender el mundo que les rodea. Al fomentar el aprendizaje visual y auditivo, la aplicación promueve el desarrollo del lenguaje, la independencia y la confianza.</p>
+    <p>Su objetivo principal es proporcionar a los niños una forma accesible y eficaz de expresarse y desarrollarse en su vida diaria.</p>
+  </div>
+</div>
+
+<!-- =================== SCREEN: GAMES MENU =================== -->
+<div class="screen" id="screen-games">
+  <div class="games-header">
+    <div class="nav-logo" onclick="showScreen('screen-home')">AuntInt</div>
+    <ul class="nav-links">
+      <li><a onclick="showScreen('screen-home')">HOME</a></li>
+      <li><a class="active" onclick="showScreen('screen-games')">GAMES</a></li>
+    </ul>
+  </div>
+  <div class="games-body">
+    <div class="games-title">🎮 Elige un juego</div>
+    <div class="games-grid">
+      <div class="game-card" onclick="startGame1()">
+        <div class="game-card-icon">🎨</div>
+        <div class="game-card-title">Coloca los objetos con su color</div>
+        <div class="game-card-desc">Arrastra Sol, Árbol y Gorro a su color correcto</div>
+        <span class="game-card-badge badge-colors">COLORES</span>
+      </div>
+      <div class="game-card" onclick="startGame2()">
+        <div class="game-card-icon">🥕</div>
+        <div class="game-card-title">Empareja frutas y verduras</div>
+        <div class="game-card-desc">Arrastra cada alimento a su sombra</div>
+        <span class="game-card-badge badge-fruits">ALIMENTOS</span>
+      </div>
+      <div class="game-card" onclick="startGame3()">
+        <div class="game-card-icon">🐾</div>
+        <div class="game-card-title">¿Qué animal es?</div>
+        <div class="game-card-desc">Identifica gatos y perros correctamente</div>
+        <span class="game-card-badge badge-animals">ANIMALES</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== GAME 1: COLORS =================== -->
+<div class="screen" id="game1">
+  <div class="game-topbar">
+    <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
+    <button class="btn-sound" onclick="speakText('Coloca los objetos con su respectivo color')">🔊</button>
+  </div>
+  <div class="game-content" style="background:#fff;border-radius:24px;margin:0 20px 20px;box-shadow:0 4px 24px rgba(0,0,0,0.1);padding:28px 20px;">
+    <div class="g1-instruction">Coloca los objetos con su respectivo color</div>
+
+    <!-- OBJECTS ROW -->
+    <div style="display:flex;justify-content:center;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
+
+      <div class="g1-drag-card" id="drag-sol" data-target="target-amarillo">
+        <svg width="90" height="90" viewBox="0 0 120 120">
+          <g opacity="0.7">
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(0 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(45 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(90 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(135 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(180 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(225 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(270 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(315 60 60)"/>
+          </g>
+          <circle cx="60" cy="60" r="28" fill="#9e9e9e"/>
+          <circle cx="52" cy="56" r="4" fill="#757575"/>
+          <circle cx="68" cy="56" r="4" fill="#757575"/>
+          <path d="M50 70 Q60 78 70 70" stroke="#616161" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span class="g1-drag-label">Sol</span>
+      </div>
+
+      <div class="g1-drag-card" id="drag-arbol" data-target="target-verde">
+        <svg width="90" height="90" viewBox="0 0 120 120">
+          <rect x="52" y="72" width="16" height="36" rx="4" fill="#666"/>
+          <circle cx="60" cy="45" r="34" fill="#2d2d2d"/>
+          <circle cx="45" cy="52" r="5" fill="#3a3a3a" opacity="0.5"/>
+          <circle cx="72" cy="40" r="4" fill="#3a3a3a" opacity="0.5"/>
+        </svg>
+        <span class="g1-drag-label">Ár-bol</span>
+      </div>
+
+      <div class="g1-drag-card" id="drag-gorro" data-target="target-rojo">
+        <svg width="90" height="90" viewBox="0 0 120 110">
+          <path d="M30 70 Q45 20 70 15 Q90 12 95 40 Q100 60 88 70 Z" fill="#1a1a2e"/>
+          <ellipse cx="52" cy="74" rx="38" ry="14" fill="#fff" stroke="#ccc" stroke-width="1"/>
+          <circle cx="88" cy="46" r="12" fill="#fff" stroke="#ddd" stroke-width="1"/>
+          <circle cx="88" cy="46" r="7" fill="#f0f0f0"/>
+        </svg>
+        <span class="g1-drag-label">Go-rro</span>
+      </div>
+    </div>
+
+    <!-- DROP ZONES ROW -->
+    <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+
+      <div class="g1-drop-zone" id="target-rojo" data-drop-zone="g1" style="background:#e74c3c;">
+        <span class="g1-drop-label" style="color:#fff;">Ro-jo</span>
+      </div>
+
+      <div class="g1-drop-zone" id="target-amarillo" data-drop-zone="g1" style="background:#f1c40f;">
+        <span class="g1-drop-label" style="color:#c8960c;">A-ma-ri-llo</span>
+      </div>
+
+      <div class="g1-drop-zone" id="target-verde" data-drop-zone="g1" style="background:#27ae60;">
+        <span class="g1-drop-label" style="color:#fff;">Ver-de</span>
+      </div>
+    </div>
+
+    <div id="g1-feedback" style="margin-top:20px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;"></div>
+  </div>
+</div>
+
+<!-- =================== GAME 2: FRUITS =================== -->
+<div class="screen" id="game2-screen">
+  <div class="game-topbar">
+    <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
+    <button class="btn-sound" onclick="speakText('Arrastra cada alimento a su sombra')">🔊</button>
+  </div>
+  <div class="game-content">
+    <!-- Shadows top row -->
+    <div class="g2-row" id="g2-targets">
+      <!-- Carrot shadow -->
+      <div class="g2-shadow-item" id="shadow-zanahoria" data-drop-zone="g2" data-accept="zanahoria">
+        <svg viewBox="0 0 100 130" fill="none">
+          <ellipse cx="38" cy="68" rx="22" ry="50" fill="#888" opacity="0.5" transform="rotate(-25 38 68)"/>
+          <ellipse cx="45" cy="20" rx="18" ry="14" fill="#888" opacity="0.4" transform="rotate(-10 45 20)"/>
+        </svg>
+      </div>
+      <!-- Pear shadow -->
+      <div class="g2-shadow-item" id="shadow-pera" data-drop-zone="g2" data-accept="pera">
+        <svg viewBox="0 0 100 130" fill="none">
+          <ellipse cx="50" cy="80" rx="32" ry="40" fill="#888" opacity="0.5"/>
+          <ellipse cx="50" cy="40" rx="20" ry="28" fill="#888" opacity="0.4"/>
+          <rect x="47" y="10" width="6" height="18" rx="3" fill="#888" opacity="0.5"/>
+          <ellipse cx="40" cy="12" rx="10" ry="5" fill="#888" opacity="0.4" transform="rotate(-30 40 12)"/>
+        </svg>
+      </div>
+      <!-- Apple shadow -->
+      <div class="g2-shadow-item" id="shadow-manzana" data-drop-zone="g2" data-accept="manzana">
+        <svg viewBox="0 0 100 130" fill="none">
+          <ellipse cx="50" cy="72" rx="36" ry="42" fill="#888" opacity="0.5"/>
+          <rect x="47" y="22" width="6" height="16" rx="3" fill="#888" opacity="0.5"/>
+          <path d="M50 28 Q62 18 70 26" stroke="#888" stroke-width="3" fill="none" opacity="0.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Draggable items bottom row -->
+    <div class="g2-draggable-row" id="g2-items">
+      <!-- Apple -->
+      <div class="g2-draggable" id="drag-manzana" data-type="manzana" style="touch-action:none;user-select:none;cursor:grab;">
+        <svg viewBox="0 0 100 130">
+          <rect x="46" y="8" width="6" height="20" rx="3" fill="#795548"/>
+          <path d="M50 22 Q65 8 76 18" stroke="#4caf50" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="50" cy="78" rx="36" ry="44" fill="#e53935"/>
+          <ellipse cx="38" cy="65" rx="10" ry="18" fill="#ef5350" opacity="0.5"/>
+          <path d="M50 40 Q14 42 14 78 Q14 110 50 118 Q86 110 86 78 Q86 42 50 40Z" fill="#e53935"/>
+        </svg>
+      </div>
+      <!-- Carrot -->
+      <div class="g2-draggable" id="drag-zanahoria" data-type="zanahoria" style="touch-action:none;user-select:none;cursor:grab;">
+        <svg viewBox="0 0 100 130">
+          <ellipse cx="38" cy="72" rx="22" ry="50" fill="#ff7043" transform="rotate(-25 38 72)"/>
+          <line x1="34" y1="50" x2="30" y2="62" stroke="#ff8a65" stroke-width="2"/>
+          <line x1="38" y1="58" x2="35" y2="70" stroke="#ff8a65" stroke-width="2"/>
+          <line x1="42" y1="64" x2="39" y2="76" stroke="#ff8a65" stroke-width="2"/>
+          <ellipse cx="44" cy="18" rx="18" ry="14" fill="#4caf50" transform="rotate(-10 44 18)"/>
+          <ellipse cx="52" cy="15" rx="14" ry="11" fill="#388e3c" transform="rotate(10 52 15)"/>
+          <ellipse cx="36" cy="16" rx="12" ry="9" fill="#43a047" transform="rotate(-20 36 16)"/>
+        </svg>
+      </div>
+      <!-- Pear -->
+      <div class="g2-draggable" id="drag-pera" data-type="pera" style="touch-action:none;user-select:none;cursor:grab;">
+        <svg viewBox="0 0 100 130">
+          <rect x="47" y="8" width="6" height="20" rx="3" fill="#795548"/>
+          <ellipse cx="42" cy="12" rx="12" ry="6" fill="#4caf50" transform="rotate(-30 42 12)"/>
+          <ellipse cx="50" cy="84" rx="32" ry="38" fill="#81c784"/>
+          <ellipse cx="50" cy="46" rx="20" ry="26" fill="#a5d6a7"/>
+          <ellipse cx="40" cy="72" rx="8" ry="14" fill="#a5d6a7" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+
+    <div id="g2-feedback" style="margin-top:16px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.2);"></div>
+  </div>
+</div>
+
+<!-- =================== GAME 3: ANIMALS =================== -->
+<div class="screen" id="game3-screen">
+  <div class="game-topbar">
+    <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
+    <button class="btn-sound" id="g3-sound-btn" onclick="g3PlaySound()">🔊</button>
+  </div>
+  <div class="game-content">
+    <div class="g3-score" id="g3-score">Puntos: 0 / 6</div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="g3-progress" style="width:0%"></div></div>
+    <div class="g3-question" id="g3-question">¿Cuál es el GATO?</div>
+    <div class="g3-animals" id="g3-animals">
+      <!-- populated by JS -->
+    </div>
+    <div class="g3-feedback" id="g3-feedback"></div>
+    <button class="g3-next-btn" id="g3-next" onclick="g3Next()">Siguiente ➡</button>
+  </div>
+</div>
+
+<script>
+  // =================== NAVIGATION ===================
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (el) { el.classList.add('active'); el.classList.add('fade-in'); }
+  }
+
+  // =================== TTS (mobile-compatible) ===================
+  let ttsReady = false;
+
+  // Unlock speech on first user interaction (required by mobile browsers)
+  function unlockTTS() {
+    if (ttsReady) return;
+    ttsReady = true;
+    // Warm up with a silent utterance to unlock iOS/Android
+    const warmup = new SpeechSynthesisUtterance('');
+    warmup.volume = 0;
+    speechSynthesis.speak(warmup);
+  }
+  document.addEventListener('touchstart', unlockTTS, { once: true });
+  document.addEventListener('mousedown', unlockTTS, { once: true });
+
+  function speakText(text) {
+    if (!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+
+    function doSpeak() {
+      const u = new SpeechSynthesisUtterance(text);
+      // Try Spanish voice, fall back to any available
+      const voices = speechSynthesis.getVoices();
+      const esVoice = voices.find(v => v.lang.startsWith('es')) || voices[0];
+      if (esVoice) u.voice = esVoice;
+      u.lang = 'es-ES';
+      u.rate = 0.85;
+      u.pitch = 1.1;
+      u.volume = 1;
+      speechSynthesis.speak(u);
+    }
+
+    // Voices may not be loaded yet on mobile
+    if (speechSynthesis.getVoices().length > 0) {
+      doSpeak();
+    } else {
+      speechSynthesis.addEventListener('voiceschanged', doSpeak, { once: true });
+    }
+  }
+
+  // =================== SUCCESS ===================
+  let currentGame = null;
+  function showSuccess() {
+    document.getElementById('successOverlay').classList.add('show');
+  }
+  function closeSuccess() {
+    document.getElementById('successOverlay').classList.remove('show');
+    if (currentGame === 'game1') { startGame1(); }
+    else if (currentGame === 'game2') { startGame2(); }
+    else if (currentGame === 'game3') { startGame3(); }
+  }
+
+  // =================== UNIVERSAL DRAG ENGINE (mouse + touch) ===================
+  let activeDrag = null;      // { el, ghost, offsetX, offsetY, game }
+  let lastHighlight = null;
+
+  function initDraggable(el) {
+    if (el._dragInited) return;   // prevent duplicate listeners
+    el._dragInited = true;
+    el.addEventListener('mousedown', dragDown);
+    el.addEventListener('touchstart', dragDown, { passive: false });
+  }
+
+  function dragDown(e) {
+    const srcEl = e.currentTarget;
+    if (srcEl.style.pointerEvents === 'none' || srcEl.style.opacity === '0.3') return;
+    e.preventDefault();
+
+    // Speak the element name when picked up
+    const label = srcEl.querySelector('.g1-drag-label');
+    if (label) speakText(label.textContent);
+
+    const touch = e.touches ? e.touches[0] : e;
+    const rect = srcEl.getBoundingClientRect();
+    const offsetX = touch.clientX - rect.left;
+    const offsetY = touch.clientY - rect.top;
+
+    // Create floating ghost
+    const ghost = srcEl.cloneNode(true);
+    ghost.style.cssText = `
+      position: fixed; z-index: 9999; pointer-events: none;
+      width: ${rect.width}px; height: ${rect.height}px;
+      left: ${rect.left}px; top: ${rect.top}px;
+      opacity: 0.85; transform: scale(1.12);
+      transition: transform 0.1s; border-radius: 12px;
+    `;
+    document.body.appendChild(ghost);
+    srcEl.style.opacity = '0.35';
+
+    activeDrag = { el: srcEl, ghost, offsetX, offsetY };
+
+    document.addEventListener('mousemove', dragMove);
+    document.addEventListener('mouseup', dragUp);
+    document.addEventListener('touchmove', dragMove, { passive: false });
+    document.addEventListener('touchend', dragUp);
+  }
+
+  function dragMove(e) {
+    if (!activeDrag) return;
+    e.preventDefault();
+    const touch = e.touches ? e.touches[0] : e;
+    const x = touch.clientX - activeDrag.offsetX;
+    const y = touch.clientY - activeDrag.offsetY;
+    activeDrag.ghost.style.left = x + 'px';
+    activeDrag.ghost.style.top  = y + 'px';
+
+    // Highlight drop zones under finger/cursor
+    activeDrag.ghost.style.display = 'none';
+    const elBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    activeDrag.ghost.style.display = '';
+    const zone = elBelow ? elBelow.closest('[data-drop-zone]') : null;
+    if (lastHighlight && lastHighlight !== zone) lastHighlight.classList.remove('dz-hover');
+    if (zone && !zone.classList.contains('matched')) {
+      zone.classList.add('dz-hover');
+      lastHighlight = zone;
+    } else {
+      lastHighlight = null;
+    }
+  }
+
+  function dragUp(e) {
+    if (!activeDrag) return;
+    document.removeEventListener('mousemove', dragMove);
+    document.removeEventListener('mouseup', dragUp);
+    document.removeEventListener('touchmove', dragMove);
+    document.removeEventListener('touchend', dragUp);
+
+    const touch = e.changedTouches ? e.changedTouches[0] : e;
+    activeDrag.ghost.style.display = 'none';
+    const elBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    activeDrag.ghost.style.display = '';
+
+    if (lastHighlight) { lastHighlight.classList.remove('dz-hover'); lastHighlight = null; }
+
+    const zone = elBelow ? elBelow.closest('[data-drop-zone]') : null;
+
+    if (zone && !zone.classList.contains('matched')) {
+      const game = zone.getAttribute('data-drop-zone');
+      if (game === 'g1') handleG1Drop(activeDrag.el, zone);
+      if (game === 'g2') handleG2Drop(activeDrag.el, zone);
+    } else {
+      // Snap back
+      activeDrag.el.style.opacity = '1';
+    }
+
+    activeDrag.ghost.remove();
+    activeDrag = null;
+  }
+
+  // =================== GAME 1: COLORS ===================
+  let g1Matched = 0;
+
+  function startGame1() {
+    g1Matched = 0;
+    currentGame = 'game1';
+    // Reset drop zones
+    ['target-rojo','target-amarillo','target-verde'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('matched');
+      // Remove any cloned card inside
+      el.querySelectorAll('.g1-drag-card').forEach(c => c.remove());
+      // Restore label visibility
+      const lbl = el.querySelector('.g1-drop-label');
+      if (lbl) lbl.style.opacity = '1';
+    });
+    // Reset draggable cards
+    ['drag-sol','drag-arbol','drag-gorro'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.opacity = '1';
+        el.style.pointerEvents = 'auto';
+        el._dragInited = false;   // allow re-binding after reset
+      }
+    });
+    document.getElementById('g1-feedback').textContent = '';
+    showScreen('game1');
+    // Bind draggables after screen shown
+    requestAnimationFrame(() => {
+      ['drag-sol','drag-arbol','drag-gorro'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) initDraggable(el);
+      });
+    });
+  }
+
+  function handleG1Drop(dragEl, target) {
+    const expected = dragEl.getAttribute('data-target');
+    if (target.id === expected) {
+      target.classList.add('matched');
+      // Place a clone of the card inside the drop zone
+      const clone = dragEl.cloneNode(true);
+      clone.style.pointerEvents = 'none';
+      clone.style.cursor = 'default';
+      clone._dragInited = true;
+      target.appendChild(clone);
+      // Hide the label text
+      const lbl = target.querySelector('.g1-drop-label');
+      if (lbl) lbl.style.opacity = '0';
+      dragEl.style.opacity = '0.25';
+      dragEl.style.pointerEvents = 'none';
+      speakText('¡Correcto!');
+      document.getElementById('g1-feedback').textContent = '✅ ¡Correcto!';
+      document.getElementById('g1-feedback').style.color = '#27ae60';
+      g1Matched++;
+      if (g1Matched === 3) setTimeout(showSuccess, 600);
+    } else {
+      dragEl.style.opacity = '1';
+      speakText('Inténtalo de nuevo');
+      document.getElementById('g1-feedback').textContent = '❌ Inténtalo de nuevo';
+      document.getElementById('g1-feedback').style.color = '#e74c3c';
+      target.style.animation = 'shake 0.4s';
+      setTimeout(() => target.style.animation = '', 500);
+    }
+  }
+
+  // =================== GAME 2: FRUITS ===================
+  let g2Matched = 0;
+
+  function startGame2() {
+    g2Matched = 0;
+    currentGame = 'game2';
+    ['shadow-zanahoria','shadow-pera','shadow-manzana'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('matched');
+    });
+    ['drag-manzana','drag-zanahoria','drag-pera'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el._dragInited = false; }
+    });
+    document.getElementById('g2-feedback').textContent = '';
+    showScreen('game2-screen');
+    requestAnimationFrame(() => {
+      ['drag-manzana','drag-zanahoria','drag-pera'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) initDraggable(el);
+      });
+    });
+  }
+
+  function handleG2Drop(dragEl, target) {
+    const type   = dragEl.getAttribute('data-type');
+    const accept = target.getAttribute('data-accept');
+    if (type === accept) {
+      target.classList.add('matched');
+      target.innerHTML = dragEl.innerHTML;
+      dragEl.style.opacity = '0.3';
+      dragEl.style.pointerEvents = 'none';
+      speakText('¡Muy bien!');
+      document.getElementById('g2-feedback').textContent = '✅ ¡Muy bien!';
+      g2Matched++;
+      if (g2Matched === 3) setTimeout(showSuccess, 600);
+    } else {
+      dragEl.style.opacity = '1';
+      speakText('Ese no es, inténtalo de nuevo');
+      document.getElementById('g2-feedback').textContent = '❌ Inténtalo de nuevo';
+      target.style.animation = 'shake 0.4s';
+      setTimeout(() => target.style.animation = '', 500);
+    }
+  }
+
+  // =================== GAME 3: ANIMALS ===================
+  const g3Animals = [
+    { emoji: '🐱', name: 'Gato', type: 'gato' },
+    { emoji: '🐶', name: 'Perro', type: 'perro' },
+  ];
+
+  // =================== ANIMAL SOUNDS (Web Audio API) ===================
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+
+  function playDogBark() {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+
+    function bark(startTime) {
+      // Noise source for rough texture
+      const bufferSize = ctx.sampleRate * 0.18;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1);
+
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      // Band-pass to shape like a bark
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.setValueAtTime(520, startTime);
+      bp.frequency.exponentialRampToValueAtTime(280, startTime + 0.12);
+      bp.Q.value = 1.2;
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(1.2, startTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.18);
+
+      noise.connect(bp);
+      bp.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start(startTime);
+      noise.stop(startTime + 0.2);
+
+      // Tonal component (osc for pitch)
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(340, startTime);
+      osc.frequency.exponentialRampToValueAtTime(200, startTime + 0.14);
+      const oscGain = ctx.createGain();
+      oscGain.gain.setValueAtTime(0, startTime);
+      oscGain.gain.linearRampToValueAtTime(0.5, startTime + 0.02);
+      oscGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.16);
+      osc.connect(oscGain);
+      oscGain.connect(ctx.destination);
+      osc.start(startTime);
+      osc.stop(startTime + 0.18);
+    }
+
+    bark(now);
+    bark(now + 0.28);  // two barks: "guau guau"
+  }
+
+  function playCatMeow() {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+
+    const osc = ctx.createOscillator();
+    osc.type = 'sine';
+
+    // Meow pitch contour: rises then falls
+    osc.frequency.setValueAtTime(380, now);
+    osc.frequency.linearRampToValueAtTime(900, now + 0.15);
+    osc.frequency.linearRampToValueAtTime(600, now + 0.35);
+    osc.frequency.exponentialRampToValueAtTime(320, now + 0.55);
+
+    // Add vibrato
+    const vibLfo = ctx.createOscillator();
+    vibLfo.frequency.value = 6;
+    const vibGain = ctx.createGain();
+    vibGain.gain.value = 18;
+    vibLfo.connect(vibGain);
+    vibGain.connect(osc.frequency);
+
+    // Formant filter (nasal meow character)
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(900, now);
+    filter.frequency.linearRampToValueAtTime(1200, now + 0.2);
+    filter.frequency.linearRampToValueAtTime(700, now + 0.55);
+    filter.Q.value = 3;
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.8, now + 0.08);
+    gain.gain.setValueAtTime(0.8, now + 0.4);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+
+    vibLfo.start(now);
+    osc.start(now);
+    osc.stop(now + 0.65);
+    vibLfo.stop(now + 0.65);
+  }
+
+  function playAnimalSound(type) {
+    if (type === 'gato') speakText('MIAAUUUU');
+    else if (type === 'perro') speakText('WUAFFF WUAFFF');
+  }
+
+  const g3Questions = [
+    { ask: 'GATO', answer: 'gato' },
+    { ask: 'PERRO', answer: 'perro' },
+    { ask: 'GATO', answer: 'gato' },
+    { ask: 'PERRO', answer: 'perro' },
+    { ask: 'GATO', answer: 'gato' },
+    { ask: 'PERRO', answer: 'perro' },
+  ];
+
+  let g3Current = 0;
+  let g3Score = 0;
+  let g3Answered = false;
+
+  function startGame3() {
+    g3Current = 0; g3Score = 0; g3Answered = false;
+    currentGame = 'game3';
+    document.getElementById('g3-next').style.display = 'none';
+    document.getElementById('g3-feedback').textContent = '';
+    g3Render();
+    showScreen('game3-screen');
+  }
+
+  function g3Render() {
+    const q = g3Questions[g3Current];
+    document.getElementById('g3-question').textContent = '¿Cuál es el ' + q.ask + '?';
+    document.getElementById('g3-score').textContent = 'Puntos: ' + g3Score + ' / 6';
+    document.getElementById('g3-progress').style.width = (g3Current / g3Questions.length * 100) + '%';
+    document.getElementById('g3-feedback').textContent = '';
+    document.getElementById('g3-next').style.display = 'none';
+    g3Answered = false;
+
+    // Shuffle display order
+    const shuffled = [...g3Animals].sort(() => Math.random() - 0.5);
+    const container = document.getElementById('g3-animals');
+    container.innerHTML = '';
+
+    shuffled.forEach(animal => {
+      const div = document.createElement('div');
+      div.className = 'g3-animal';
+      div.innerHTML = `
+        <div class="g3-animal-box" id="abox-${animal.type}">${animal.emoji}</div>
+        <span class="g3-animal-name">${animal.name}</span>
+      `;
+      div.onclick = () => {
+        playAnimalSound(animal.type);
+        setTimeout(() => g3Answer(animal.type, q.answer), 700);
+      };
+      container.appendChild(div);
+    });
+
+    speakText('¿Cuál es el ' + q.ask + '?');
+  }
+
+  function g3Answer(chosen, correct) {
+    if (g3Answered) return;
+    g3Answered = true;
+
+    const chosenBox = document.getElementById('abox-' + chosen);
+    const correctBox = document.getElementById('abox-' + correct);
+
+    if (chosen === correct) {
+      g3Score++;
+      chosenBox.classList.add('correct');
+      document.getElementById('g3-feedback').textContent = '🎉 ¡Correcto! ¡Excelente!';
+      speakText('¡Correcto! ¡Excelente!');
+    } else {
+      chosenBox.classList.add('wrong');
+      if (correctBox) correctBox.classList.add('correct');
+      document.getElementById('g3-feedback').textContent = '❌ ¡Casi! Era el ' + correct;
+      speakText('Ese no es. Era el ' + correct);
+    }
+
+    document.getElementById('g3-score').textContent = 'Puntos: ' + g3Score + ' / 6';
+
+    if (g3Current < g3Questions.length - 1) {
+      document.getElementById('g3-next').style.display = 'inline-block';
+    } else {
+      setTimeout(() => showSuccess(), 1000);
+    }
+  }
+
+  function g3Next() {
+    g3Current++;
+    g3Render();
+  }
+
+  function g3PlaySound() {
+    if (g3Current < g3Questions.length) {
+      speakText('¿Cuál es el ' + g3Questions[g3Current].ask + '?');
+    }
+  }
+
+  // =================== INIT ===================
+  showScreen('screen-home');
+
+  // =================== PWA: SERVICE WORKER ===================
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('SW registrado:', reg.scope))
+        .catch(err => console.log('SW error:', err));
+    });
+  }
+
+  // =================== PWA: INSTALL BANNER ===================
+  let deferredPrompt = null;
+  const installBanner = document.getElementById('install-banner');
+  const installBtn = document.getElementById('install-btn');
+  const installClose = document.getElementById('install-close');
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBanner) installBanner.style.display = 'flex';
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if (installBanner) installBanner.style.display = 'none';
+    });
+  }
+
+  if (installClose) {
+    installClose.addEventListener('click', () => {
+      if (installBanner) installBanner.style.display = 'none';
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (installBanner) installBanner.style.display = 'none';
+    deferredPrompt = null;
+  });
+</script>
+<!-- =================== PWA INSTALL BANNER =================== -->
+<div id="install-banner" style="display:none; position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+  background:#fff; border-radius:20px; padding:16px 24px; box-shadow:0 8px 32px rgba(0,0,0,0.18);
+  align-items:center; gap:16px; z-index:2000; min-width:320px; max-width:480px; font-family:'Nunito',sans-serif;
+  border: 2px solid #e8f0fe; animation: slideUp 0.4s ease;">
+  <img src="icon-192.png" style="width:48px;height:48px;border-radius:12px;" alt="AuntInt icon"/>
+  <div style="flex:1;">
+    <div style="font-weight:800;font-size:1rem;color:#333;">Instalar AuntInt Juegos</div>
+    <div style="font-size:0.82rem;color:#888;margin-top:2px;">Juega sin internet, desde tu pantalla</div>
+  </div>
+  <button id="install-btn" style="background:#4a90d9;color:#fff;border:none;border-radius:10px;
+    padding:10px 18px;font-weight:800;font-size:0.9rem;font-family:'Nunito',sans-serif;cursor:pointer;
+    white-space:nowrap;">Instalar</button>
+  <button id="install-close" style="background:none;border:none;cursor:pointer;font-size:1.3rem;
+    color:#bbb;padding:4px;line-height:1;">✕</button>
+</div>
+
+<style>
+@keyframes slideUp {
+  from { opacity:0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity:1; transform: translateX(-50%) translateY(0); }
+}
+</style>
+
+
+</html>

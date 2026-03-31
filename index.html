@@ -982,9 +982,19 @@
     vibLfo.stop(now + 0.65);
   }
 
+    const animalSounds = {};
+
+  function preloadSounds() {
+    animalSounds['perro'] = new Audio('./dog.wav');
+    animalSounds['gato']  = new Audio('./miau.wav');
+  }
+
   function playAnimalSound(type) {
-    if (type === 'gato') speakText('MIAAUUUU');
-    else if (type === 'perro') speakText('WUAFFF WUAFFF');
+    const snd = animalSounds[type];
+    if (snd) {
+      snd.currentTime = 0;
+      snd.play().catch(() => speakText(type === 'gato' ? 'miau' : 'guau'));
+    }
   }
 
   const g3Questions = [

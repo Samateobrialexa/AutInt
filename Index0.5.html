@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AutInt Juegos</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#4a90d9"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="AutInt Juegos"/>
+  <link rel="apple-touch-icon" href="icon-192.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
+  <meta name="description" content="Juegos educativos para niños: aprende colores, alimentos y animales"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', sans-serif; background: #a8c8f0; min-height: 100vh; overflow-x: hidden; }
+
+    /* ===================== SCREENS ===================== */
+    .screen { display: none; min-height: 100vh; }
+    .screen.active { display: flex; flex-direction: column; }
+
+    /* ===================== NAV ===================== */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 50px; background: #fff; border-bottom: 1px solid #e5e7eb;
+    }
+    .nav-logo { font-size: 1.5rem; font-weight: 900; color: #4a90d9; cursor: pointer; }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: #555; font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active { color: #4a90d9; }
+    .nav-links a.active { text-decoration: underline; text-underline-offset: 4px; color: #111; }
+
+    /* ===================== HOME ===================== */
+    #screen-home {
+      background: #a8c8f0;
+    }
+    #screen-home nav { background: #fff; }
+
+    .home-hero {
+      flex: 1; display: flex; align-items: center; justify-content: space-between;
+      padding: 60px 80px; gap: 40px;
+    }
+    .home-text { flex: 1; max-width: 520px; }
+    .home-tagline {
+      display: inline-block; background: rgba(255,255,255,0.5);
+      color: #4a90d9; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 6px 18px; border-radius: 20px; margin-bottom: 20px;
+    }
+    .home-title {
+      font-size: 3.2rem; font-weight: 900; color: #fff; line-height: 1.15;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.12); margin-bottom: 18px;
+    }
+    .home-title span { color: #d4913a; }
+    .home-desc {
+      font-size: 1.1rem; color: rgba(255,255,255,0.9); line-height: 1.7;
+      margin-bottom: 36px; font-weight: 600;
+    }
+    .home-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      padding: 16px 36px; background: #d4913a; color: #fff; border: none;
+      border-radius: 14px; font-size: 1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 6px 20px rgba(212,145,58,0.4);
+    }
+    .btn-primary:hover { background: #c07e2a; transform: translateY(-2px); }
+    .btn-secondary {
+      padding: 16px 36px; background: rgba(255,255,255,0.9); color: #4a90d9; border: none;
+      border-radius: 14px; font-size: 1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+    .btn-secondary:hover { background: #fff; transform: translateY(-2px); }
+
+    .home-illus { flex: 0 0 440px; display: flex; justify-content: center; align-items: center; }
+    .blob-wrap { position: relative; width: 420px; height: 380px; }
+    .blob { position: absolute; inset: 0; background: rgba(255,255,255,0.35); border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; backdrop-filter: blur(2px); }
+    .illus-svg { position: relative; z-index: 1; width: 100%; height: 100%; }
+
+    .home-features {
+      background: rgba(255,255,255,0.25); backdrop-filter: blur(4px);
+      padding: 28px 80px; display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
+      border-top: 1px solid rgba(255,255,255,0.3);
+    }
+    .home-about {
+      background: rgba(255,255,255,0.15);
+      padding: 36px 80px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .home-about p {
+      font-size: 0.97rem; line-height: 1.75; color: rgba(255,255,255,0.92);
+      font-weight: 600; max-width: 860px;
+    }
+    .feat-item {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.95rem; font-weight: 700; color: #fff;
+    }
+    .feat-icon {
+      width: 44px; height: 44px; background: rgba(255,255,255,0.3);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .figures { display: flex; gap: 6px; margin-top: 24px; }
+    .fig-svg { width: 46px; height: 54px; }
+
+    /* ===================== GAMES MENU ===================== */
+    #screen-games {
+      background: #a8c8f0; align-items: stretch;
+    }
+    .games-header {
+      background: #fff; padding: 16px 50px; display: flex;
+      align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e7eb;
+    }
+    .games-body {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 50px 40px; gap: 30px;
+    }
+    .games-title {
+      font-size: 2rem; font-weight: 900; color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 10px;
+    }
+    .games-grid {
+      display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;
+    }
+    .game-card {
+      background: #fff; border-radius: 24px; width: 220px; padding: 28px 20px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .game-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
+    .game-card-icon { font-size: 3.5rem; }
+    .game-card-title { font-size: 1rem; font-weight: 800; color: #333; text-align: center; line-height: 1.3; }
+    .game-card-desc { font-size: 0.8rem; color: #777; text-align: center; }
+    .game-card-badge {
+      padding: 4px 14px; border-radius: 20px; font-size: 0.75rem;
+      font-weight: 700; color: #fff;
+    }
+    .badge-colors { background: #e67e22; }
+    .badge-fruits { background: #27ae60; }
+    .badge-animals { background: #8e44ad; }
+    .badge-monkey  { background: #16a085; }
+    .badge-ocean   { background: #0277bd; }
+
+  #game5-screen {
+    background: linear-gradient(180deg,#0d47a1 0%,#1565c0 40%,#1976d2 100%);
+    display: none !important;
+    flex-direction: column; height: 100vh; position: relative; overflow: hidden;
+  }
+  #game5-screen.active {
+    display: flex !important;
+  }
+    /* overlay screens (start / end) */
+    .g5-overlay-screen {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: rgba(13,71,161,0.88); z-index: 50;
+    }
+    .g5-overlay-screen.hidden { display: none; }
+    .sc-card {
+      background: #fff; border-radius: 28px; padding: 36px 40px; text-align: center;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.25); max-width: 360px; width: 90%;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .sc-title { font-size: 1.6rem; font-weight: 900; color: #1565c0; }
+    .sc-sub { font-size: 0.95rem; color: #555; font-weight: 600; line-height: 1.6; }
+    .sc-stars { font-size: 1.8rem; letter-spacing: 4px; }
+    .sc-score { font-size: 1rem; font-weight: 700; color: #444; }
+    .btn-play {
+      margin-top: 8px; padding: 14px 36px; background: #e67e22; color: #fff;
+      border: none; border-radius: 14px; font-size: 1.1rem; font-weight: 800;
+      font-family: 'Nunito',sans-serif; cursor: pointer; transition: background 0.2s;
+    }
+    .btn-play:hover { background: #cf6d17; }
+    /* flash overlay */
+    .g5-flash {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; pointer-events: none;
+      opacity: 0; transition: opacity 0.15s; z-index: 40;
+    }
+    .g5-flash.show { opacity: 1; }
+    .fl-emoji { font-size: 3.5rem; }
+    .fl-msg { font-size: 1.6rem; font-weight: 900; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+    /* top bar */
+    .top-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; position: relative; z-index: 10;
+    }
+    .back-btn, .sound-btn {
+      background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4);
+      border-radius: 12px; color: #fff; font-size: 1.2rem; font-weight: 800;
+      padding: 8px 16px; cursor: pointer; font-family: 'Nunito',sans-serif;
+      transition: background 0.2s;
+    }
+    .back-btn:hover, .sound-btn:hover { background: rgba(255,255,255,0.35); }
+    .title-txt { font-size: 1.1rem; font-weight: 900; color: #fff; letter-spacing: 0.08em; }
+    /* prompt card */
+    .prompt-card {
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
+      border: 2px solid rgba(255,255,255,0.3); border-radius: 20px;
+      padding: 10px 24px; text-align: center; margin: 0 20px 8px;
+      position: relative; z-index: 10;
+      transition: transform 0.25s;
+    }
+    .prompt-card.pop { animation: popAnim 0.3s ease; }
+    @keyframes popAnim { 0%{transform:scale(0.92)} 60%{transform:scale(1.04)} 100%{transform:scale(1)} }
+    .p-label { font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.75); margin-bottom: 2px; }
+    .p-name  { font-size: 1.8rem; font-weight: 900; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    .p-sub   { font-size: 0.78rem; color: rgba(255,255,255,0.7); font-weight: 600; }
+    /* hud */
+    .hud {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 4px 20px; position: relative; z-index: 10;
+    }
+    .hud-pill {
+      background: rgba(255,255,255,0.18); border-radius: 20px;
+      padding: 5px 14px; font-size: 0.9rem; font-weight: 800; color: #fff;
+    }
+    /* dots */
+    .dots-row {
+      display: flex; justify-content: center; gap: 8px;
+      padding: 4px 20px; position: relative; z-index: 10;
+    }
+    .dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: rgba(255,255,255,0.25); transition: background 0.3s;
+    }
+    .dot.active { background: #ffe082; transform: scale(1.3); }
+    .dot.done   { background: #69f0ae; }
+    .dot.fail   { background: #ff5252; }
+    /* bowl */
+    .bowl-wrap {
+      flex: 1; position: relative; max-width: 720px; width: 100%;
+      margin: 0 auto; min-height: 0; display: flex; flex-direction: column;
+    }
+    .bowl-inner {
+      position: relative; width: 100%; flex: 1;
+    }
+    .bowl-svg-bg {
+      width: 100%; height: 100%; display: block;
+      position: absolute; top: 0; left: 0;
+    }
+    #g5-animalsContainer {
+      position: absolute; inset: 0;
+    }
+    /* animal spots inside bowl — positions are % of bowl-wrap size */
+    .animal-spot {
+      position: absolute; background: transparent; border: none;
+      cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; gap: 2px; transform-origin: center center;
+      transition: transform 0.18s; z-index: 5;
+      padding: 0;
+    }
+    .animal-spot svg { width: 100%; height: auto; display: block; }
+    .animal-spot:hover { transform: scale(1.12); }
+    .animal-spot.correct svg { filter: drop-shadow(0 0 10px #69f0ae); animation: pulse 0.5s; }
+    .animal-spot.wrong   svg { filter: drop-shadow(0 0 10px #ff5252); animation: shake 0.4s; }
+    .animal-label {
+      font-size: 0.72rem; font-weight: 800; color: #fff;
+      background: rgba(13,71,161,0.7); border-radius: 8px;
+      padding: 1px 6px; white-space: nowrap; pointer-events: none;
+      margin-top: 2px;
+    }
+
+    /* ===================== GAME 4: MONKEY COLORS ===================== */
+    #game4-screen {
+      background: #a8c8f0;
+    }
+    .g4-wrap {
+      flex: 1; display: flex; align-items: stretch; position: relative; overflow: hidden;
+    }
+    /* jungle decorations */
+    .g4-branch {
+      position: absolute; top: 0; left: 0; width: 300px; pointer-events: none; z-index: 0;
+    }
+    .g4-bush-r {
+      position: absolute; bottom: 0; right: 0; width: 260px; pointer-events: none; z-index: 0;
+    }
+    .g4-bush-l {
+      position: absolute; bottom: 0; left: 0; width: 180px; pointer-events: none; z-index: 0;
+    }
+    /* left: monkey + bubble */
+    .g4-left {
+      flex: 0 0 300px; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      padding-bottom: 20px; position: relative; z-index: 1;
+    }
+    .g4-bubble {
+      position: relative; background: #fff;
+      border: 3px solid #ddd; border-radius: 50%;
+      width: 110px; height: 80px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      margin-bottom: -10px; margin-left: 60px;
+    }
+    .g4-bubble::after {
+      content: ''; position: absolute; bottom: -18px; left: 20px;
+      border: 10px solid transparent;
+      border-top-color: #fff; filter: drop-shadow(0 2px 1px rgba(0,0,0,0.1));
+    }
+    .g4-bubble::before {
+      content: ''; position: absolute; bottom: -22px; left: 18px;
+      border: 12px solid transparent; border-top-color: #ddd;
+    }
+    .g4-color-dot {
+      width: 54px; height: 54px; border-radius: 50%;
+      box-shadow: inset 0 -4px 8px rgba(0,0,0,0.15);
+      transition: transform 0.4s;
+    }
+    .g4-monkey { font-size: 7rem; line-height: 1; margin-top: 8px; }
+
+    /* right: 6 objects grid */
+    .g4-right {
+      flex: 1; display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 20px; padding: 30px 40px 30px 10px;
+      align-items: center; justify-items: center;
+      position: relative; z-index: 1;
+    }
+    .g4-obj {
+      width: 120px; height: 110px;
+      background: rgba(255,255,255,0.9); border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.8rem; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      transition: transform 0.18s, box-shadow 0.18s;
+      border: 3px solid transparent;
+    }
+    .g4-obj:hover { transform: scale(1.1); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+    .g4-obj.correct { border-color: #2ecc71; background: #d4edda; animation: pulse 0.5s; }
+    .g4-obj.wrong   { border-color: #e74c3c; background: #f8d7da; animation: shake 0.4s; }
+
+    .g4-topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; }
+    .g4-level-badge {
+      background: rgba(255,255,255,0.3); color: #fff;
+      font-weight: 800; font-size: 0.9rem; padding: 6px 18px;
+      border-radius: 20px; letter-spacing: 0.05em;
+    }
+    .g4-feedback {
+      position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+      font-size: 1.4rem; font-weight: 900; color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 2;
+      min-height: 40px; text-align: center; white-space: nowrap;
+    }
+
+    /* ===================== GAME SCREEN COMMON ===================== */
+    .game-screen-wrap {
+      background: #a8c8f0; min-height: 100vh; display: flex; flex-direction: column;
+    }
+    .game-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 28px;
+    }
+    .btn-back {
+      background: #4a90d9; border: none; border-radius: 10px; padding: 10px 18px;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      color: #fff; font-family: 'Nunito',sans-serif; font-weight: 800; font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .btn-back:hover { background: #357abd; }
+    .btn-sound {
+      width: 56px; height: 56px; border-radius: 50%; background: #4a90d9; border: none;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.2s;
+    }
+    .btn-sound:hover { background: #357abd; }
+    .game-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 40px 40px; }
+
+    /* ===================== GAME 1: COLORS ===================== */
+    .g1-instruction {
+      font-size: 1.1rem; font-weight: 700; color: #333;
+      margin-bottom: 24px; text-align: center;
+    }
+    .g1-drag-card {
+      width: 130px; height: 140px;
+      background: #f5f5f5; border-radius: 18px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      cursor: grab; touch-action: none; user-select: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      transition: transform 0.15s, box-shadow 0.15s;
+      -webkit-user-select: none;
+    }
+    .g1-drag-card:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    .g1-drag-label { font-size: 0.95rem; font-weight: 800; color: #444; }
+    .g1-drop-zone {
+      width: 150px; height: 150px; border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      border: 4px dashed rgba(255,255,255,0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .g1-drop-label { font-size: 1rem; font-weight: 800; pointer-events: none; }
+    .g1-drop-zone.matched {
+      border: 4px solid rgba(255,255,255,0.9);
+      box-shadow: 0 0 24px rgba(46,204,113,0.5);
+    }
+    .g1-drop-zone .g1-drag-card {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0.75);
+      pointer-events: none; box-shadow: none; background: transparent;
+    }
+    .dz-hover { outline: 5px solid #fff; outline-offset: 3px; transform: scale(1.08) !important; transition: transform 0.15s; }
+
+    /* ===================== GAME 2: FRUITS/VEGS ===================== */
+    #game2-screen .game-content { padding: 10px 60px 40px; }
+    .g2-row { display: flex; gap: 80px; justify-content: center; align-items: center; margin-bottom: 40px; flex-wrap: wrap; }
+    .g2-shadow-item {
+      width: 130px; height: 160px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.35; filter: grayscale(1); border-radius: 16px;
+      border: 3px dashed #aaa; transition: all 0.3s; position: relative;
+    }
+    .g2-shadow-item.matched {
+      opacity: 1; filter: none; border: 3px solid #2ecc71;
+      box-shadow: 0 0 20px rgba(46,204,113,0.4);
+    }
+    .g2-shadow-item svg { width: 100px; height: 130px; }
+    .g2-draggable-row { display: flex; gap: 60px; justify-content: center; flex-wrap: wrap; }
+    .g2-draggable {
+      width: 130px; height: 160px; cursor: grab;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.15s;
+    }
+    .g2-draggable:hover { transform: scale(1.08); }
+    .g2-draggable svg { width: 100px; height: 130px; pointer-events: none; }
+    .g2-draggable.dragging { opacity: 0.4; transform: scale(1.1); }
+
+    /* ===================== GAME 3: ANIMALS ===================== */
+    #game3-screen .game-content {
+      display: flex; flex-direction: column; align-items: center; gap: 30px;
+    }
+    .g3-question {
+      font-size: 1.5rem; font-weight: 800; color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2); text-align: center;
+    }
+    .g3-animals { display: flex; gap: 80px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .g3-animal {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      cursor: pointer; transition: transform 0.2s;
+    }
+    .g3-animal:hover { transform: scale(1.05); }
+    .g3-animal-box {
+      width: 220px; height: 220px; background: rgba(255,255,255,0.9); border-radius: 24px;
+      display: flex; align-items: center; justify-content: center; font-size: 7rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); transition: all 0.3s; overflow: hidden;
+    }
+    .g3-animal-box:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
+    .g3-animal-box.correct { background: #d4edda; box-shadow: 0 0 0 4px #2ecc71; animation: pulse 0.5s; }
+    .g3-animal-box.wrong { background: #f8d7da; box-shadow: 0 0 0 4px #e74c3c; animation: shake 0.4s; }
+    .g3-animal-name { font-size: 1.1rem; font-weight: 800; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+    .g3-score { font-size: 1.2rem; font-weight: 700; color: #fff; background: rgba(255,255,255,0.25); padding: 8px 24px; border-radius: 20px; }
+    .g3-feedback {
+      font-size: 1.8rem; font-weight: 900; min-height: 50px; text-align: center;
+      color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .g3-next-btn {
+      padding: 12px 36px; background: #d4913a; color: #fff; border: none;
+      border-radius: 12px; font-size: 1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
+      cursor: pointer; transition: background 0.2s; display: none;
+    }
+    .g3-next-btn:hover { background: #c07e2a; }
+
+    @keyframes pulse {
+      0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); }
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+
+    /* ===================== SUCCESS OVERLAY ===================== */
+    .success-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      display: none; align-items: center; justify-content: center; z-index: 1000;
+    }
+    .success-overlay.show { display: flex; }
+    .success-box {
+      background: #fff; border-radius: 28px; padding: 50px 60px;
+      text-align: center; animation: fadeIn 0.4s ease;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .success-box h2 { font-size: 2.5rem; font-weight: 900; color: #2ecc71; margin-bottom: 12px; }
+    .success-box p { font-size: 1.2rem; color: #555; margin-bottom: 28px; }
+    .success-box .btn-play-again {
+      padding: 14px 40px; background: #4a90d9; color: #fff; border: none;
+      border-radius: 12px; font-size: 1.1rem; font-weight: 800; font-family: 'Nunito',sans-serif;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .success-box .btn-play-again:hover { background: #357abd; }
+
+    .progress-bar-wrap { width: 100%; max-width: 400px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 10px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: #fff; border-radius: 10px; transition: width 0.5s ease; }
+  </style>
+</head>
+<body>
+
+<!-- ===================== SUCCESS OVERLAY ===================== -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <div style="font-size:4rem;">🎉</div>
+    <h2>¡Muy bien!</h2>
+    <p>Completaste el juego correctamente.</p>
+    <button class="btn-play-again" onclick="closeSuccess()">Jugar de nuevo</button>
+  </div>
+</div>
+
+<!-- =================== SCREEN: HOME =================== -->
+<div class="screen active" id="screen-home">
+  <nav>
+    <div class="nav-logo" onclick="showScreen('screen-home')">AutInt</div>
+    <ul class="nav-links">
+      <li><a class="active" onclick="showScreen('screen-home')">HOME</a></li>
+      <li><a onclick="showScreen('screen-games')">GAMES</a></li>
+    </ul>
+  </nav>
+
+  <div class="home-hero">
+    <div class="home-text">
+      <span class="home-tagline">🌟 Aprende jugando</span>
+      <h1 class="home-title">¡Bienvenido a<br/><span>AutInt</span> Juegos!</h1>
+      <p class="home-desc">Una plataforma de juegos educativos diseñada para niños. Aprende colores, alimentos y animales de forma divertida e interactiva.</p>
+      <div class="home-btns">
+        <button class="btn-primary" onclick="showScreen('screen-games')">🎮 Jugar ahora</button>
+      </div>
+      <div class="figures">
+        <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#3BBFA3"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#3BBFA3"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#3BBFA3"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#3BBFA3"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#3BBFA3"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#3BBFA3"/></svg>
+        <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#4A90D9"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#4A90D9"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#4A90D9"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#4A90D9"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#4A90D9"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#4A90D9"/></svg>
+        <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#F5C842"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#F5C842"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#F5C842"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#F5C842"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#F5C842"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#F5C842"/></svg>
+        <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#E8874A"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#E8874A"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#E8874A"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#E8874A"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#E8874A"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#E8874A"/></svg>
+        <svg class="fig-svg" viewBox="0 0 50 60"><circle cx="25" cy="10" r="8" fill="#E84A4A"/><rect x="18" y="20" width="14" height="20" rx="5" fill="#E84A4A"/><rect x="8" y="22" width="10" height="4" rx="2" fill="#E84A4A"/><rect x="32" y="22" width="10" height="4" rx="2" fill="#E84A4A"/><rect x="18" y="38" width="5" height="14" rx="2.5" fill="#E84A4A"/><rect x="27" y="38" width="5" height="14" rx="2.5" fill="#E84A4A"/></svg>
+      </div>
+    </div>
+
+    <div class="home-illus">
+      <div class="blob-wrap">
+        <div class="blob"></div>
+        <svg class="illus-svg" viewBox="0 0 440 400">
+          <path d="M80 80 Q150 100 220 80 Q290 60 360 80" stroke="rgba(255,255,255,0.6)" stroke-width="2" fill="none"/>
+          <polygon points="95,80 110,80 102,96" fill="#f8d7b0"/><polygon points="125,74 140,72 132,90" fill="#f4a0a0"/>
+          <polygon points="155,72 170,72 162,88" fill="#a0d0f4"/><polygon points="220,72 235,72 227,88" fill="#f8d7b0"/>
+          <polygon points="255,66 270,68 262,84" fill="#f4a0a0"/><polygon points="290,70 305,72 298,88" fill="#c8f0c0"/>
+          <polygon points="325,74 340,76 332,92" fill="#f8d7b0"/>
+          <ellipse cx="290" cy="280" rx="38" ry="55" fill="#c0392b" opacity="0.9"/>
+          <ellipse cx="290" cy="260" rx="34" ry="40" fill="#e67e22"/>
+          <circle cx="290" cy="195" r="32" fill="#8D5524"/>
+          <ellipse cx="290" cy="178" rx="30" ry="18" fill="#6c3483"/>
+          <circle cx="280" cy="198" r="3" fill="#fff"/><circle cx="300" cy="198" r="3" fill="#fff"/>
+          <path d="M282 210 Q290 218 298 210" stroke="#a0522d" stroke-width="2" fill="none"/>
+          <path d="M290 245 Q330 220 345 200" stroke="#e67e22" stroke-width="18" stroke-linecap="round" fill="none"/>
+          <ellipse cx="260" cy="330" rx="28" ry="14" fill="#922b21" transform="rotate(-20 260 330)"/>
+          <ellipse cx="320" cy="335" rx="28" ry="14" fill="#922b21" transform="rotate(10 320 335)"/>
+          <ellipse cx="245" cy="345" rx="22" ry="10" fill="#27ae60"/><ellipse cx="300" cy="348" rx="22" ry="10" fill="#27ae60"/>
+          <rect x="335" y="165" width="55" height="68" rx="4" fill="#27ae60"/>
+          <rect x="340" y="170" width="45" height="58" rx="3" fill="#2ecc71"/>
+          <circle cx="362" cy="195" r="14" fill="#f39c12"/>
+          <circle cx="358" cy="191" r="2" fill="#333"/><circle cx="366" cy="191" r="2" fill="#333"/>
+          <path d="M356 201 Q362 207 368 201" stroke="#333" stroke-width="1.5" fill="none"/>
+          <text x="395" y="185" font-size="18" fill="#e74c3c">♪</text><text x="408" y="205" font-size="14" fill="#e74c3c">♫</text>
+          <polygon points="185,285 215,285 225,355 175,355" fill="#f1c40f"/>
+          <rect x="183" y="255" width="36" height="34" rx="8" fill="#e67e22"/>
+          <circle cx="201" cy="232" r="26" fill="#8D5524"/>
+          <ellipse cx="201" cy="218" rx="24" ry="14" fill="#2c3e50"/>
+          <rect x="178" y="218" width="10" height="20" rx="5" fill="#2c3e50"/>
+          <path d="M178 222 Q201 212 224 222" stroke="#e74c3c" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <circle cx="193" cy="234" r="3" fill="#fff"/><circle cx="209" cy="234" r="3" fill="#fff"/>
+          <path d="M195 244 Q201 250 207 244" stroke="#a0522d" stroke-width="2" fill="none"/>
+          <path d="M215 265 Q250 235 310 210" stroke="#e67e22" stroke-width="12" stroke-linecap="round" fill="none"/>
+          <rect x="185" y="348" width="14" height="28" rx="7" fill="#c0392b"/>
+          <rect x="203" y="348" width="14" height="28" rx="7" fill="#c0392b"/>
+          <ellipse cx="192" cy="378" rx="14" ry="8" fill="#e74c3c"/>
+          <ellipse cx="210" cy="378" rx="14" ry="8" fill="#e74c3c"/>
+          <rect x="186" y="366" width="12" height="10" rx="3" fill="#ecf0f1"/>
+          <rect x="204" y="366" width="12" height="10" rx="3" fill="#ecf0f1"/>
+          <ellipse cx="270" cy="370" rx="100" ry="12" fill="rgba(255,255,255,0.2)" opacity="0.8"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-features">
+    <div class="feat-item"><div class="feat-icon">🎨</div><span>Aprender colores</span></div>
+    <div class="feat-item"><div class="feat-icon">🥕</div><span>Frutas y verduras</span></div>
+    <div class="feat-item"><div class="feat-icon">🐾</div><span>Identificar animales</span></div>
+    <div class="feat-item"><div class="feat-icon">🔊</div><span>Audio interactivo</span></div>
+    <div class="feat-item"><div class="feat-icon">⭐</div><span>Recompensas</span></div>
+  </div>
+
+  <div class="home-about">
+    <p>Esta aplicación está diseñada para apoyar y mejorar el desarrollo de niños con autismo no verbal.</p>
+    <p>Mediante el uso de pictogramas, imágenes y sonidos, ayuda a fortalecer sus habilidades comunicativas y su capacidad para comprender el mundo que les rodea. Al fomentar el aprendizaje visual y auditivo, la aplicación promueve el desarrollo del lenguaje, la independencia y la confianza.</p>
+    <p>Su objetivo principal es proporcionar a los niños una forma accesible y eficaz de expresarse y desarrollarse en su vida diaria.</p>
+  </div>
+</div>
+
+<!-- =================== SCREEN: GAMES MENU =================== -->
+<div class="screen" id="screen-games">
+  <div class="games-header">
+    <div class="nav-logo" onclick="showScreen('screen-home')">AutInt</div>
+    <ul class="nav-links">
+      <li><a onclick="showScreen('screen-home')">HOME</a></li>
+      <li><a class="active" onclick="showScreen('screen-games')">GAMES</a></li>
+    </ul>
+  </div>
+  <div class="games-body">
+    <div class="games-title">🎮 Elige un juego</div>
+    <div class="games-grid">
+      <div class="game-card" onclick="startGame1()">
+        <div class="game-card-icon">🎨</div>
+        <div class="game-card-title">Coloca los objetos con su color</div>
+        <div class="game-card-desc">Arrastra Sol, Árbol y Gorro a su color correcto</div>
+        <span class="game-card-badge badge-colors">COLORES</span>
+      </div>
+      <div class="game-card" onclick="startGame2()">
+        <div class="game-card-icon">🥕</div>
+        <div class="game-card-title">Empareja frutas y verduras</div>
+        <div class="game-card-desc">Arrastra cada alimento a su sombra</div>
+        <span class="game-card-badge badge-fruits">ALIMENTOS</span>
+      </div>
+      <div class="game-card" onclick="startGame3()">
+        <div class="game-card-icon">🐾</div>
+        <div class="game-card-title">¿Qué animal es?</div>
+        <div class="game-card-desc">Identifica gatos y perros correctamente</div>
+        <span class="game-card-badge badge-animals">ANIMALES</span>
+      </div>
+      <div class="game-card" onclick="startGame4()">
+        <div class="game-card-icon">🐵</div>
+        <div class="game-card-title">El color del mono</div>
+        <div class="game-card-desc">Toca el objeto del color que muestra el mono</div>
+        <span class="game-card-badge badge-monkey">COLORES</span>
+      </div>
+      <div class="game-card" onclick="startGame5()">
+        <div class="game-card-icon">🐙</div>
+        <div class="game-card-title">Animales del mar</div>
+        <div class="game-card-desc">Toca el animal del mar que se mencione</div>
+        <span class="game-card-badge badge-ocean">ANIMALES</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== GAME 1: COLORS =================== -->
+<div class="screen" id="game1">
+  <div class="game-topbar">
+    <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
+    <button class="btn-sound" onclick="speakText('Coloca los objetos con su respectivo color')">🔊</button>
+  </div>
+  <div class="game-content" style="background:#fff;border-radius:24px;margin:0 20px 20px;box-shadow:0 4px 24px rgba(0,0,0,0.1);padding:28px 20px;">
+    <div class="g1-instruction">Coloca los objetos con su respectivo color</div>
+
+    <!-- OBJECTS ROW -->
+    <div style="display:flex;justify-content:center;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
+
+      <div class="g1-drag-card" id="drag-sol" data-target="target-amarillo">
+        <svg width="90" height="90" viewBox="0 0 120 120">
+          <g opacity="0.7">
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(0 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(45 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(90 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(135 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(180 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(225 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(270 60 60)"/>
+            <ellipse cx="60" cy="14" rx="6" ry="10" fill="#aaa" transform="rotate(315 60 60)"/>
+          </g>
+          <circle cx="60" cy="60" r="28" fill="#9e9e9e"/>
+          <circle cx="52" cy="56" r="4" fill="#757575"/>
+          <circle cx="68" cy="56" r="4" fill="#757575"/>
+          <path d="M50 70 Q60 78 70 70" stroke="#616161" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span class="g1-drag-label">Sol</span>
+      </div>
+
+      <div class="g1-drag-card" id="drag-arbol" data-target="target-verde">
+        <svg width="90" height="90" viewBox="0 0 120 120">
+          <rect x="52" y="72" width="16" height="36" rx="4" fill="#666"/>
+          <circle cx="60" cy="45" r="34" fill="#2d2d2d"/>
+          <circle cx="45" cy="52" r="5" fill="#3a3a3a" opacity="0.5"/>
+          <circle cx="72" cy="40" r="4" fill="#3a3a3a" opacity="0.5"/>
+        </svg>
+        <span class="g1-drag-label">Ár-bol</span>
+      </div>
+
+      <div class="g1-drag-card" id="drag-gorro" data-target="target-rojo">
+        <svg width="90" height="90" viewBox="0 0 120 110">
+          <path d="M30 70 Q45 20 70 15 Q90 12 95 40 Q100 60 88 70 Z" fill="#1a1a2e"/>
+          <ellipse cx="52" cy="74" rx="38" ry="14" fill="#fff" stroke="#ccc" stroke-width="1"/>
+          <circle cx="88" cy="46" r="12" fill="#fff" stroke="#ddd" stroke-width="1"/>
+          <circle cx="88" cy="46" r="7" fill="#f0f0f0"/>
+        </svg>
+        <span class="g1-drag-label">Go-rro</span>
+      </div>
+    </div>
+
+    <!-- DROP ZONES ROW -->
+    <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;">
+
+      <div class="g1-drop-zone" id="target-rojo" data-drop-zone="g1" style="background:#e74c3c;">
+        <span class="g1-drop-label" style="color:#fff;">Ro-jo</span>
+      </div>
+
+      <div class="g1-drop-zone" id="target-amarillo" data-drop-zone="g1" style="background:#f1c40f;">
+        <span class="g1-drop-label" style="color:#c8960c;">A-ma-ri-llo</span>
+      </div>
+
+      <div class="g1-drop-zone" id="target-verde" data-drop-zone="g1" style="background:#27ae60;">
+        <span class="g1-drop-label" style="color:#fff;">Ver-de</span>
+      </div>
+    </div>
+
+    <div id="g1-feedback" style="margin-top:20px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;"></div>
+  </div>
+</div>
+
+<!-- =================== GAME 2: FRUITS =================== -->
+<div class="screen" id="game2-screen">
+  <div class="game-topbar">
+    <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
+    <button class="btn-sound" onclick="speakText('Arrastra cada alimento a su sombra')">🔊</button>
+  </div>
+  <div class="game-content">
+    <!-- Shadows top row -->
+    <div class="g2-row" id="g2-targets">
+      <!-- Carrot shadow -->
+      <div class="g2-shadow-item" id="shadow-zanahoria" data-drop-zone="g2" data-accept="zanahoria">
+        <svg viewBox="0 0 100 130" fill="none">
+          <ellipse cx="38" cy="68" rx="22" ry="50" fill="#888" opacity="0.5" transform="rotate(-25 38 68)"/>
+          <ellipse cx="45" cy="20" rx="18" ry="14" fill="#888" opacity="0.4" transform="rotate(-10 45 20)"/>
+        </svg>
+      </div>
+      <!-- Pear shadow -->
+      <div class="g2-shadow-item" id="shadow-pera" data-drop-zone="g2" data-accept="pera">
+        <svg viewBox="0 0 100 130" fill="none">
+          <ellipse cx="50" cy="80" rx="32" ry="40" fill="#888" opacity="0.5"/>
+          <ellipse cx="50" cy="40" rx="20" ry="28" fill="#888" opacity="0.4"/>
+          <rect x="47" y="10" width="6" height="18" rx="3" fill="#888" opacity="0.5"/>
+          <ellipse cx="40" cy="12" rx="10" ry="5" fill="#888" opacity="0.4" transform="rotate(-30 40 12)"/>
+        </svg>
+      </div>
+      <!-- Apple shadow -->
+      <div class="g2-shadow-item" id="shadow-manzana" data-drop-zone="g2" data-accept="manzana">
+        <svg viewBox="0 0 100 130" fill="none">
+          <ellipse cx="50" cy="72" rx="36" ry="42" fill="#888" opacity="0.5"/>
+          <rect x="47" y="22" width="6" height="16" rx="3" fill="#888" opacity="0.5"/>
+          <path d="M50 28 Q62 18 70 26" stroke="#888" stroke-width="3" fill="none" opacity="0.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Draggable items bottom row -->
+    <div class="g2-draggable-row" id="g2-items">
+      <!-- Apple -->
+      <div class="g2-draggable" id="drag-manzana" data-type="manzana" style="touch-action:none;user-select:none;cursor:grab;">
+        <svg viewBox="0 0 100 130">
+          <rect x="46" y="8" width="6" height="20" rx="3" fill="#795548"/>
+          <path d="M50 22 Q65 8 76 18" stroke="#4caf50" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="50" cy="78" rx="36" ry="44" fill="#e53935"/>
+          <ellipse cx="38" cy="65" rx="10" ry="18" fill="#ef5350" opacity="0.5"/>
+          <path d="M50 40 Q14 42 14 78 Q14 110 50 118 Q86 110 86 78 Q86 42 50 40Z" fill="#e53935"/>
+        </svg>
+      </div>
+      <!-- Carrot -->
+      <div class="g2-draggable" id="drag-zanahoria" data-type="zanahoria" style="touch-action:none;user-select:none;cursor:grab;">
+        <svg viewBox="0 0 100 130">
+          <ellipse cx="38" cy="72" rx="22" ry="50" fill="#ff7043" transform="rotate(-25 38 72)"/>
+          <line x1="34" y1="50" x2="30" y2="62" stroke="#ff8a65" stroke-width="2"/>
+          <line x1="38" y1="58" x2="35" y2="70" stroke="#ff8a65" stroke-width="2"/>
+          <line x1="42" y1="64" x2="39" y2="76" stroke="#ff8a65" stroke-width="2"/>
+          <ellipse cx="44" cy="18" rx="18" ry="14" fill="#4caf50" transform="rotate(-10 44 18)"/>
+          <ellipse cx="52" cy="15" rx="14" ry="11" fill="#388e3c" transform="rotate(10 52 15)"/>
+          <ellipse cx="36" cy="16" rx="12" ry="9" fill="#43a047" transform="rotate(-20 36 16)"/>
+        </svg>
+      </div>
+      <!-- Pear -->
+      <div class="g2-draggable" id="drag-pera" data-type="pera" style="touch-action:none;user-select:none;cursor:grab;">
+        <svg viewBox="0 0 100 130">
+          <rect x="47" y="8" width="6" height="20" rx="3" fill="#795548"/>
+          <ellipse cx="42" cy="12" rx="12" ry="6" fill="#4caf50" transform="rotate(-30 42 12)"/>
+          <ellipse cx="50" cy="84" rx="32" ry="38" fill="#81c784"/>
+          <ellipse cx="50" cy="46" rx="20" ry="26" fill="#a5d6a7"/>
+          <ellipse cx="40" cy="72" rx="8" ry="14" fill="#a5d6a7" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+
+    <div id="g2-feedback" style="margin-top:16px;font-size:1.2rem;font-weight:800;text-align:center;min-height:36px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.2);"></div>
+  </div>
+</div>
+
+<!-- =================== GAME 3: ANIMALS =================== -->
+<div class="screen" id="game3-screen">
+  <div class="game-topbar">
+    <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
+    <button class="btn-sound" id="g3-sound-btn" onclick="g3PlaySound()">🔊</button>
+  </div>
+  <div class="game-content">
+    <div class="g3-score" id="g3-score">Puntos: 0 / 6</div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="g3-progress" style="width:0%"></div></div>
+    <div class="g3-question" id="g3-question">¿Cuál es el GATO?</div>
+    <div class="g3-animals" id="g3-animals">
+      <!-- populated by JS -->
+    </div>
+    <div class="g3-feedback" id="g3-feedback"></div>
+    <button class="g3-next-btn" id="g3-next" onclick="g3Next()">Siguiente ➡</button>
+  </div>
+</div>
+
+<!-- =================== GAME 4: MONKEY COLORS =================== -->
+<div class="screen" id="game4-screen">
+  <div class="g4-topbar">
+    <button class="btn-back" onclick="showScreen('screen-games')">← Volver</button>
+    <span class="g4-level-badge" id="g4-level-badge">Nivel 1 · Azul</span>
+    <button class="btn-sound" onclick="g4PlaySound()">🔊</button>
+  </div>
+  <div class="g4-wrap">
+    <!-- jungle branch top-left -->
+    <svg class="g4-branch" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+      <path d="M-10 0 Q80 60 160 80 Q220 95 300 70" stroke="#8B6914" stroke-width="18" fill="none" stroke-linecap="round"/>
+      <path d="M80 55 Q60 10 40 -5" stroke="#6B8E23" stroke-width="8" fill="none"/>
+      <ellipse cx="38" cy="-2" rx="16" ry="11" fill="#4a7c2f" transform="rotate(-20 38 -2)"/>
+      <path d="M130 72 Q120 30 110 10" stroke="#6B8E23" stroke-width="8" fill="none"/>
+      <ellipse cx="108" cy="8" rx="16" ry="11" fill="#4a7c2f" transform="rotate(-10 108 8)"/>
+      <path d="M180 80 Q200 40 210 20" stroke="#6B8E23" stroke-width="7" fill="none"/>
+      <ellipse cx="212" cy="17" rx="14" ry="10" fill="#5a8c35" transform="rotate(15 212 17)"/>
+      <path d="M110 72 Q90 90 70 110" stroke="#6B8E23" stroke-width="6" fill="none"/>
+      <ellipse cx="67" cy="113" rx="13" ry="9" fill="#4a7c2f" transform="rotate(-30 67 113)"/>
+    </svg>
+    <!-- bush bottom-right -->
+    <svg class="g4-bush-r" viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="130" cy="130" rx="130" ry="60" fill="#2d5a27"/>
+      <ellipse cx="80" cy="100" rx="90" ry="50" fill="#3a7a32"/>
+      <ellipse cx="180" cy="110" rx="80" ry="45" fill="#2d5a27"/>
+      <ellipse cx="130" cy="90" rx="70" ry="40" fill="#4a9040"/>
+    </svg>
+    <!-- bush bottom-left -->
+    <svg class="g4-bush-l" viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="90" cy="110" rx="90" ry="50" fill="#2d5a27"/>
+      <ellipse cx="60" cy="90" rx="65" ry="40" fill="#3a7a32"/>
+      <ellipse cx="120" cy="95" rx="60" ry="35" fill="#4a9040"/>
+    </svg>
+
+    <!-- LEFT: monkey + speech bubble -->
+    <div class="g4-left">
+      <div class="g4-bubble">
+        <div class="g4-color-dot" id="g4-dot"></div>
+      </div>
+      <div class="g4-monkey">🐵</div>
+    </div>
+
+    <!-- RIGHT: 6 objects -->
+    <div class="g4-right" id="g4-objects"></div>
+
+    <div class="g4-feedback" id="g4-feedback"></div>
+  </div>
+</div>
+
+<!-- =================== GAME 5: OCEAN ANIMALS =================== -->
+<div class="screen" id="game5-screen">
+
+  <!-- START CARD -->
+  <div id="g5-startScreen" class="g5-overlay-screen">
+    <div class="sc-card">
+      <div style="font-size:3rem;margin-bottom:6px">🌊🐙🐠</div>
+      <div class="sc-title">Animales del Mar</div>
+      <div class="sc-sub">Escucha el nombre y<br>¡toca el animal correcto!<br>8 animales · 3 vidas</div>
+      <button class="btn-play" onclick="g5StartGame()">¡Jugar! 🎮</button>
+    </div>
+  </div>
+
+  <!-- END CARD -->
+  <div id="g5-endScreen" class="g5-overlay-screen hidden">
+    <div class="sc-card">
+      <div id="g5-endEmoji" style="font-size:3rem;margin-bottom:4px">🏆</div>
+      <div class="sc-title" id="g5-endTitle">¡Increíble!</div>
+      <div class="sc-stars" id="g5-endStars">⭐⭐⭐</div>
+      <div class="sc-score" id="g5-endScore">Acertaste 8 de 8</div>
+      <button class="btn-play" onclick="g5StartGame()">¡Otra vez! 🔄</button>
+      <button class="btn-play" style="background:#4a90d9;margin-top:10px;" onclick="showScreen('screen-games')">← Menú</button>
+    </div>
+  </div>
+
+  <!-- FLASH -->
+  <div id="g5-flash" class="g5-flash">
+    <div class="fl-emoji" id="g5-flEmoji">🎉</div>
+    <div class="fl-msg"   id="g5-flMsg">¡Correcto!</div>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="top-bar" id="g5-topbar" style="display:none;">
+    <button class="back-btn" onclick="showScreen('screen-games')">←</button>
+    <div class="title-txt">SEA ANIMALS 🌊</div>
+    <button class="sound-btn" onclick="g5Speak()">🔊</button>
+  </div>
+
+  <!-- PROMPT -->
+  <div class="prompt-card" id="g5-promptCard" style="display:none;">
+    <div class="p-label">🔍 Encuentra al...</div>
+    <div class="p-name" id="g5-promptName">?</div>
+    <div class="p-sub">¡Tócalo en el acuario!</div>
+  </div>
+
+  <!-- HUD -->
+  <div class="hud" id="g5-hud" style="display:none;">
+    <div class="hud-pill" id="g5-hudLives">❤️❤️❤️</div>
+    <div class="hud-pill" id="g5-hudScore">⭐ 0 / 8</div>
+  </div>
+
+  <!-- DOTS -->
+  <div class="dots-row" id="g5-dotsRow" style="display:none;"></div>
+
+  <!-- BOWL -->
+  <div class="bowl-wrap" id="g5-bowlWrap" style="display:none;">
+    <div class="bowl-inner">
+      <svg class="bowl-svg-bg" viewBox="0 0 720 580" xmlns="http://www.w3.org/2000/svg">
+        <path d="M72,215 Q65,555 360,565 Q655,555 648,215 Z" fill="#c2f0e4" opacity=".8"/>
+        <ellipse cx="360" cy="215" rx="288" ry="46" fill="#a8ead8" opacity=".75"/>
+        <path d="M140,565 Q128,508 148,462 Q168,416 150,372" fill="none" stroke="#66bb6a" stroke-width="6" stroke-linecap="round" opacity=".55"/>
+        <path d="M148,462 Q132,450 136,436" fill="none" stroke="#66bb6a" stroke-width="5" stroke-linecap="round" opacity=".5"/>
+        <path d="M580,565 Q592,510 572,466 Q552,422 570,378" fill="none" stroke="#66bb6a" stroke-width="6" stroke-linecap="round" opacity=".5"/>
+        <path d="M572,466 Q588,454 584,440" fill="none" stroke="#66bb6a" stroke-width="5" stroke-linecap="round" opacity=".45"/>
+        <ellipse cx="210" cy="552" rx="68" ry="18" fill="#8ac4d0" opacity=".55"/>
+        <ellipse cx="360" cy="559" rx="52" ry="15" fill="#8ac4d0" opacity=".48"/>
+        <ellipse cx="500" cy="554" rx="62" ry="17" fill="#8ac4d0" opacity=".52"/>
+        <circle cx="115" cy="420" r="8"   fill="none" stroke="white" stroke-width="2.5" opacity=".6"/>
+        <circle cx="128" cy="388" r="5"   fill="none" stroke="white" stroke-width="2"   opacity=".5"/>
+        <circle cx="600" cy="430" r="7"   fill="none" stroke="white" stroke-width="2.5" opacity=".6"/>
+        <circle cx="612" cy="396" r="4.5" fill="none" stroke="white" stroke-width="2"   opacity=".5"/>
+        <circle cx="330" cy="500" r="6"   fill="none" stroke="white" stroke-width="2"   opacity=".5"/>
+        <circle cx="352" cy="472" r="4"   fill="none" stroke="white" stroke-width="2"   opacity=".4"/>
+        <circle cx="230" cy="468" r="5.5" fill="none" stroke="white" stroke-width="2"   opacity=".45"/>
+        <circle cx="490" cy="475" r="5"   fill="none" stroke="white" stroke-width="2"   opacity=".45"/>
+        <path d="M72,215 Q88,78 360,66 Q632,78 648,215" fill="none" stroke="#7dd8bf" stroke-width="12" opacity=".8"/>
+        <path d="M90,200 Q132,108 225,86"  fill="none" stroke="white" stroke-width="9"   stroke-linecap="round" opacity=".48"/>
+        <path d="M100,248 Q122,206 162,192" fill="none" stroke="white" stroke-width="5"   stroke-linecap="round" opacity=".32"/>
+      </svg>
+      <div id="g5-animalsContainer"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // =================== NAVIGATION ===================
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (el) { el.classList.add('active'); el.classList.add('fade-in'); }
+  }
+
+  // =================== TTS (mobile-compatible) ===================
+  let ttsReady = false;
+
+  // Unlock speech on first user interaction (required by mobile browsers)
+  function unlockTTS() {
+    if (ttsReady) return;
+    ttsReady = true;
+    // Warm up with a silent utterance to unlock iOS/Android
+    const warmup = new SpeechSynthesisUtterance('');
+    warmup.volume = 0;
+    speechSynthesis.speak(warmup);
+  }
+  document.addEventListener('touchstart', unlockTTS, { once: true });
+  document.addEventListener('mousedown', unlockTTS, { once: true });
+
+  function speakText(text) {
+    if (!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+
+    function doSpeak() {
+      const u = new SpeechSynthesisUtterance(text);
+      // Try Spanish voice, fall back to any available
+      const voices = speechSynthesis.getVoices();
+      const esVoice = voices.find(v => v.lang.startsWith('es')) || voices[0];
+      if (esVoice) u.voice = esVoice;
+      u.lang = 'es-ES';
+      u.rate = 0.85;
+      u.pitch = 1.1;
+      u.volume = 1;
+      speechSynthesis.speak(u);
+    }
+
+    // Voices may not be loaded yet on mobile
+    if (speechSynthesis.getVoices().length > 0) {
+      doSpeak();
+    } else {
+      speechSynthesis.addEventListener('voiceschanged', doSpeak, { once: true });
+    }
+  }
+
+  // =================== SUCCESS ===================
+  let currentGame = null;
+  function showSuccess() {
+    document.getElementById('successOverlay').classList.add('show');
+  }
+  function closeSuccess() {
+    document.getElementById('successOverlay').classList.remove('show');
+    if (currentGame === 'game1') { startGame1(); }
+    else if (currentGame === 'game2') { startGame2(); }
+    else if (currentGame === 'game3') { startGame3(); }
+    else if (currentGame === 'game4') { startGame4(); }
+  }
+
+  // =================== UNIVERSAL DRAG ENGINE (mouse + touch) ===================
+  let activeDrag = null;      // { el, ghost, offsetX, offsetY, game }
+  let lastHighlight = null;
+
+  function initDraggable(el) {
+    if (el._dragInited) return;   // prevent duplicate listeners
+    el._dragInited = true;
+    el.addEventListener('mousedown', dragDown);
+    el.addEventListener('touchstart', dragDown, { passive: false });
+  }
+
+  function dragDown(e) {
+    const srcEl = e.currentTarget;
+    if (srcEl.style.pointerEvents === 'none' || srcEl.style.opacity === '0.3') return;
+    e.preventDefault();
+
+    // Speak the element name when picked up
+    const label = srcEl.querySelector('.g1-drag-label');
+    if (label) speakText(label.textContent);
+
+    const touch = e.touches ? e.touches[0] : e;
+    const rect = srcEl.getBoundingClientRect();
+    const offsetX = touch.clientX - rect.left;
+    const offsetY = touch.clientY - rect.top;
+
+    // Create floating ghost
+    const ghost = srcEl.cloneNode(true);
+    ghost.style.cssText = `
+      position: fixed; z-index: 9999; pointer-events: none;
+      width: ${rect.width}px; height: ${rect.height}px;
+      left: ${rect.left}px; top: ${rect.top}px;
+      opacity: 0.85; transform: scale(1.12);
+      transition: transform 0.1s; border-radius: 12px;
+    `;
+    document.body.appendChild(ghost);
+    srcEl.style.opacity = '0.35';
+
+    activeDrag = { el: srcEl, ghost, offsetX, offsetY };
+
+    document.addEventListener('mousemove', dragMove);
+    document.addEventListener('mouseup', dragUp);
+    document.addEventListener('touchmove', dragMove, { passive: false });
+    document.addEventListener('touchend', dragUp);
+  }
+
+  function dragMove(e) {
+    if (!activeDrag) return;
+    e.preventDefault();
+    const touch = e.touches ? e.touches[0] : e;
+    const x = touch.clientX - activeDrag.offsetX;
+    const y = touch.clientY - activeDrag.offsetY;
+    activeDrag.ghost.style.left = x + 'px';
+    activeDrag.ghost.style.top  = y + 'px';
+
+    // Highlight drop zones under finger/cursor
+    activeDrag.ghost.style.display = 'none';
+    const elBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    activeDrag.ghost.style.display = '';
+    const zone = elBelow ? elBelow.closest('[data-drop-zone]') : null;
+    if (lastHighlight && lastHighlight !== zone) lastHighlight.classList.remove('dz-hover');
+    if (zone && !zone.classList.contains('matched')) {
+      zone.classList.add('dz-hover');
+      lastHighlight = zone;
+    } else {
+      lastHighlight = null;
+    }
+  }
+
+  function dragUp(e) {
+    if (!activeDrag) return;
+    document.removeEventListener('mousemove', dragMove);
+    document.removeEventListener('mouseup', dragUp);
+    document.removeEventListener('touchmove', dragMove);
+    document.removeEventListener('touchend', dragUp);
+
+    const touch = e.changedTouches ? e.changedTouches[0] : e;
+    activeDrag.ghost.style.display = 'none';
+    const elBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    activeDrag.ghost.style.display = '';
+
+    if (lastHighlight) { lastHighlight.classList.remove('dz-hover'); lastHighlight = null; }
+
+    const zone = elBelow ? elBelow.closest('[data-drop-zone]') : null;
+
+    if (zone && !zone.classList.contains('matched')) {
+      const game = zone.getAttribute('data-drop-zone');
+      if (game === 'g1') handleG1Drop(activeDrag.el, zone);
+      if (game === 'g2') handleG2Drop(activeDrag.el, zone);
+    } else {
+      // Snap back
+      activeDrag.el.style.opacity = '1';
+    }
+
+    activeDrag.ghost.remove();
+    activeDrag = null;
+  }
+
+  // =================== GAME 1: COLORS ===================
+  let g1Matched = 0;
+
+  function startGame1() {
+    g1Matched = 0;
+    currentGame = 'game1';
+    // Reset drop zones
+    ['target-rojo','target-amarillo','target-verde'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('matched');
+      // Remove any cloned card inside
+      el.querySelectorAll('.g1-drag-card').forEach(c => c.remove());
+      // Restore label visibility
+      const lbl = el.querySelector('.g1-drop-label');
+      if (lbl) lbl.style.opacity = '1';
+    });
+    // Reset draggable cards
+    ['drag-sol','drag-arbol','drag-gorro'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.opacity = '1';
+        el.style.pointerEvents = 'auto';
+        el._dragInited = false;   // allow re-binding after reset
+      }
+    });
+    document.getElementById('g1-feedback').textContent = '';
+    showScreen('game1');
+    // Bind draggables after screen shown
+    requestAnimationFrame(() => {
+      ['drag-sol','drag-arbol','drag-gorro'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) initDraggable(el);
+      });
+    });
+  }
+
+  function handleG1Drop(dragEl, target) {
+    const expected = dragEl.getAttribute('data-target');
+    if (target.id === expected) {
+      target.classList.add('matched');
+      // Place a clone of the card inside the drop zone
+      const clone = dragEl.cloneNode(true);
+      clone.style.pointerEvents = 'none';
+      clone.style.cursor = 'default';
+      clone._dragInited = true;
+      target.appendChild(clone);
+      // Hide the label text
+      const lbl = target.querySelector('.g1-drop-label');
+      if (lbl) lbl.style.opacity = '0';
+      dragEl.style.opacity = '0.25';
+      dragEl.style.pointerEvents = 'none';
+      speakText('¡Correcto!');
+      document.getElementById('g1-feedback').textContent = '✅ ¡Correcto!';
+      document.getElementById('g1-feedback').style.color = '#27ae60';
+      g1Matched++;
+      if (g1Matched === 3) setTimeout(showSuccess, 600);
+    } else {
+      dragEl.style.opacity = '1';
+      speakText('Inténtalo de nuevo');
+      document.getElementById('g1-feedback').textContent = '❌ Inténtalo de nuevo';
+      document.getElementById('g1-feedback').style.color = '#e74c3c';
+      target.style.animation = 'shake 0.4s';
+      setTimeout(() => target.style.animation = '', 500);
+    }
+  }
+
+  // =================== GAME 2: FRUITS ===================
+  let g2Matched = 0;
+
+  function startGame2() {
+    g2Matched = 0;
+    currentGame = 'game2';
+    ['shadow-zanahoria','shadow-pera','shadow-manzana'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('matched');
+    });
+    ['drag-manzana','drag-zanahoria','drag-pera'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el._dragInited = false; }
+    });
+    document.getElementById('g2-feedback').textContent = '';
+    showScreen('game2-screen');
+    requestAnimationFrame(() => {
+      ['drag-manzana','drag-zanahoria','drag-pera'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) initDraggable(el);
+      });
+    });
+  }
+
+  function handleG2Drop(dragEl, target) {
+    const type   = dragEl.getAttribute('data-type');
+    const accept = target.getAttribute('data-accept');
+    if (type === accept) {
+      target.classList.add('matched');
+      target.innerHTML = dragEl.innerHTML;
+      dragEl.style.opacity = '0.3';
+      dragEl.style.pointerEvents = 'none';
+      speakText('¡Muy bien!');
+      document.getElementById('g2-feedback').textContent = '✅ ¡Muy bien!';
+      g2Matched++;
+      if (g2Matched === 3) setTimeout(showSuccess, 600);
+    } else {
+      dragEl.style.opacity = '1';
+      speakText('Ese no es, inténtalo de nuevo');
+      document.getElementById('g2-feedback').textContent = '❌ Inténtalo de nuevo';
+      target.style.animation = 'shake 0.4s';
+      setTimeout(() => target.style.animation = '', 500);
+    }
+  }
+
+  // =================== GAME 3: ANIMALS ===================
+  const g3Animals = [
+    { emoji: '🐱', name: 'Gato', type: 'gato' },
+    { emoji: '🐶', name: 'Perro', type: 'perro' },
+  ];
+
+  // =================== ANIMAL SOUNDS (Web Audio API) ===================
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+
+  function playDogBark() {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+
+    function bark(startTime) {
+      // Noise source for rough texture
+      const bufferSize = ctx.sampleRate * 0.18;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1);
+
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      // Band-pass to shape like a bark
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.setValueAtTime(520, startTime);
+      bp.frequency.exponentialRampToValueAtTime(280, startTime + 0.12);
+      bp.Q.value = 1.2;
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(1.2, startTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.18);
+
+      noise.connect(bp);
+      bp.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start(startTime);
+      noise.stop(startTime + 0.2);
+
+      // Tonal component (osc for pitch)
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(340, startTime);
+      osc.frequency.exponentialRampToValueAtTime(200, startTime + 0.14);
+      const oscGain = ctx.createGain();
+      oscGain.gain.setValueAtTime(0, startTime);
+      oscGain.gain.linearRampToValueAtTime(0.5, startTime + 0.02);
+      oscGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.16);
+      osc.connect(oscGain);
+      oscGain.connect(ctx.destination);
+      osc.start(startTime);
+      osc.stop(startTime + 0.18);
+    }
+
+    bark(now);
+    bark(now + 0.28);  // two barks: "guau guau"
+  }
+
+  function playCatMeow() {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+
+    const osc = ctx.createOscillator();
+    osc.type = 'sine';
+
+    // Meow pitch contour: rises then falls
+    osc.frequency.setValueAtTime(380, now);
+    osc.frequency.linearRampToValueAtTime(900, now + 0.15);
+    osc.frequency.linearRampToValueAtTime(600, now + 0.35);
+    osc.frequency.exponentialRampToValueAtTime(320, now + 0.55);
+
+    // Add vibrato
+    const vibLfo = ctx.createOscillator();
+    vibLfo.frequency.value = 6;
+    const vibGain = ctx.createGain();
+    vibGain.gain.value = 18;
+    vibLfo.connect(vibGain);
+    vibGain.connect(osc.frequency);
+
+    // Formant filter (nasal meow character)
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(900, now);
+    filter.frequency.linearRampToValueAtTime(1200, now + 0.2);
+    filter.frequency.linearRampToValueAtTime(700, now + 0.55);
+    filter.Q.value = 3;
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.8, now + 0.08);
+    gain.gain.setValueAtTime(0.8, now + 0.4);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+
+    vibLfo.start(now);
+    osc.start(now);
+    osc.stop(now + 0.65);
+    vibLfo.stop(now + 0.65);
+  }
+
+  function playAnimalSound(type) {
+    if (type === 'gato') speakText('MIAAUUUU');
+    else if (type === 'perro') speakText('WUAFFF WUAFFF');
+  }
+
+  const g3Questions = [
+    { ask: 'GATO', answer: 'gato' },
+    { ask: 'PERRO', answer: 'perro' },
+    { ask: 'GATO', answer: 'gato' },
+    { ask: 'PERRO', answer: 'perro' },
+    { ask: 'GATO', answer: 'gato' },
+    { ask: 'PERRO', answer: 'perro' },
+  ];
+
+  let g3Current = 0;
+  let g3Score = 0;
+  let g3Answered = false;
+
+  function startGame3() {
+    g3Current = 0; g3Score = 0; g3Answered = false;
+    currentGame = 'game3';
+    document.getElementById('g3-next').style.display = 'none';
+    document.getElementById('g3-feedback').textContent = '';
+    g3Render();
+    showScreen('game3-screen');
+  }
+
+  function g3Render() {
+    const q = g3Questions[g3Current];
+    document.getElementById('g3-question').textContent = '¿Cuál es el ' + q.ask + '?';
+    document.getElementById('g3-score').textContent = 'Puntos: ' + g3Score + ' / 6';
+    document.getElementById('g3-progress').style.width = (g3Current / g3Questions.length * 100) + '%';
+    document.getElementById('g3-feedback').textContent = '';
+    document.getElementById('g3-next').style.display = 'none';
+    g3Answered = false;
+
+    // Shuffle display order
+    const shuffled = [...g3Animals].sort(() => Math.random() - 0.5);
+    const container = document.getElementById('g3-animals');
+    container.innerHTML = '';
+
+    shuffled.forEach(animal => {
+      const div = document.createElement('div');
+      div.className = 'g3-animal';
+      div.innerHTML = `
+        <div class="g3-animal-box" id="abox-${animal.type}">${animal.emoji}</div>
+        <span class="g3-animal-name">${animal.name}</span>
+      `;
+      div.onclick = () => {
+        playAnimalSound(animal.type);
+        setTimeout(() => g3Answer(animal.type, q.answer), 700);
+      };
+      container.appendChild(div);
+    });
+
+    speakText('¿Cuál es el ' + q.ask + '?');
+  }
+
+  function g3Answer(chosen, correct) {
+    if (g3Answered) return;
+    g3Answered = true;
+
+    const chosenBox = document.getElementById('abox-' + chosen);
+    const correctBox = document.getElementById('abox-' + correct);
+
+    if (chosen === correct) {
+      g3Score++;
+      chosenBox.classList.add('correct');
+      document.getElementById('g3-feedback').textContent = '🎉 ¡Correcto! ¡Excelente!';
+      speakText('¡Correcto! ¡Excelente!');
+    } else {
+      chosenBox.classList.add('wrong');
+      if (correctBox) correctBox.classList.add('correct');
+      document.getElementById('g3-feedback').textContent = '❌ ¡Casi! Era el ' + correct;
+      speakText('Ese no es. Era el ' + correct);
+    }
+
+    document.getElementById('g3-score').textContent = 'Puntos: ' + g3Score + ' / 6';
+
+    if (g3Current < g3Questions.length - 1) {
+      document.getElementById('g3-next').style.display = 'inline-block';
+    } else {
+      setTimeout(() => showSuccess(), 1000);
+    }
+  }
+
+  function g3Next() {
+    g3Current++;
+    g3Render();
+  }
+
+  function g3PlaySound() {
+    if (g3Current < g3Questions.length) {
+      speakText('¿Cuál es el ' + g3Questions[g3Current].ask + '?');
+    }
+  }
+
+  // =================== GAME 4: MONKEY COLORS ===================
+  // Each level: show color dot, pick the ONE correct object among 6
+  // Multiple rounds per level cycling through all correct items
+
+  const g4Data = {
+    azul: {
+      name: 'Nivel 1', color: '#2196f3', colorName: 'azul',
+      rounds: [
+        {
+          correct: { label: 'Cielo azul',
+            svg: `<svg viewBox="0 0 80 80"><rect x="0" y="0" width="80" height="80" rx="12" fill="#87ceeb"/>
+              <circle cx="20" cy="28" r="14" fill="white" opacity=".9"/>
+              <ellipse cx="40" cy="26" rx="20" ry="14" fill="white" opacity=".9"/>
+              <circle cx="58" cy="30" r="12" fill="white" opacity=".9"/>
+              <text x="40" y="60" text-anchor="middle" font-size="22">☀️</text></svg>` },
+          wrong: [
+            { label: 'Manzana roja', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="46" r="28" fill="#e53935"/><path d="M40 18 Q44 8 40 4" stroke="#388e3c" stroke-width="3" fill="none"/><ellipse cx="30" cy="36" rx="8" ry="12" fill="#ef5350" opacity=".5"/></svg>` },
+            { label: 'Sol amarillo', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="#fdd835"/><line x1="40" y1="8" x2="40" y2="2" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/><line x1="62" y1="18" x2="66" y2="14" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/><line x1="72" y1="40" x2="78" y2="40" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/><line x1="62" y1="62" x2="66" y2="66" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/><line x1="40" y1="72" x2="40" y2="78" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/><line x1="18" y1="62" x2="14" y2="66" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/><line x1="8" y1="40" x2="2" y2="40" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/><line x1="18" y1="18" x2="14" y2="14" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/></svg>` },
+            { label: 'Árbol verde', svg: `<svg viewBox="0 0 80 80"><rect x="33" y="54" width="14" height="22" rx="3" fill="#795548"/><polygon points="40,8 68,54 12,54" fill="#388e3c"/><polygon points="40,20 62,46 18,46" fill="#43a047"/></svg>` },
+            { label: 'Rosa rosa', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="42" r="26" fill="#f48fb1"/><ellipse cx="30" cy="34" rx="16" ry="10" fill="#f06292" transform="rotate(-20 30 34)"/><ellipse cx="50" cy="34" rx="14" ry="8" fill="#f8bbd9" transform="rotate(15 50 34)"/><circle cx="40" cy="38" r="8" fill="#e91e8c"/></svg>` },
+            { label: 'Uvas moradas', svg: `<svg viewBox="0 0 80 80"><circle cx="28" cy="50" r="11" fill="#7b1fa2"/><circle cx="52" cy="50" r="11" fill="#7b1fa2"/><circle cx="40" cy="36" r="11" fill="#7b1fa2"/><circle cx="40" cy="62" r="11" fill="#6a1b9a"/><path d="M40 12 L40 25" stroke="#388e3c" stroke-width="3"/></svg>` },
+          ]
+        },
+        {
+          correct: { label: 'Vaso de agua',
+            svg: `<svg viewBox="0 0 80 80"><path d="M20 18 L24 68 Q24 72 40 72 Q56 72 56 68 L60 18 Z" fill="#bbdefb"/><path d="M20 18 L24 68 Q24 72 40 72 Q56 72 56 68 L60 18 Z" fill="#1565c0" opacity=".4"/><rect x="20" y="18" width="40" height="10" rx="3" fill="#e3f2fd" opacity=".8"/><path d="M28 35 Q40 28 52 35" stroke="white" stroke-width="2" fill="none" opacity=".6"/></svg>` },
+          wrong: [
+            { label: 'Manzana roja', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="46" r="28" fill="#e53935"/><path d="M40 18 Q44 8 40 4" stroke="#388e3c" stroke-width="3" fill="none"/><ellipse cx="30" cy="36" rx="8" ry="12" fill="#ef5350" opacity=".5"/></svg>` },
+            { label: 'Sol amarillo', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="#fdd835"/><line x1="40" y1="8" x2="40" y2="2" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/><line x1="72" y1="40" x2="78" y2="40" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/><line x1="8" y1="40" x2="2" y2="40" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/></svg>` },
+            { label: 'Árbol verde', svg: `<svg viewBox="0 0 80 80"><rect x="33" y="54" width="14" height="22" rx="3" fill="#795548"/><polygon points="40,8 68,54 12,54" fill="#388e3c"/></svg>` },
+            { label: 'Rosa rosa', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="42" r="26" fill="#f48fb1"/><ellipse cx="30" cy="34" rx="16" ry="10" fill="#f06292" transform="rotate(-20 30 34)"/><circle cx="40" cy="38" r="8" fill="#e91e8c"/></svg>` },
+            { label: 'Uvas moradas', svg: `<svg viewBox="0 0 80 80"><circle cx="28" cy="50" r="11" fill="#7b1fa2"/><circle cx="52" cy="50" r="11" fill="#7b1fa2"/><circle cx="40" cy="36" r="11" fill="#7b1fa2"/><circle cx="40" cy="62" r="11" fill="#6a1b9a"/></svg>` },
+          ]
+        },
+        {
+          correct: { label: 'Mariposa azul',
+            svg: `<svg viewBox="0 0 80 80"><ellipse cx="22" cy="32" rx="18" ry="13" fill="#1e88e5" transform="rotate(-25 22 32)"/><ellipse cx="58" cy="32" rx="18" ry="13" fill="#1e88e5" transform="rotate(25 58 32)"/><ellipse cx="22" cy="54" rx="13" ry="9" fill="#1565c0" transform="rotate(15 22 54)"/><ellipse cx="58" cy="54" rx="13" ry="9" fill="#1565c0" transform="rotate(-15 58 54)"/><ellipse cx="40" cy="42" rx="4" ry="14" fill="#333"/></svg>` },
+          wrong: [
+            { label: 'Manzana roja', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="46" r="28" fill="#e53935"/><path d="M40 18 Q44 8 40 4" stroke="#388e3c" stroke-width="3" fill="none"/></svg>` },
+            { label: 'Sol amarillo', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="#fdd835"/><line x1="40" y1="8" x2="40" y2="2" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/><line x1="72" y1="40" x2="78" y2="40" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/></svg>` },
+            { label: 'Árbol verde', svg: `<svg viewBox="0 0 80 80"><rect x="33" y="54" width="14" height="22" rx="3" fill="#795548"/><polygon points="40,8 68,54 12,54" fill="#388e3c"/></svg>` },
+            { label: 'Rosa rosa', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="42" r="26" fill="#f48fb1"/><circle cx="40" cy="38" r="8" fill="#e91e8c"/></svg>` },
+            { label: 'Uvas moradas', svg: `<svg viewBox="0 0 80 80"><circle cx="28" cy="50" r="11" fill="#7b1fa2"/><circle cx="52" cy="50" r="11" fill="#7b1fa2"/><circle cx="40" cy="36" r="11" fill="#7b1fa2"/></svg>` },
+          ]
+        },
+      ]
+    },
+    rosa: {
+      name: 'Nivel 2', color: '#e91e8c', colorName: 'rosa',
+      rounds: [
+        {
+          correct: { label: 'Rosa',
+            svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="44" r="24" fill="#e91e8c"/><ellipse cx="30" cy="36" rx="16" ry="11" fill="#f06292" transform="rotate(-20 30 36)"/><ellipse cx="50" cy="36" rx="14" ry="9" fill="#f8bbd9" transform="rotate(15 50 36)"/><ellipse cx="40" cy="30" rx="10" ry="8" fill="#fce4ec"/><circle cx="40" cy="40" r="7" fill="#c2185b"/><path d="M40 68 Q38 74 40 78" stroke="#388e3c" stroke-width="3" fill="none"/><ellipse cx="32" cy="72" rx="10" ry="5" fill="#388e3c" transform="rotate(-20 32 72)"/></svg>` },
+          wrong: [
+            { label: 'Cielo azul', svg: `<svg viewBox="0 0 80 80"><rect x="0" y="0" width="80" height="80" rx="12" fill="#87ceeb"/><ellipse cx="40" cy="26" rx="20" ry="14" fill="white" opacity=".9"/></svg>` },
+            { label: 'Árbol verde', svg: `<svg viewBox="0 0 80 80"><rect x="33" y="54" width="14" height="22" rx="3" fill="#795548"/><polygon points="40,8 68,54 12,54" fill="#388e3c"/></svg>` },
+            { label: 'Sol amarillo', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="#fdd835"/><line x1="40" y1="8" x2="40" y2="2" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/></svg>` },
+            { label: 'Uvas moradas', svg: `<svg viewBox="0 0 80 80"><circle cx="28" cy="50" r="11" fill="#7b1fa2"/><circle cx="52" cy="50" r="11" fill="#7b1fa2"/><circle cx="40" cy="36" r="11" fill="#7b1fa2"/></svg>` },
+            { label: 'Manzana roja', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="46" r="28" fill="#e53935"/><path d="M40 18 Q44 8 40 4" stroke="#388e3c" stroke-width="3" fill="none"/></svg>` },
+          ]
+        },
+        {
+          correct: { label: 'Mariposa rosa',
+            svg: `<svg viewBox="0 0 80 80"><ellipse cx="22" cy="32" rx="18" ry="13" fill="#f48fb1" transform="rotate(-25 22 32)"/><ellipse cx="58" cy="32" rx="18" ry="13" fill="#f48fb1" transform="rotate(25 58 32)"/><ellipse cx="22" cy="54" rx="13" ry="9" fill="#e91e8c" transform="rotate(15 22 54)"/><ellipse cx="58" cy="54" rx="13" ry="9" fill="#e91e8c" transform="rotate(-15 58 54)"/><ellipse cx="40" cy="42" rx="4" ry="14" fill="#333"/></svg>` },
+          wrong: [
+            { label: 'Cielo azul', svg: `<svg viewBox="0 0 80 80"><rect x="0" y="0" width="80" height="80" rx="12" fill="#87ceeb"/><ellipse cx="40" cy="26" rx="20" ry="14" fill="white" opacity=".9"/></svg>` },
+            { label: 'Árbol verde', svg: `<svg viewBox="0 0 80 80"><rect x="33" y="54" width="14" height="22" rx="3" fill="#795548"/><polygon points="40,8 68,54 12,54" fill="#388e3c"/></svg>` },
+            { label: 'Sol amarillo', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="#fdd835"/><line x1="40" y1="8" x2="40" y2="2" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/></svg>` },
+            { label: 'Uvas moradas', svg: `<svg viewBox="0 0 80 80"><circle cx="28" cy="50" r="11" fill="#7b1fa2"/><circle cx="52" cy="50" r="11" fill="#7b1fa2"/><circle cx="40" cy="36" r="11" fill="#7b1fa2"/></svg>` },
+            { label: 'Manzana roja', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="46" r="28" fill="#e53935"/><path d="M40 18 Q44 8 40 4" stroke="#388e3c" stroke-width="3" fill="none"/></svg>` },
+          ]
+        },
+        {
+          correct: { label: 'Flor rosa',
+            svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="9" fill="#fce4ec"/><ellipse cx="40" cy="18" rx="10" ry="14" fill="#f48fb1"/><ellipse cx="40" cy="62" rx="10" ry="14" fill="#f48fb1"/><ellipse cx="18" cy="40" rx="14" ry="10" fill="#e91e8c" opacity=".85"/><ellipse cx="62" cy="40" rx="14" ry="10" fill="#e91e8c" opacity=".85"/><ellipse cx="24" cy="24" rx="10" ry="14" fill="#f48fb1" transform="rotate(45 24 24)"/><ellipse cx="56" cy="56" rx="10" ry="14" fill="#f48fb1" transform="rotate(45 56 56)"/><circle cx="40" cy="40" r="8" fill="#ffe082"/></svg>` },
+          wrong: [
+            { label: 'Cielo azul', svg: `<svg viewBox="0 0 80 80"><rect x="0" y="0" width="80" height="80" rx="12" fill="#87ceeb"/><ellipse cx="40" cy="26" rx="20" ry="14" fill="white" opacity=".9"/></svg>` },
+            { label: 'Árbol verde', svg: `<svg viewBox="0 0 80 80"><rect x="33" y="54" width="14" height="22" rx="3" fill="#795548"/><polygon points="40,8 68,54 12,54" fill="#388e3c"/></svg>` },
+            { label: 'Sol amarillo', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="#fdd835"/><line x1="40" y1="8" x2="40" y2="2" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/></svg>` },
+            { label: 'Uvas moradas', svg: `<svg viewBox="0 0 80 80"><circle cx="28" cy="50" r="11" fill="#7b1fa2"/><circle cx="52" cy="50" r="11" fill="#7b1fa2"/><circle cx="40" cy="36" r="11" fill="#7b1fa2"/></svg>` },
+            { label: 'Manzana roja', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="46" r="28" fill="#e53935"/><path d="M40 18 Q44 8 40 4" stroke="#388e3c" stroke-width="3" fill="none"/></svg>` },
+          ]
+        },
+      ]
+    },
+    morado: {
+      name: 'Nivel 3', color: '#7b1fa2', colorName: 'morado',
+      rounds: [
+        {
+          correct: { label: 'Uvas moradas',
+            svg: `<svg viewBox="0 0 80 80"><circle cx="28" cy="52" r="13" fill="#7b1fa2"/><circle cx="52" cy="52" r="13" fill="#7b1fa2"/><circle cx="40" cy="38" r="13" fill="#7b1fa2"/><circle cx="40" cy="64" r="13" fill="#6a1b9a"/><circle cx="28" cy="38" r="11" fill="#9c27b0"/><circle cx="52" cy="38" r="11" fill="#9c27b0"/><path d="M40 12 L40 25" stroke="#388e3c" stroke-width="3"/><ellipse cx="33" cy="13" rx="9" ry="5" fill="#388e3c" transform="rotate(-20 33 13)"/></svg>` },
+          wrong: [
+            { label: 'Cielo azul', svg: `<svg viewBox="0 0 80 80"><rect x="0" y="0" width="80" height="80" rx="12" fill="#87ceeb"/><ellipse cx="40" cy="26" rx="20" ry="14" fill="white" opacity=".9"/></svg>` },
+            { label: 'Manzana roja', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="46" r="28" fill="#e53935"/><path d="M40 18 Q44 8 40 4" stroke="#388e3c" stroke-width="3" fill="none"/></svg>` },
+            { label: 'Sol amarillo', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="#fdd835"/><line x1="40" y1="8" x2="40" y2="2" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/></svg>` },
+            { label: 'Rosa rosa', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="42" r="26" fill="#f48fb1"/><circle cx="40" cy="38" r="8" fill="#e91e8c"/></svg>` },
+            { label: 'Árbol verde', svg: `<svg viewBox="0 0 80 80"><rect x="33" y="54" width="14" height="22" rx="3" fill="#795548"/><polygon points="40,8 68,54 12,54" fill="#388e3c"/></svg>` },
+          ]
+        },
+        {
+          correct: { label: 'Murciélago morado',
+            svg: `<svg viewBox="0 0 80 80"><path d="M10 44 Q5 24 20 28 Q30 20 40 38 Q50 20 60 28 Q75 24 70 44 Q58 34 40 38 Q22 34 10 44Z" fill="#7b1fa2"/><circle cx="40" cy="42" r="9" fill="#9c27b0"/><circle cx="36" cy="40" r="2" fill="#ffe082"/><circle cx="44" cy="40" r="2" fill="#ffe082"/><path d="M37 46 L40 48 L43 46" stroke="#ffe082" stroke-width="1.5" fill="none"/></svg>` },
+          wrong: [
+            { label: 'Cielo azul', svg: `<svg viewBox="0 0 80 80"><rect x="0" y="0" width="80" height="80" rx="12" fill="#87ceeb"/><ellipse cx="40" cy="26" rx="20" ry="14" fill="white" opacity=".9"/></svg>` },
+            { label: 'Manzana roja', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="46" r="28" fill="#e53935"/><path d="M40 18 Q44 8 40 4" stroke="#388e3c" stroke-width="3" fill="none"/></svg>` },
+            { label: 'Sol amarillo', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="#fdd835"/><line x1="40" y1="8" x2="40" y2="2" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/></svg>` },
+            { label: 'Rosa rosa', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="42" r="26" fill="#f48fb1"/><circle cx="40" cy="38" r="8" fill="#e91e8c"/></svg>` },
+            { label: 'Árbol verde', svg: `<svg viewBox="0 0 80 80"><rect x="33" y="54" width="14" height="22" rx="3" fill="#795548"/><polygon points="40,8 68,54 12,54" fill="#388e3c"/></svg>` },
+          ]
+        },
+        {
+          correct: { label: 'Globo morado',
+            svg: `<svg viewBox="0 0 80 80"><ellipse cx="40" cy="36" rx="26" ry="30" fill="#7b1fa2"/><ellipse cx="31" cy="26" rx="8" ry="12" fill="#9c27b0" opacity=".5"/><ellipse cx="40" cy="36" rx="26" ry="30" fill="url(#gm)" opacity=".3"/><path d="M40 66 L38 74" stroke="#555" stroke-width="2"/><defs><radialGradient id="gm" cx="35%" cy="30%"><stop offset="0%" stop-color="white"/><stop offset="100%" stop-color="#7b1fa2"/></radialGradient></defs></svg>` },
+          wrong: [
+            { label: 'Cielo azul', svg: `<svg viewBox="0 0 80 80"><rect x="0" y="0" width="80" height="80" rx="12" fill="#87ceeb"/><ellipse cx="40" cy="26" rx="20" ry="14" fill="white" opacity=".9"/></svg>` },
+            { label: 'Manzana roja', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="46" r="28" fill="#e53935"/><path d="M40 18 Q44 8 40 4" stroke="#388e3c" stroke-width="3" fill="none"/></svg>` },
+            { label: 'Sol amarillo', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="22" fill="#fdd835"/><line x1="40" y1="8" x2="40" y2="2" stroke="#f9a825" stroke-width="4" stroke-linecap="round"/></svg>` },
+            { label: 'Rosa rosa', svg: `<svg viewBox="0 0 80 80"><circle cx="40" cy="42" r="26" fill="#f48fb1"/><circle cx="40" cy="38" r="8" fill="#e91e8c"/></svg>` },
+            { label: 'Árbol verde', svg: `<svg viewBox="0 0 80 80"><rect x="33" y="54" width="14" height="22" rx="3" fill="#795548"/><polygon points="40,8 68,54 12,54" fill="#388e3c"/></svg>` },
+          ]
+        },
+      ]
+    }
+  };
+
+    const g4LevelOrder = ['azul', 'rosa', 'morado'];
+  let g4LevelIdx = 0;
+  let g4RoundIdx = 0;
+  let g4Picking = false;
+
+  function startGame4() {
+    g4LevelIdx = 0;
+    g4RoundIdx = 0;
+    g4Picking = false;
+    currentGame = 'game4';
+    g4RenderRound();
+    showScreen('game4-screen');
+  }
+
+  function g4RenderRound() {
+    g4Picking = false;
+    const levelKey = g4LevelOrder[g4LevelIdx];
+    const level = g4Data[levelKey];
+    const round = level.rounds[g4RoundIdx];
+
+    document.getElementById('g4-level-badge').textContent =
+      level.name + ' · ' + (g4RoundIdx + 1) + '/' + level.rounds.length;
+    document.getElementById('g4-dot').style.background = level.color;
+    document.getElementById('g4-feedback').textContent = '';
+
+    // Build 6 items: 1 correct + 5 wrong, shuffled
+    const items = [
+      { ...round.correct, isCorrect: true },
+      ...round.wrong.map(w => ({ ...w, isCorrect: false }))
+    ].sort(() => Math.random() - 0.5);
+
+    const container = document.getElementById('g4-objects');
+    container.innerHTML = '';
+
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'g4-obj';
+      div.innerHTML = item.svg;
+      div.setAttribute('title', item.label);
+      div.onclick = () => g4Pick(div, item, level);
+      container.appendChild(div);
+    });
+
+    speakText('Toca el objeto de color ' + level.colorName);
+  }
+
+  function g4Pick(el, item, level) {
+    if (g4Picking) return;
+
+    if (item.isCorrect) {
+      g4Picking = true;
+      el.classList.add('correct');
+      speakText('¡Muy bien!');
+      document.getElementById('g4-feedback').textContent = '✅ ¡Muy bien!';
+
+      setTimeout(() => {
+        const levelKey = g4LevelOrder[g4LevelIdx];
+        const levelData = g4Data[levelKey];
+        // Next round or next level or finish
+        if (g4RoundIdx < levelData.rounds.length - 1) {
+          g4RoundIdx++;
+          g4RenderRound();
+        } else if (g4LevelIdx < g4LevelOrder.length - 1) {
+          g4LevelIdx++;
+          g4RoundIdx = 0;
+          g4RenderRound();
+        } else {
+          showSuccess();
+        }
+      }, 900);
+
+    } else {
+      el.classList.add('wrong');
+      speakText('Ese no es de color ' + level.colorName);
+      document.getElementById('g4-feedback').textContent = '❌ Ese no es, inténtalo';
+      setTimeout(() => {
+        el.classList.remove('wrong');
+        document.getElementById('g4-feedback').textContent = '';
+      }, 900);
+    }
+  }
+
+  function g4PlaySound() {
+    const level = g4Data[g4LevelOrder[g4LevelIdx]];
+    speakText('Toca el objeto de color ' + level.colorName);
+  }
+
+  // =================== GAME 5: OCEAN ANIMALS (BOWL) ===================
+  const G5_ANIMALS = [
+    { id:'octopus', name:'Pulpo', svg:`<svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg"><ellipse cx="45" cy="32" rx="24" ry="22" fill="#e8829a"/><ellipse cx="45" cy="30" rx="22" ry="20" fill="#f0a0b5"/><path d="M23,46 Q11,60 15,74 Q17,79 20,74 Q22,64 27,57 Q29,65 24,77 Q26,82 30,77 Q33,65 37,57" fill="none" stroke="#e8829a" stroke-width="5.5" stroke-linecap="round"/><path d="M67,46 Q79,60 75,74 Q73,79 70,74 Q68,64 63,57 Q61,65 66,77 Q64,82 60,77 Q57,65 53,57" fill="none" stroke="#e8829a" stroke-width="5.5" stroke-linecap="round"/><path d="M45,52 Q43,66 45,76 Q47,81 49,76 Q47,66 45,52" fill="none" stroke="#e8829a" stroke-width="4.5" stroke-linecap="round"/><circle cx="35" cy="28" r="6" fill="white"/><circle cx="55" cy="28" r="6" fill="white"/><circle cx="36" cy="29" r="3.8" fill="#2c2c2c"/><circle cx="56" cy="29" r="3.8" fill="#2c2c2c"/><circle cx="37" cy="27.5" r="1.5" fill="white"/><circle cx="57" cy="27.5" r="1.5" fill="white"/><ellipse cx="30" cy="35" rx="4.5" ry="3" fill="#f48fb1" opacity=".7"/><ellipse cx="60" cy="35" rx="4.5" ry="3" fill="#f48fb1" opacity=".7"/><path d="M38,38 Q45,43 52,38" fill="none" stroke="#c06070" stroke-width="2.2" stroke-linecap="round"/></svg>` },
+    { id:'purple', name:'Pez Morado', svg:`<svg viewBox="0 0 100 70" xmlns="http://www.w3.org/2000/svg"><path d="M12,12 L2,5 L2,65 L12,58 Z" fill="#7e57c2"/><ellipse cx="56" cy="35" rx="36" ry="24" fill="#9575cd"/><ellipse cx="56" cy="34" rx="34" ry="22" fill="#b39ddb"/><path d="M36,13 Q50,2 64,12" fill="none" stroke="#7e57c2" stroke-width="4" stroke-linecap="round"/><path d="M36,57 Q48,67 62,58" fill="none" stroke="#7e57c2" stroke-width="4" stroke-linecap="round"/><circle cx="78" cy="29" r="8" fill="white"/><circle cx="79" cy="30" r="5" fill="#2c2c2c"/><circle cx="80.5" cy="28.5" r="2" fill="white"/><path d="M46,18 Q42,35 46,52" fill="none" stroke="#7e57c2" stroke-width="2.5" opacity=".5"/><ellipse cx="68" cy="38" rx="5" ry="3" fill="#ce93d8" opacity=".65"/></svg>` },
+    { id:'clown', name:'Pez Naranja', svg:`<svg viewBox="0 0 100 70" xmlns="http://www.w3.org/2000/svg"><path d="M88,12 L98,5 L98,65 L88,58 Z" fill="#e64a19"/><ellipse cx="44" cy="35" rx="38" ry="24" fill="#ff7043"/><ellipse cx="44" cy="34" rx="36" ry="22" fill="#ff8a65"/><ellipse cx="32" cy="35" rx="7" ry="22" fill="white" opacity=".88"/><ellipse cx="58" cy="35" rx="6" ry="20" fill="white" opacity=".75"/><path d="M26,13 Q38,2 52,12" fill="none" stroke="#e64a19" stroke-width="4.5" stroke-linecap="round"/><path d="M26,57 Q36,66 50,58" fill="none" stroke="#e64a19" stroke-width="4.5" stroke-linecap="round"/><circle cx="20" cy="29" r="8" fill="white"/><circle cx="19" cy="30" r="5" fill="#1a1a1a"/><circle cx="18" cy="28.5" r="2" fill="white"/><ellipse cx="25" cy="38" rx="4.5" ry="3" fill="#ffab91" opacity=".7"/></svg>` },
+    { id:'puffer', name:'Pez Globo', svg:`<svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg"><circle cx="45" cy="48" r="34" fill="#f9a825"/><circle cx="45" cy="47" r="32" fill="#fbc02d"/><line x1="45" y1="14" x2="45" y2="5" stroke="#e65100" stroke-width="2.5" stroke-linecap="round"/><line x1="58" y1="17" x2="64" y2="9" stroke="#e65100" stroke-width="2.5" stroke-linecap="round"/><line x1="69" y1="28" x2="77" y2="22" stroke="#e65100" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="17" x2="26" y2="9" stroke="#e65100" stroke-width="2.5" stroke-linecap="round"/><line x1="21" y1="28" x2="13" y2="22" stroke="#e65100" stroke-width="2.5" stroke-linecap="round"/><line x1="76" y1="46" x2="86" y2="46" stroke="#e65100" stroke-width="2.5" stroke-linecap="round"/><line x1="45" y1="80" x2="45" y2="88" stroke="#e65100" stroke-width="2.5" stroke-linecap="round"/><path d="M28,63 Q20,74 27,78 Q34,67 36,65 Z" fill="#f57c00"/><path d="M62,63 Q70,74 63,78 Q56,67 54,65 Z" fill="#f57c00"/><circle cx="33" cy="42" r="8" fill="white"/><circle cx="57" cy="42" r="8" fill="white"/><circle cx="34" cy="43" r="5" fill="#2c2c2c"/><circle cx="58" cy="43" r="5" fill="#2c2c2c"/><circle cx="35.5" cy="41.5" r="2" fill="white"/><circle cx="59.5" cy="41.5" r="2" fill="white"/><ellipse cx="45" cy="58" rx="5.5" ry="3.5" fill="#e65100" opacity=".65"/></svg>` },
+    { id:'pearl', name:'Perla', svg:`<svg viewBox="0 0 90 80" xmlns="http://www.w3.org/2000/svg"><path d="M10,62 Q45,84 80,62 L80,46 Q45,22 10,46 Z" fill="#b0838b"/><path d="M10,46 Q45,25 80,46 Q45,34 10,46 Z" fill="#c29298"/><path d="M18,48 Q45,36 72,48" fill="none" stroke="#e8b4ba" stroke-width="3" opacity=".6"/><circle cx="45" cy="57" r="15" fill="url(#pg5)"/><defs><radialGradient id="pg5" cx="38%" cy="35%"><stop offset="0%" stop-color="white"/><stop offset="55%" stop-color="#f0e8f0"/><stop offset="100%" stop-color="#d4c8d8"/></radialGradient></defs><ellipse cx="40" cy="51" rx="5" ry="3.5" fill="white" opacity=".7"/></svg>` },
+    { id:'crab', name:'Cangrejo', svg:`<svg viewBox="0 0 90 80" xmlns="http://www.w3.org/2000/svg"><ellipse cx="45" cy="50" rx="24" ry="18" fill="#ef5350"/><ellipse cx="45" cy="49" rx="22" ry="16" fill="#f44336"/><path d="M21,44 Q7,32 5,25 Q3,18 9,20 Q14,22 16,29 Q11,21 16,19 Q21,18 21,26 Z" fill="#ef5350"/><path d="M69,44 Q83,32 85,25 Q87,18 81,20 Q76,22 74,29 Q79,21 74,19 Q69,18 69,26 Z" fill="#ef5350"/><line x1="25" y1="52" x2="9" y2="43" stroke="#e53935" stroke-width="4" stroke-linecap="round"/><line x1="25" y1="57" x2="8" y2="55" stroke="#e53935" stroke-width="4" stroke-linecap="round"/><line x1="25" y1="62" x2="11" y2="68" stroke="#e53935" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="52" x2="81" y2="43" stroke="#e53935" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="57" x2="82" y2="55" stroke="#e53935" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="62" x2="79" y2="68" stroke="#e53935" stroke-width="4" stroke-linecap="round"/><line x1="37" y1="34" x2="33" y2="24" stroke="#c62828" stroke-width="3"/><line x1="53" y1="34" x2="57" y2="24" stroke="#c62828" stroke-width="3"/><circle cx="33" cy="23" r="6" fill="white"/><circle cx="57" cy="23" r="6" fill="white"/><circle cx="33" cy="24" r="3.8" fill="#1a1a1a"/><circle cx="57" cy="24" r="3.8" fill="#1a1a1a"/><path d="M36,56 Q45,62 54,56" fill="none" stroke="#c62828" stroke-width="2.5" stroke-linecap="round"/></svg>` },
+    { id:'turtle', name:'Tortuga', svg:`<svg viewBox="0 0 100 76" xmlns="http://www.w3.org/2000/svg"><ellipse cx="52" cy="40" rx="30" ry="24" fill="#558b2f"/><ellipse cx="52" cy="39" rx="28" ry="22" fill="#689f38"/><polygon points="52,22 59,27 59,36 52,41 45,36 45,27" fill="#33691e" opacity=".55"/><ellipse cx="84" cy="38" rx="13" ry="11" fill="#aed581"/><ellipse cx="84" cy="37" rx="12" ry="10" fill="#c5e1a5"/><circle cx="88" cy="33" r="5" fill="white"/><circle cx="89" cy="34" r="3.2" fill="#2c2c2c"/><circle cx="90" cy="32.5" r="1.3" fill="white"/><path d="M24,42 Q10,47 8,56" fill="none" stroke="#aed581" stroke-width="6" stroke-linecap="round"/><ellipse cx="36" cy="22" rx="10" ry="7" fill="#aed581" transform="rotate(-28,36,22)"/><ellipse cx="68" cy="22" rx="10" ry="7" fill="#aed581" transform="rotate(28,68,22)"/><ellipse cx="36" cy="58" rx="10" ry="7" fill="#aed581" transform="rotate(28,36,58)"/><ellipse cx="68" cy="58" rx="10" ry="7" fill="#aed581" transform="rotate(-28,68,58)"/></svg>` },
+    { id:'lobster', name:'Langosta', svg:`<svg viewBox="0 0 72 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="24" cy="90" rx="11" ry="8" fill="#bf360c" transform="rotate(-22,24,90)"/><ellipse cx="36" cy="94" rx="12" ry="8" fill="#d84315"/><ellipse cx="48" cy="90" rx="11" ry="8" fill="#bf360c" transform="rotate(22,48,90)"/><ellipse cx="36" cy="80" rx="15" ry="10" fill="#e64a19"/><ellipse cx="36" cy="68" rx="15" ry="10" fill="#ef5350"/><ellipse cx="36" cy="56" rx="14" ry="10" fill="#e64a19"/><ellipse cx="36" cy="40" rx="16" ry="14" fill="#ef5350"/><path d="M28,26 Q18,12 11,5" fill="none" stroke="#bf360c" stroke-width="2.5" stroke-linecap="round"/><path d="M44,26 Q54,12 61,5" fill="none" stroke="#bf360c" stroke-width="2.5" stroke-linecap="round"/><circle cx="28" cy="34" r="5.5" fill="white"/><circle cx="44" cy="34" r="5.5" fill="white"/><circle cx="28" cy="35" r="3.5" fill="#1a1a1a"/><circle cx="44" cy="35" r="3.5" fill="#1a1a1a"/><line x1="22" y1="60" x2="9" y2="53" stroke="#e64a19" stroke-width="3" stroke-linecap="round"/><line x1="22" y1="67" x2="8" y2="64" stroke="#e64a19" stroke-width="3" stroke-linecap="round"/><line x1="22" y1="74" x2="9" y2="78" stroke="#e64a19" stroke-width="3" stroke-linecap="round"/><line x1="50" y1="60" x2="63" y2="53" stroke="#e64a19" stroke-width="3" stroke-linecap="round"/><line x1="50" y1="67" x2="64" y2="64" stroke="#e64a19" stroke-width="3" stroke-linecap="round"/><line x1="50" y1="74" x2="63" y2="78" stroke="#e64a19" stroke-width="3" stroke-linecap="round"/></svg>` },
+  ];
+
+  const G5_POS = [
+    [7,  17, 20],
+    [27, 12, 21],
+    [58, 10, 23],
+    [33, 42, 21],
+    [6,  55, 21],
+    [34, 66, 21],
+    [58, 40, 25],
+    [60, 64, 19],
+  ];
+
+  let g5Queue=[], g5Current=null, g5Lives=3, g5Correct=0, g5Round=0, g5Answered=false, g5DotStates=[];
+
+  function startGame5() {
+    // Reset game state without reinitializing if already in screen
+    g5Lives=3; g5Correct=0; g5Round=0; g5Answered=false; g5Current=null;
+    showScreen('game5-screen');
+    // Show start screen, hide game elements
+    document.getElementById('g5-startScreen').classList.remove('hidden');
+    document.getElementById('g5-endScreen').classList.add('hidden');
+    document.getElementById('g5-flash').classList.remove('show');
+    document.getElementById('g5-topbar').style.display = 'none';
+    document.getElementById('g5-promptCard').style.display = 'none';
+    document.getElementById('g5-hud').style.display = 'none';
+    document.getElementById('g5-dotsRow').style.display = 'none';
+    document.getElementById('g5-bowlWrap').style.display = 'none';
+  }
+
+  function g5StartGame() {
+    g5Lives=3; g5Correct=0; g5Round=0; g5Answered=false;
+    g5DotStates = new Array(G5_ANIMALS.length).fill('pending');
+    g5Queue = [...G5_ANIMALS].sort(() => Math.random() - 0.5);
+    // Hide overlays, show game elements
+    document.getElementById('g5-startScreen').classList.add('hidden');
+    document.getElementById('g5-endScreen').classList.add('hidden');
+    document.getElementById('g5-flash').classList.remove('show');
+    document.getElementById('g5-topbar').style.display = 'flex';
+    document.getElementById('g5-promptCard').style.display = 'block';
+    document.getElementById('g5-hud').style.display = 'flex';
+    document.getElementById('g5-dotsRow').style.display = 'flex';
+    document.getElementById('g5-bowlWrap').style.display = 'flex';
+    g5BuildBowl();
+    g5RenderDots();
+    g5NextRound();
+  }
+
+  function g5BuildBowl() {
+    const c = document.getElementById('g5-animalsContainer');
+    c.innerHTML = '';
+    G5_ANIMALS.forEach((a, i) => {
+      const [l, t, w] = G5_POS[i];
+      const btn = document.createElement('button');
+      btn.className = 'animal-spot';
+      btn.id = 'g5btn-' + a.id;
+      btn.style.cssText = `left:${l}%;top:${t}%;width:${w}%;`;
+      btn.innerHTML = a.svg + `<div class="animal-label">${a.name}</div>`;
+      btn.addEventListener('click', () => g5HandleClick(a.id, btn));
+      c.appendChild(btn);
+    });
+  }
+
+  function g5NextRound() {
+    if (g5Round >= G5_ANIMALS.length || g5Lives <= 0) { g5EndGame(); return; }
+    g5Answered = false;
+    g5Current = g5Queue[g5Round];
+    document.getElementById('g5-promptName').textContent = g5Current.name;
+    const card = document.getElementById('g5-promptCard');
+    card.classList.remove('pop'); void card.offsetWidth; card.classList.add('pop');
+    document.getElementById('g5-hudLives').textContent = '❤️'.repeat(g5Lives) + '🤍'.repeat(Math.max(0, 3 - g5Lives));
+    document.getElementById('g5-hudScore').textContent = `⭐ ${g5Correct} / 8`;
+    g5RenderDots();
+    setTimeout(g5Speak, 300);
+  }
+
+  function g5Speak() {
+    if (!g5Current) return;
+    speakText(g5Current.name);
+  }
+
+  function g5HandleClick(id, btn) {
+    if (g5Answered) return;
+    g5Answered = true;
+    if (id === g5Current.id) {
+      btn.classList.add('correct');
+      g5Correct++; g5DotStates[g5Round] = 'done';
+      g5ShowFlash(true);
+      setTimeout(() => { btn.classList.remove('correct'); g5Round++; g5NextRound(); }, 950);
+    } else {
+      btn.classList.add('wrong');
+      g5Lives--; g5DotStates[g5Round] = 'fail';
+      g5ShowFlash(false);
+      if (g5Lives <= 0) { setTimeout(g5EndGame, 950); return; }
+      setTimeout(() => { btn.classList.remove('wrong'); g5Answered = false; g5Round++; g5NextRound(); }, 900);
+    }
+  }
+
+  function g5ShowFlash(ok) {
+    const okM=[['🎉','¡Correcto!'],['⭐','¡Muy bien!'],['🥳','¡Genial!'],['🌟','¡Excelente!']];
+    const noM=[['❌','¡Ups!'],['😅','¡Inténtalo!'],['🌊','¡No era ese!']];
+    const pool = ok ? okM : noM;
+    const p = pool[Math.floor(Math.random() * pool.length)];
+    document.getElementById('g5-flEmoji').textContent = p[0];
+    document.getElementById('g5-flMsg').textContent = p[1];
+    const el = document.getElementById('g5-flash');
+    el.style.background = ok
+      ? 'radial-gradient(circle,rgba(30,200,90,.3),transparent 70%)'
+      : 'radial-gradient(circle,rgba(220,50,50,.3),transparent 70%)';
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 700);
+  }
+
+  function g5RenderDots() {
+    const row = document.getElementById('g5-dotsRow'); row.innerHTML = '';
+    g5DotStates.forEach((s, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (s==='done'?' done':s==='fail'?' fail':i===g5Round?' active':'');
+      row.appendChild(d);
+    });
+  }
+
+  function g5EndGame() {
+    const pct = g5Correct / G5_ANIMALS.length;
+    let emoji, title, stars;
+    if (pct === 1)      { emoji='🏆'; title='¡Increíble!';  stars='⭐⭐⭐'; }
+    else if (pct >= .75){ emoji='🎉'; title='¡Excelente!';  stars='⭐⭐⭐'; }
+    else if (pct >= .5) { emoji='😊'; title='¡Muy bien!';   stars='⭐⭐'; }
+    else                { emoji='💪'; title='¡Sigue así!';  stars='⭐'; }
+    document.getElementById('g5-endEmoji').textContent = emoji;
+    document.getElementById('g5-endTitle').textContent = title;
+    document.getElementById('g5-endStars').textContent = stars;
+    document.getElementById('g5-endScore').textContent = `Acertaste ${g5Correct} de ${G5_ANIMALS.length} animales`;
+    document.getElementById('g5-bowlWrap').style.display = 'none';
+    document.getElementById('g5-topbar').style.display = 'none';
+    document.getElementById('g5-promptCard').style.display = 'none';
+    document.getElementById('g5-hud').style.display = 'none';
+    document.getElementById('g5-dotsRow').style.display = 'none';
+    document.getElementById('g5-endScreen').classList.remove('hidden');
+  }
+
+  // =================== INIT ===================
+  showScreen('screen-home');
+
+  // =================== PWA: SERVICE WORKER ===================
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('SW registrado:', reg.scope))
+        .catch(err => console.log('SW error:', err));
+    });
+  }
+
+  // =================== PWA: INSTALL BANNER ===================
+  let deferredPrompt = null;
+  const installBanner = document.getElementById('install-banner');
+  const installBtn = document.getElementById('install-btn');
+  const installClose = document.getElementById('install-close');
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBanner) installBanner.style.display = 'flex';
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if (installBanner) installBanner.style.display = 'none';
+    });
+  }
+
+  if (installClose) {
+    installClose.addEventListener('click', () => {
+      if (installBanner) installBanner.style.display = 'none';
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (installBanner) installBanner.style.display = 'none';
+    deferredPrompt = null;
+  });
+</script>
+<!-- =================== PWA INSTALL BANNER =================== -->
+<div id="install-banner" style="display:none; position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+  background:#fff; border-radius:20px; padding:16px 24px; box-shadow:0 8px 32px rgba(0,0,0,0.18);
+  align-items:center; gap:16px; z-index:2000; min-width:320px; max-width:480px; font-family:'Nunito',sans-serif;
+  border: 2px solid #e8f0fe; animation: slideUp 0.4s ease;">
+  <img src="icon-192.png" style="width:48px;height:48px;border-radius:12px;" alt="AutInt icon"/>
+  <div style="flex:1;">
+    <div style="font-weight:800;font-size:1rem;color:#333;">Instalar AutInt Juegos</div>
+    <div style="font-size:0.82rem;color:#888;margin-top:2px;">Juega sin internet, desde tu pantalla</div>
+  </div>
+  <button id="install-btn" style="background:#4a90d9;color:#fff;border:none;border-radius:10px;
+    padding:10px 18px;font-weight:800;font-size:0.9rem;font-family:'Nunito',sans-serif;cursor:pointer;
+    white-space:nowrap;">Instalar</button>
+  <button id="install-close" style="background:none;border:none;cursor:pointer;font-size:1.3rem;
+    color:#bbb;padding:4px;line-height:1;">✕</button>
+</div>
+
+<style>
+@keyframes slideUp {
+  from { opacity:0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity:1; transform: translateX(-50%) translateY(0); }
+}
+</style>
+
+
+</html>
